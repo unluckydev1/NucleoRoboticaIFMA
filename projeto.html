@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Conheça os projetos do Núcleo de Robótica do IFMA, Campus Santa Inês.">
+  <title>Projeto · Núcleo de Robótica IFMA</title>
+  <link rel="icon" href="assets/logo-nucleo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/home.css">
+  <link rel="stylesheet" href="styles/secoes.css">
+  <link rel="stylesheet" href="styles/inner.css">
+</head>
+<body data-root="">
+  <header class="site-header" id="top"><div class="wrap header-inner">
+    <a class="brand" href="index.html" aria-label="Núcleo de Robótica — início"><img src="assets/logo-nucleo.png" alt="" width="36" height="36"><span>Núcleo de Robótica</span></a>
+    <nav class="main-nav" id="main-nav" aria-label="Navegação principal"><a href="index.html#projetos">Projetos</a><a href="index.html#equipes">Equipes</a></nav>
+    <div class="header-actions"><button class="nav-toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false"><span></span><span></span><span></span></button></div>
+  </div></header>
+  <main id="project-content">
+    <section class="project-hero">
+      <div class="wrap project-hero-inner">
+        <a class="project-back" href="index.html#projetos">← Todos os projetos</a>
+        <span class="project-kicker">Núcleo de Robótica · IFMA</span>
+        <h1 id="project-title">Projeto</h1>
+        <p id="project-lead" class="project-lead"></p>
+        <div class="project-meta"><span id="project-teams" class="project-team-tags"></span><span id="project-category" class="project-category-tag"></span><span id="project-status" class="project-detail-status"></span></div>
+        <a class="project-scroll" href="#project-story">Conheça o projeto <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
+    <section class="section project-story" id="project-story">
+      <div class="wrap project-layout">
+        <figure id="project-image" class="project-detail-media"></figure>
+        <div class="project-detail-copy"><p class="eyebrow">Sobre o projeto</p><div id="project-description"></div></div>
+      </div>
+    </section>
+    <section class="section project-related-section"><div class="wrap">
+      <p class="eyebrow">Mais do núcleo</p><h2>Outros projetos</h2><div id="related-projects" class="project-related"></div>
+      <div class="section-cta"><a class="btn btn-primary" href="index.html#projetos">Ver todos os projetos</a></div>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="wrap footer-bottom"><span>© <span id="year"></span> Núcleo de Robótica · IFMA Campus Santa Inês</span></div></footer>
+  <script src="javascript/dom.js"></script>
+  <script src="data/data.js"></script>
+  <script src="javascript/common.js"></script>
+  <script src="javascript/projeto.js"></script>
+</body>
+</html>

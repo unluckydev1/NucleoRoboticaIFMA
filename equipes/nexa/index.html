@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NEXA 404: equipe de robótica competitiva universitária do IFMA, Campus Santa Inês. Robótica, inovação e inclusão.">
+  <title>NEXA 404, IFMA Campus Santa Inês</title>
+  <link rel="icon" href="../../assets/nexa/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../styles/base.css">
+  <link rel="stylesheet" href="nexa.css">
+</head>
+<body data-team="nexa" data-root="../../">
+
+  <header class="site-header" id="top">
+    <div class="wrap header-inner">
+
+      <a class="brand" href="#top" aria-label="NEXA 404 — início">
+        <span>NEXA <b>404</b></span>
+      </a>
+
+      <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
+        <a href="../../index.html">← Núcleo</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#competicoes">Competições</a>
+        <a href="#conquistas">Conquistas</a>
+        <a href="#equipe">Equipe</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="nav-social" href="https://www.instagram.com/nexa404_sin/" target="_blank" rel="noopener noreferrer" aria-label="Instagram da NEXA 404">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1"/>
+          </svg>
+        </a>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+
+  <main>
+
+    <section class="hero">
+      <canvas class="nx-circuit" id="nx-circuit" aria-hidden="true"></canvas>
+      <div class="wrap hero-inner">
+        <img class="nx-logo rise" src="../../assets/nexa/logo.png" alt="NEXA 404 — Robótica, Inovação, Inclusão">
+        <div class="nx-line" aria-hidden="true"></div>
+        <p class="tag rise" style="--d:.15s">IFMA · Campus Santa Inês</p>
+        <p class="lede rise" style="--d:.25s">
+          Equipe de robótica competitiva universitária. Engenharia, inovação e
+          inclusão em cada projeto.
+        </p>
+        <div class="hero-ctas rise" style="--d:.35s">
+          <a class="btn btn-primary" href="#sobre">Conheça a equipe</a>
+          <a class="btn btn-ghost" href="https://www.instagram.com/nexa404_sin/" target="_blank" rel="noopener noreferrer">Seguir no Instagram</a>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="sobre" class="section">
+      <div class="wrap about-grid">
+
+        <div class="about-text">
+          <p class="eyebrow">Sobre a equipe</p>
+          <h2>Quem somos</h2>
+          <p>
+            A NEXA 404 é a equipe de robótica competitiva universitária do IFMA —
+            Campus Santa Inês. Reunimos estudantes que transformam ideias em
+            robôs e colocam esses robôs à prova em competições.
+          </p>
+          <p>
+            Acreditamos que tecnologia boa é a que inclui: por isso a inclusão
+            está no centro da nossa identidade, ao lado da robótica e da inovação.
+          </p>
+        </div>
+
+        <dl class="pillars">
+          <div class="pillar"><dt>Robótica</dt><dd>Projeto, montagem e programação de robôs para competição.</dd></div>
+          <div class="pillar"><dt>Inovação</dt><dd>Soluções novas para problemas reais, testadas na prática.</dd></div>
+          <div class="pillar"><dt>Inclusão</dt><dd>Espaço aberto para quem quer aprender, de qualquer origem.</dd></div>
+        </dl>
+
+      </div>
+    </section>
+
+
+    <section id="competicoes" class="section section-alt">
+      <div class="wrap">
+        <p class="eyebrow">Onde competimos</p>
+        <h2>Competições</h2>
+
+        <div data-list="competitions"></div>
+        <div class="section-cta"><a class="btn btn-primary" href="../../competicoes.html?equipe=nexa">Ver todas as competições</a></div>
+      </div>
+    </section>
+
+
+    <section id="conquistas" class="section">
+      <div class="wrap">
+        <p class="eyebrow">Resultados</p>
+        <h2>Conquistas</h2>
+
+        <div data-list="achievements"></div>
+      </div>
+    </section>
+
+
+    <section id="equipe" class="section section-alt">
+      <div class="wrap">
+        <p class="eyebrow">Quem faz</p>
+        <h2>Equipe</h2>
+
+        <div data-list="members"></div>
+        <div class="section-cta"><a class="btn btn-primary" href="../../integrantes.html?equipe=nexa">Conheça todos os integrantes</a></div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <footer id="contato" class="site-footer">
+    <div class="wrap footer-simple">
+      <div class="footer-brand">
+        <div>
+          <strong>NEXA 404</strong>
+          <span>Equipe do Núcleo de Robótica · IFMA Campus Santa Inês</span>
+        </div>
+        <img src="../../assets/nexa/favicon.png" alt="" width="42" height="42">
+      </div>
+      <div class="footer-links">
+        <a href="https://www.instagram.com/nexa404_sin/" target="_blank" rel="noopener noreferrer">@nexa404_sin</a>
+        <a href="../../index.html#equipes">← Voltar ao Núcleo</a>
+      </div>
+    </div>
+    <div class="wrap footer-bottom">
+      <span>© <span id="year"></span> NEXA 404</span>
+    </div>
+  </footer>
+
+  <script src="../../data/data.js"></script>
+  <script src="../../javascript/widgets.js"></script>
+  <script src="../../javascript/render.js"></script>
+  <script src="../../javascript/common.js"></script>
+  <script src="../../javascript/circuit.js"></script>
+  <script src="../../javascript/carousel.js"></script>
+</body>
+</html>

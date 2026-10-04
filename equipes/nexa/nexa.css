@@ -1,0 +1,47 @@
+/* Tema NEXA 404 — verde e roxo da identidade visual sobre fundo quase preto */
+:root {
+  --bg: #08090C;  --bg-2: #0E1015;  --bg-3: #13161C;  --card-hover: #181C24;
+  --bg-rgb: 8, 9, 12;
+
+  --ink: #FFFFFF;  --muted: #A9AFBD;  --on-accent: #08090C;
+
+  --accent: #86D011;  --accent-2: #A3E635;  --accent-dim: #3F5E12;  --accent-soft: #9040D0;
+  --accent-rgb: 134, 208, 17;  --accent-2-rgb: 163, 230, 53;  --shadow-rgb: 0, 0, 0;
+
+  --line: #232731;
+  --max: 1120px;
+}
+
+.hero { background:
+  radial-gradient(ellipse at 50% 30%, rgba(144, 64, 208, 0.12) 0%, rgba(var(--bg-rgb), 0) 60%); }
+.hero h1 { text-transform: none; }
+
+.nx-logo { width: min(380px, 78%); height: auto; margin: 0 auto 22px; }
+
+/* linha animada sob o logo */
+.nx-line {
+  width: 160px; height: 2px; margin: 0 auto 22px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+  transform-origin: center;
+  animation: nx-line 0.9s ease 0.3s both;
+}
+@keyframes nx-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.brand b { color: var(--accent); }
+
+.btn-primary:hover { box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3); }
+
+
+/* trilhas de circuito atrás do topo (circuit.js); o centro fica mais suave p/ o texto */
+.nx-circuit {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+
+  -webkit-mask-image: radial-gradient(ellipse 55% 70% at 50% 48%, rgba(0, 0, 0, 0.28), #000 78%);
+          mask-image: radial-gradient(ellipse 55% 70% at 50% 48%, rgba(0, 0, 0, 0.28), #000 78%);
+}

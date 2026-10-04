@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Página de uma competição do Núcleo de Robótica do IFMA, Campus Santa Inês: fotos das equipes, texto e conquistas.">
+  <title>Competição · Núcleo de Robótica IFMA Santa Inês</title>
+  <link rel="icon" href="assets/orion/logo_roundness.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/home.css">
+  <link rel="stylesheet" href="styles/inner.css">
+  <link rel="stylesheet" href="styles/competicoes.css">
+</head>
+<body data-root="">
+
+  <header class="site-header" id="top">
+    <div class="wrap header-inner">
+
+      <a class="brand" href="index.html" aria-label="Núcleo de Robótica — início">
+        <span class="mark" aria-hidden="true"></span>
+        <span>Núcleo de Robótica</span>
+      </a>
+
+      <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
+        <a href="index.html">← Núcleo</a>
+        <a href="index.html#equipes">Equipes</a>
+        <a href="competicoes.html" aria-current="page">Competições</a>
+        <a href="index.html#conquistas">Conquistas</a>
+        <a href="galeria.html">Galeria</a>
+        <a href="integrantes.html">Integrantes</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+
+  <main>
+
+    <section class="section" style="padding-top:36px">
+      <div class="wrap">
+
+        <a class="back-link" href="competicoes.html">← Todas as competições</a>
+
+        <div class="cd" id="comp-page"></div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-simple">
+      <div class="footer-brand">
+        <div>
+          <strong>Núcleo de Robótica</strong>
+          <span>IFMA — Campus Santa Inês, Maranhão</span>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="index.html#equipes">← Voltar ao Núcleo</a>
+      </div>
+    </div>
+    <div class="wrap footer-bottom">
+      <span>© <span id="year"></span> Núcleo de Robótica</span>
+    </div>
+  </footer>
+
+  <script src="javascript/dom.js"></script>
+  <script src="data/data.js"></script>
+  <script src="javascript/widgets.js"></script>
+  <script src="javascript/render.js"></script>
+  <script src="javascript/common.js"></script>
+  <script src="javascript/competicao.js"></script>
+</body>
+</html>

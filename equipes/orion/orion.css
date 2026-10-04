@@ -1,0 +1,14 @@
+/* Tema Robotic Órion — só variáveis; o resto vem de ../../styles/base.css */
+:root {
+  --bg: #050A1F;  --bg-2: #080F2A;  --bg-3: #0D1833;  --card-hover: #101E3C;
+  --bg-rgb: 5, 10, 31;
+
+  --ink: #FFFFFF;  --muted: #AAB6C8;  --on-accent: #FFFFFF;
+
+  --accent: #2E5A88;  --accent-2: #6A7B92;  --accent-dim: #1D3D61;  --accent-soft: #9DB4D0;
+  --accent-rgb: 46, 90, 136;  --accent-2-rgb: 106, 123, 146;  --shadow-rgb: 0, 0, 0;
+
+  --line: #172945;
+  --max: 1120px;
+}
+

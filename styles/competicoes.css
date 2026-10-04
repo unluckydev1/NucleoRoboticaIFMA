@@ -1,0 +1,355 @@
+/* Páginas de competições: grade (competicoes.html) e página individual
+   (competicao.html). Usa o tema da home (home.css). */
+
+/* ---------- grade de cartões ---------- */
+
+.cp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 18px;
+}
+
+.cp-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+
+  color: inherit;
+
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cp-card[hidden] {
+  display: none;
+}
+
+.cp-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 28px rgba(var(--shadow-rgb), 0.14);
+}
+
+.cp-media {
+  position: relative;
+  overflow: hidden;
+
+  aspect-ratio: 4 / 3;
+  background: var(--bg-2);
+}
+
+.cp-media img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 0.4s ease;
+}
+
+.cp-card:hover .cp-media img {
+  transform: scale(1.04);
+}
+
+/* sem foto: espaço reservado com o nome */
+.cp-ph {
+  display: grid;
+  place-items: center;
+
+  height: 100%;
+  padding: 16px;
+
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.2), rgba(var(--accent-rgb), 0.05));
+  color: var(--accent-2);
+
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.cd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 0.74rem;
+  font-weight: 500;
+}
+
+.cd-chip i {
+  width: 8px;
+  height: 8px;
+
+  background: var(--dot, var(--accent));
+}
+
+.cp-info {
+  padding: 2px 18px;
+}
+
+.cp-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+
+  padding: 12px 0;
+
+  font-size: 0.92rem;
+}
+
+.cp-row + .cp-row {
+  border-top: 1px solid var(--line);
+}
+
+.cp-row b {
+  color: var(--ink);
+
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+}
+
+.cp-row span {
+  color: var(--muted);
+  text-align: right;
+}
+
+
+/* ---------- página de uma competição ---------- */
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 22px;
+
+  color: var(--accent-2);
+
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.cd {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 44px;
+  align-items: start;
+}
+
+/* galeria */
+
+.cd-gallery {
+  position: relative;
+}
+
+.cd-track {
+  display: flex;
+
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+
+.cd-slide {
+  position: relative;
+
+  flex: 0 0 100%;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+}
+
+.cd-slide img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.cd-slide figcaption {
+  position: absolute;
+  inset: auto 0 0 0;
+
+  padding: 32px 18px 14px;
+
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.62));
+  color: #FFFFFF;
+
+  font-size: 0.85rem;
+}
+
+.cd-empty {
+  display: grid;
+  place-content: center;
+  gap: 6px;
+
+  aspect-ratio: 4 / 3;
+  padding: 24px;
+
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.18), rgba(var(--accent-rgb), 0.04));
+  border: 1px dashed var(--accent-dim);
+  border-radius: var(--r);
+
+  text-align: center;
+}
+
+.cd-empty strong {
+  color: var(--accent-2);
+
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 2.2rem;
+  line-height: 1.1;
+}
+
+.cd-empty span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.cd-btn {
+  position: absolute;
+  top: calc(50% - 20px);
+
+  width: 40px;
+  height: 40px;
+
+  background: rgba(255, 255, 255, 0.92);
+  color: #12261A;
+
+  border: 0;
+  border-radius: var(--r);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+
+  font-size: 1.5rem;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.cd-btn:hover {
+  transform: scale(1.08);
+}
+
+.cd-btn:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cd-prev { left: 12px; }
+.cd-next { right: 12px; }
+
+.cd-dots {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+
+  margin-top: 10px;
+}
+
+.cd-dot {
+  display: grid;
+  place-items: center;
+
+  width: 16px;
+  height: 16px;
+  padding: 0;
+
+  background: none;
+  border: 0;
+
+  cursor: pointer;
+}
+
+.cd-dot::after {
+  content: '';
+
+  width: 8px;
+  height: 8px;
+
+  background: var(--accent-dim);
+  border-radius: 999px;
+
+  transition: width 0.3s ease, background-color 0.2s ease;
+}
+
+.cd-dot.is-active::after {
+  width: 16px;
+  background: var(--accent-2);
+}
+
+/* texto */
+
+.cd-text h1 {
+  margin-bottom: 14px;
+
+  color: var(--ink);
+
+  font-size: clamp(1.9rem, 4vw, 2.7rem);
+  line-height: 1.1;
+}
+
+.cd-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-bottom: 22px;
+}
+
+.cd-chip {
+  padding: 4px 12px;
+
+  background: var(--bg-3);
+  color: var(--ink);
+
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+
+.cd-chip-cat {
+  background: rgba(var(--accent-rgb), 0.1);
+  border-color: var(--accent-dim);
+  color: var(--accent-2);
+}
+
+.cd-body p {
+  font-size: 1rem;
+}
+
+.section .cd-sub {
+  margin: 28px 0 16px;
+
+  color: var(--ink);
+
+  font-size: 1.3rem;
+}
+
+@media (max-width: 860px) {
+  .cd {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .cp-grid { grid-template-columns: 1fr; gap: 14px; }
+  .cp-info { padding: 2px 15px; }
+  .cp-row { gap: 10px; padding: 10px 0; font-size: .84rem; }
+  .cp-row b { flex: 0 0 auto; }
+  .cp-row span { min-width: 0; overflow-wrap: anywhere; }
+  .cd { gap: 24px; }
+  .cd-text h1 { font-size: clamp(1.8rem, 9vw, 2.35rem); }
+  .cd-meta { gap: 6px; margin-bottom: 16px; }
+  .cd-chip { padding: 4px 9px; font-size: .72rem; }
+  .cd-body p { font-size: .94rem; line-height: 1.7; }
+  .cd-btn { width: 36px; height: 36px; }
+  .section .cd-sub { font-size: 1.15rem; }
+}

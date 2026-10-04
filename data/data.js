@@ -105,7 +105,7 @@ window.NUCLEO_DATA = {
       description: "Competição de robótica de alcance internacional, na qual testamos nossos projetos contra equipes de diversos lugares.",
       categories: [], year: "", images: [] },
 
-    { id: "omr", teams: ["orion"], short: "OMR", name: "OMR — Olimpíada Maranhense de Robótica",
+    { id: "omr", teams: ["orion"], short: "OMR", name: "OMR — Olimpíada Moviema de Robótica",
       description: "Etapa estadual que reúne estudantes maranhenses e aproxima a robótica da comunidade escolar.",
       categories: [], year: "", images: [] },
 

@@ -2,6 +2,7 @@
    MENU MOBILE
    ========================================================= */
 
+(function () {
 const navToggle = document.querySelector('#nav-toggle');
 const mainNav = document.querySelector('#main-nav');
 
@@ -16,7 +17,7 @@ if (navToggle && mainNav) {
   }
 
 
-  navToggle.addEventListener('click', () => {
+  function toggleMenu() {
     const isOpen = mainNav.classList.toggle('open');
 
     navToggle.setAttribute(
@@ -28,6 +29,20 @@ if (navToggle && mainNav) {
       'aria-label',
       isOpen ? 'Fechar menu' : 'Abrir menu'
     );
+  }
+
+  /* pointerup responde ao toque físico sem depender do click sintetizado
+     que alguns navegadores móveis atrasam ou descartam. */
+  navToggle.addEventListener('pointerup', (event) => {
+    if (event.button === 0) {
+      event.preventDefault();
+      toggleMenu();
+    }
+  });
+
+  navToggle.addEventListener('click', (event) => {
+    /* pointerup já alternou; click detail 0 cobre acionamento pelo teclado. */
+    if (event.detail === 0) toggleMenu();
   });
 
 
@@ -64,3 +79,4 @@ const yearElement = document.querySelector('#year');
 if (yearElement) {
   yearElement.textContent = new Date().getFullYear();
 }
+})();

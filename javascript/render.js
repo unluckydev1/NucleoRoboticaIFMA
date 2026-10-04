@@ -408,6 +408,8 @@
         el('h3', '', m.name),
         el('span', '', team ? role : `${role} · ${teamName(m.team)}`)
       );
+      const icon = team ? roleIcons(m) : null;
+      if (icon) card.appendChild(icon);
       grid.appendChild(card);
     });
 

@@ -21,7 +21,19 @@
   }
 
   const W = window.NUCLEO_WIDGETS;
-  const { el, slug, toArray } = window.NUCLEO_DOM;
+  /* Mantém a renderização funcional mesmo se o helper compartilhado falhar
+     ao carregar em uma cópia local do site. */
+  const dom = window.NUCLEO_DOM || {};
+  const el = dom.el || ((tag, className = '', text = '') => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text) node.textContent = text;
+    return node;
+  });
+  const slug = dom.slug || ((value) => String(value).normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '').toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+  const toArray = dom.toArray || ((value) => Array.isArray(value) ? value : [value]);
 
   const team = document.body.dataset.team || null;
   const root = document.body.dataset.root || '';
@@ -679,6 +691,11 @@
     const list = name === 'gallery' && team
       ? D.gallery.filter((item) => toArray(item.equipe || []).includes(team))
       : pick(D[name]);
-    renderers[name](box, list);
+    try {
+      renderers[name](box, list);
+    } catch (error) {
+      console.error(`Falha ao renderizar a lista "${name}".`, error);
+      box.replaceChildren(emptyState('Não foi possível carregar esta seção. Atualize a página.'));
+    }
   });
 })();

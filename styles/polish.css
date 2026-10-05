@@ -1,0 +1,183 @@
+/* Camada visual comum. As variáveis do documento mantêm cada identidade:
+   IFMA claro, Órion estrelado e NEXA com circuitos. */
+
+:root { --r: 8px; }
+body { background: var(--bg); }
+
+.site-header { box-shadow: 0 8px 24px rgba(var(--shadow-rgb), .14); }
+.main-nav a { border-radius: 5px; transition: background-color .2s ease, color .2s ease; }
+.btn { border-radius: 6px; transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.btn-primary { box-shadow: 0 8px 20px rgba(var(--accent-rgb), .18); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(var(--accent-rgb), .26); }
+
+/* IFMA: abertura clara, editorial e com geometria discreta. */
+body:not([data-team]):not([data-context-team]) .hero {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 78% 28%, rgba(var(--accent-rgb), .13), transparent 28%),
+    linear-gradient(125deg, var(--bg-2), var(--bg));
+  border-bottom: 1px solid var(--line);
+}
+
+body:not([data-team]):not([data-context-team]) .hero::after {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  right: max(8vw, calc((100vw - 1080px) / 2));
+  width: clamp(150px, 24vw, 300px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(var(--accent-rgb), .16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 24px rgba(var(--accent-rgb), .035), 0 0 0 54px rgba(var(--accent-rgb), .025);
+  content: '';
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+body:not([data-team]):not([data-context-team]) .hero-inner { max-width: 850px; }
+body:not([data-team]):not([data-context-team]) .hero h1 { color: var(--ifma-green-dark); }
+body:not([data-team]):not([data-context-team]) .hero .lede { color: var(--muted); }
+
+/* Cabeçalhos internos usam a mesma composição, com brilho na cor ativa. */
+.page-head {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(44px, 7vw, 76px) 0 38px;
+  background:
+    radial-gradient(ellipse at 86% 18%, rgba(var(--accent-rgb), .13), transparent 32%),
+    linear-gradient(130deg, var(--bg-2), var(--bg));
+  border-bottom: 3px solid var(--accent-soft);
+}
+
+.page-head::after {
+  position: absolute;
+  z-index: -1;
+  top: -95px;
+  right: max(5vw, calc((100vw - 1120px) / 2));
+  width: 220px;
+  height: 220px;
+  border: 1px solid rgba(var(--accent-rgb), .18);
+  border-radius: 50%;
+  box-shadow: 0 0 0 26px rgba(var(--accent-rgb), .035), 0 0 0 52px rgba(var(--accent-rgb), .025);
+  content: '';
+  pointer-events: none;
+}
+
+.page-head .wrap { position: relative; z-index: 1; }
+.page-head h1 { max-width: 900px; font-size: clamp(2.3rem, 5.6vw, 3.8rem); line-height: 1; }
+.page-head p:last-child { max-width: 660px; line-height: 1.75; }
+body:not([data-context-team]) .page-head h1 { color: var(--ifma-green-dark); }
+body[data-context-team] .page-head { border-bottom-color: var(--context-accent); }
+
+/* Seções: títulos mais definidos; o sublinhado segue a paleta ativa. */
+.section { padding-block: clamp(54px, 7vw, 78px); }
+.section h2 { position: relative; margin-bottom: 25px; padding-bottom: 12px; font-size: clamp(1.6rem, 3vw, 2rem); }
+.section h2::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+  content: '';
+}
+body:not([data-context-team]) .section h2 { color: var(--ifma-green-dark); }
+body[data-context-team] .section h2 { color: var(--ink); }
+body[data-team] .section h2 { color: var(--ink); }
+body[data-team] .eyebrow { color: var(--accent-soft); }
+
+/* Cartões: leve profundidade e detalhes de interação, sem arredondamento excessivo. */
+.eq-card,
+.comp-card,
+.area-card,
+.cp-card,
+.mem-card,
+.news-card,
+.proj-card,
+.project-related-card,
+.gal-item {
+  border-radius: 8px;
+  box-shadow: 0 7px 20px rgba(var(--shadow-rgb), .09);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background-color .22s ease;
+}
+
+.eq-card:hover,
+.comp-card:hover,
+.area-card:hover,
+.cp-card:hover,
+.mem-card:hover,
+.news-card[role="group"]:hover,
+.news-card[role="group"]:focus-visible,
+.proj-card:hover,
+.proj-card:focus-visible,
+.project-related-card:hover,
+.project-related-card:focus-visible {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(var(--shadow-rgb), .16);
+}
+
+.comp-card::before { border-radius: 8px 8px 0 0; }
+.cp-card:hover .cp-media img,
+.eq-card:hover .eq-art img { transform: scale(1.035); }
+.project-detail-media { border-radius: 8px; }
+.project-related-card { border-radius: 8px; }
+.gal-item { overflow: hidden; }
+.gal-item:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(var(--shadow-rgb), .16); }
+.f-select select { border-radius: 5px; }
+.f-select select:focus-visible { box-shadow: 0 0 0 4px rgba(var(--accent-rgb), .14); }
+
+@media (min-width: 861px) {
+  a.team-card {
+    padding: 16px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg-3);
+    box-shadow: 0 7px 20px rgba(var(--shadow-rgb), .09);
+    transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background-color .22s ease;
+  }
+
+  a.team-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    background: var(--card-hover);
+    box-shadow: 0 14px 30px rgba(var(--shadow-rgb), .16);
+  }
+}
+
+/* As telas temáticas usam os motivos da equipe na faixa de abertura. */
+.team-context-hero { position: relative; isolation: isolate; overflow: hidden; }
+.team-context-hero > .wrap { position: relative; z-index: 1; }
+.team-context-hero .starfield,
+.team-context-hero .nx-circuit { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+.team-context-hero .nx-circuit {
+  -webkit-mask-image: radial-gradient(ellipse 62% 78% at 50% 48%, rgba(0, 0, 0, .18), #000 82%);
+          mask-image: radial-gradient(ellipse 62% 78% at 50% 48%, rgba(0, 0, 0, .18), #000 82%);
+}
+
+body[data-context-team] .project-hero {
+  background: radial-gradient(ellipse at 82% 18%, var(--context-glow), transparent 40%), linear-gradient(130deg, var(--bg-2), var(--bg));
+}
+
+body[data-context-team] .page-head,
+body[data-context-team] .project-hero,
+body[data-context-team] .team-context-hero.section {
+  background-image: radial-gradient(ellipse at 80% 16%, var(--context-glow), transparent 42%), linear-gradient(135deg, var(--bg-2), var(--bg));
+}
+
+body[data-team] .hero { border-bottom: 1px solid var(--line); }
+
+@media (max-width: 700px) {
+  body:not([data-team]):not([data-context-team]) .hero::after { right: -100px; opacity: .65; }
+  .page-head { padding: 40px 0 30px; }
+  .page-head::after { top: -130px; right: -145px; width: 190px; height: 190px; }
+  .section { padding-block: 48px; }
+  .section h2 { margin-bottom: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main-nav a, .btn, .eq-card, .comp-card, .area-card, .cp-card,
+  .mem-card, .news-card, .proj-card, .project-related-card, .gal-item { transition: none; }
+}

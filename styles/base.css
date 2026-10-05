@@ -301,10 +301,42 @@ a {
   position: absolute;
   inset: 0;
 
+  --shooting-star-interval: 16s;
+  --shooting-star-secondary-interval: 21s;
+  --shooting-star-secondary-delay: 8s;
+
   overflow: hidden;
 
   pointer-events: none;
   user-select: none;
+}
+
+/* Rastros raros e finos; animam apenas opacidade e transform. */
+.starfield::before,
+.starfield::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 104px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(190, 220, 255, .35) 58%, #FFFFFF 100%);
+  box-shadow: 0 0 5px rgba(180, 215, 255, .45);
+  content: '';
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-15vw, -8vw, 0) rotate(27deg);
+  transform-origin: left center;
+  animation: shooting-star var(--shooting-star-interval) linear infinite;
+}
+
+.starfield::after {
+  width: 76px;
+  height: 1.5px;
+  opacity: 0;
+  box-shadow: 0 0 4px rgba(180, 215, 255, .35);
+  animation-duration: var(--shooting-star-secondary-interval);
+  animation-delay: var(--shooting-star-secondary-delay);
 }
 
 .star {
@@ -333,6 +365,48 @@ a {
     drift var(--drift-duration, 20s)
     ease-in-out var(--drift-delay, 0s)
     infinite alternate;
+}
+
+.star-bright::before,
+.star-bright::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .92), transparent);
+  content: '';
+  pointer-events: none;
+}
+
+.star-bright::before {
+  width: 11px;
+  height: 1px;
+  transform: translate(-50%, -50%);
+}
+
+.star-bright::after {
+  width: 1px;
+  height: 11px;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, .88), transparent);
+  transform: translate(-50%, -50%);
+}
+
+@keyframes shooting-star {
+  0%, 72% {
+    opacity: 0;
+    transform: translate3d(-15vw, -8vw, 0) rotate(27deg);
+  }
+  74% {
+    opacity: .85;
+    transform: translate3d(-8vw, -4vw, 0) rotate(27deg);
+  }
+  81% {
+    opacity: 0;
+    transform: translate3d(112vw, 58vw, 0) rotate(27deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(112vw, 58vw, 0) rotate(27deg);
+  }
 }
 
 @keyframes twinkle {
@@ -1352,6 +1426,17 @@ iframe#maps {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .starfield::before,
+  .starfield::after {
+    display: none;
+  }
+
+  .star,
+  .star.moving {
+    animation: none !important;
+    transform: none !important;
   }
 }
 

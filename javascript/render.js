@@ -14,26 +14,15 @@
 
 (function () {
   const D = window.NUCLEO_DATA;
+  const dom = window.NUCLEO_DOM;
 
-  if (!D) {
-    console.error('data/data.js não foi carregado.');
+  if (!D || !dom) {
+    console.error('Não foi possível iniciar as listas: carregue data/data.js e javascript/dom.js antes de render.js.');
     return;
   }
 
   const W = window.NUCLEO_WIDGETS;
-  /* Mantém a renderização funcional mesmo se o helper compartilhado falhar
-     ao carregar em uma cópia local do site. */
-  const dom = window.NUCLEO_DOM || {};
-  const el = dom.el || ((tag, className = '', text = '') => {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text) node.textContent = text;
-    return node;
-  });
-  const slug = dom.slug || ((value) => String(value).normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '').toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
-  const toArray = dom.toArray || ((value) => Array.isArray(value) ? value : [value]);
+  const { el, slug, toArray } = dom;
 
   const team = document.body.dataset.team || null;
   const root = document.body.dataset.root || '';
@@ -255,19 +244,25 @@
       return;
     }
 
-    box.innerHTML =
-      '<div class="comp-slider">' +
-        '<div class="comp-carousel">' +
-          '<button class="comp-btn" id="comp-prev" type="button" aria-label="Competição anterior">‹</button>' +
-          '<div class="comp-track" id="comp-track" tabindex="0" aria-label="Lista de competições, arraste para ver mais"></div>' +
-          '<button class="comp-btn" id="comp-next" type="button" aria-label="Próxima competição">›</button>' +
-        '</div>' +
-        '<div class="comp-dots" id="comp-dots" aria-label="Posição no carrossel">' +
-          '<div class="comp-dots-strip" id="comp-dots-strip"></div>' +
-        '</div>' +
-      '</div>';
+    const slider = el('div', 'comp-slider');
+    const carousel = el('div', 'comp-carousel');
+    const previous = el('button', 'comp-btn', '‹');
+    const track = el('div', 'comp-track');
+    const next = el('button', 'comp-btn', '›');
 
-    const track = box.querySelector('#comp-track');
+    previous.type = next.type = 'button';
+    previous.id = 'comp-prev';
+    next.id = 'comp-next';
+    previous.setAttribute('aria-label', 'Competição anterior');
+    next.setAttribute('aria-label', 'Próxima competição');
+    track.id = 'comp-track';
+    track.tabIndex = 0;
+    track.setAttribute('aria-label', 'Lista de competições, arraste para ver mais');
+
+    carousel.append(previous, track, next);
+    slider.appendChild(carousel);
+    box.replaceChildren(slider);
+
     items.forEach((c) => track.appendChild(competitionCard(c)));
   }
 

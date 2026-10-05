@@ -18,6 +18,14 @@
   margin: 0;
 }
 
+body[data-context-team] .page-head {
+  border-bottom: 3px solid var(--context-accent);
+}
+
+body[data-context-team] .page-head .eyebrow {
+  color: var(--context-accent-strong);
+}
+
 
 /* ---------- filtros: uma linha de seletores compactos ---------- */
 
@@ -83,12 +91,24 @@
   border-color: var(--accent);
 }
 
+body[data-context-team] .f-select select:hover,
+body[data-context-team] .f-select select:focus-visible {
+  border-color: var(--context-accent);
+  outline-color: var(--context-accent);
+}
+
 .f-select.is-active select {
   background: rgba(var(--accent-rgb), 0.1);
   border-color: var(--accent);
   color: var(--accent-2);
 
   font-weight: 500;
+}
+
+body[data-context-team] .f-select.is-active select {
+  background: rgba(var(--context-accent-rgb), .1);
+  border-color: var(--context-accent);
+  color: var(--context-accent-strong);
 }
 
 .f-status {
@@ -115,6 +135,8 @@
 
   cursor: pointer;
 }
+
+body[data-context-team] .f-clear { color: var(--context-accent-strong); }
 
 .f-clear:hover {
   text-decoration: underline;

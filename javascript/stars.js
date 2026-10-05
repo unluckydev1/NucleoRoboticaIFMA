@@ -76,6 +76,11 @@ if (starfield) {
 
       star.classList.add('star');
 
+      /* Poucos pontos ganham brilho em cruz; o pseudo-elemento evita nós extras. */
+      if (Math.random() < 0.08) {
+        star.classList.add('star-bright');
+      }
+
 
       /* ---------- posição ---------- */
 

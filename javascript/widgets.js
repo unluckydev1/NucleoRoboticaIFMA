@@ -152,7 +152,7 @@ window.NUCLEO_WIDGETS = (function () {
         stage.appendChild(img);
       } else {
         const ph = el('div', 'lb-ph');
-        ph.append(el('strong', '', it.caption || 'Foto'), el('span', '', 'Foto de exemplo'));
+        ph.append(el('strong', '', it.caption || 'Imagem'), el('span', '', 'Imagem não disponível'));
         stage.appendChild(ph);
       }
 

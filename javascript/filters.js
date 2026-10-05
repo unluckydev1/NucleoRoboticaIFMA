@@ -89,6 +89,8 @@ window.NUCLEO_FILTERS = (function () {
       if (updateUrl) {
         const q = new URLSearchParams();
         groups.forEach((g) => state[g.key] && q.set(g.key, state[g.key]));
+        const context = params.get('context');
+        if (context) q.set('context', context);
 
         /* em file:// alguns navegadores bloqueiam; o filtro segue funcionando */
         try {

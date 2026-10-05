@@ -153,7 +153,7 @@
 
     const participants = el('section', 'cd-members');
     participants.appendChild(el('h2', 'cd-sub', 'Integrantes das equipes'));
-    U.memberDeck(participants, c.teams || c.team, { memberIds: c.members });
+    U.memberDeck(participants, c.teams || c.team, { memberIds: c.members, expandable: true });
     col.appendChild(participants);
 
     /* texto principal */

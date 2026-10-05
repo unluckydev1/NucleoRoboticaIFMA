@@ -421,6 +421,9 @@ a.proj-card .card-more { display: block; margin-top: auto; padding: 10px 18px 16
 .project-art-placeholder figcaption { position: absolute; z-index: 1; bottom: 24px; left: 24px; max-width: 80%; padding: 10px 16px; border: 1px solid rgba(255,255,255,.7); border-radius: 6px; background: rgba(255,255,255,.88); font: 700 1.15rem 'Rajdhani', sans-serif; }
 .project-detail-copy .eyebrow { margin-bottom: 18px; }
 .project-detail-copy p { font-size: 1.03rem; line-height: 1.85; }
+.project-member-list { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line); }
+.project-member-list h2 { margin: 0; font-size: 1.15rem; }
+.project-member-list .member-deck { padding-left: 0; }
 .project-related-section { padding-top: 0; }
 .project-related-section h2 { margin-bottom: 22px; }
 .project-related { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }

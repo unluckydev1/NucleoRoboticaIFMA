@@ -33,6 +33,14 @@
     : [project.description || 'Mais informações sobre este projeto serão adicionadas em breve.'];
   paragraphs.forEach((text) => description.appendChild(el('p', '', text)));
 
+  const memberList = document.getElementById('project-members');
+  if (memberList && window.NUCLEO_UTIL) {
+    window.NUCLEO_UTIL.memberDeck(memberList, project.teams || project.team, {
+      memberIds: project.members,
+      expandable: true
+    });
+  }
+
   const media = document.getElementById('project-image');
   if (project.image) {
     const image = el('img');

@@ -227,7 +227,6 @@
     link.href = compHref(c);
     link.append(el('h3', '', c.name), el('p', '', c.description || ''), el('span', 'comp-more', 'Ver detalhes →'));
     card.appendChild(link);
-    memberDeck(card, c.teams || c.team, { memberIds: c.members });
     return card;
   }
 
@@ -389,7 +388,7 @@
     });
   }
 
-  function memberDeck(host, teams, { limit = 7, memberIds = [] } = {}) {
+  function memberDeck(host, teams, { limit = 5, memberIds = [], expandable = false } = {}) {
     if (!host) return;
     const teamIds = toArray(teams).filter(Boolean);
     const explicitMembers = toArray(memberIds).filter(Boolean).map((id) => memberIndex.get(id)).filter(Boolean);
@@ -402,6 +401,7 @@
     const buttons = members.map((member, index) => {
       const button = el('button', 'member-deck-button');
       button.type = 'button';
+      button.dataset.team = member.team || '';
       button.title = `Ver perfil de ${member.name}`;
       button.setAttribute('aria-label', `Ver perfil de ${member.name}`);
       button.hidden = index >= limit;
@@ -412,20 +412,25 @@
     });
     if (members.length > limit) {
       const hiddenCount = members.length - limit;
-      const more = el('button', 'member-deck-more', `+${hiddenCount}`);
-      more.type = 'button';
-      more.setAttribute('aria-expanded', 'false');
-      more.setAttribute('aria-label', `Mostrar mais ${hiddenCount} integrantes`);
-      more.title = 'Mostrar integrantes que não couberam';
-      more.addEventListener('click', () => {
-        const expanded = more.getAttribute('aria-expanded') !== 'true';
-        more.setAttribute('aria-expanded', String(expanded));
-        more.setAttribute('aria-label', expanded ? 'Recolher integrantes' : `Mostrar mais ${hiddenCount} integrantes`);
-        more.title = expanded ? 'Recolher integrantes' : 'Mostrar integrantes que não couberam';
-        more.textContent = expanded ? '−' : `+${hiddenCount}`;
-        deck.classList.toggle('is-expanded', expanded);
-        buttons.slice(limit).forEach((button) => { button.hidden = !expanded; });
-      });
+      const more = el(expandable ? 'button' : 'span', 'member-deck-more', `+${hiddenCount}`);
+      if (expandable) {
+        more.type = 'button';
+        more.setAttribute('aria-expanded', 'false');
+        more.setAttribute('aria-label', `Mostrar mais ${hiddenCount} integrantes`);
+        more.title = 'Mostrar integrantes que não couberam';
+        more.addEventListener('click', () => {
+          const expanded = more.getAttribute('aria-expanded') !== 'true';
+          more.setAttribute('aria-expanded', String(expanded));
+          more.setAttribute('aria-label', expanded ? 'Recolher integrantes' : `Mostrar mais ${hiddenCount} integrantes`);
+          more.title = expanded ? 'Recolher integrantes' : 'Mostrar integrantes que não couberam';
+          more.textContent = expanded ? '−' : `+${hiddenCount}`;
+          deck.classList.toggle('is-expanded', expanded);
+          buttons.slice(limit).forEach((button) => { button.hidden = !expanded; });
+        });
+      } else {
+        more.setAttribute('aria-label', `Mais ${hiddenCount} integrantes`);
+        more.title = `Mais ${hiddenCount} integrantes`;
+      }
       deck.appendChild(more);
     }
     host.appendChild(deck);

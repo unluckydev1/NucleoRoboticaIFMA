@@ -151,6 +151,11 @@
 
     if (meta.children.length) col.appendChild(meta);
 
+    const participants = el('section', 'cd-members');
+    participants.appendChild(el('h2', 'cd-sub', 'Integrantes das equipes'));
+    U.memberDeck(participants, c.teams || c.team, { memberIds: c.members });
+    col.appendChild(participants);
+
     /* texto principal */
     const body = el('div', 'cd-body');
     const paragraphs = U.toArray(c.text || c.description || []).filter(Boolean);

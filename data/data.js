@@ -13,16 +13,22 @@
 
    Competição de mais de uma equipe:  teams: ["orion", "nexa"]
    Integrante:
+     id: "orion-lucas"             (opcional; referência estável em competições)
      level: "medio" ou "superior"   (os níveis ficam em "levels" abaixo)
      role:  "Programação"           (uma função)
             ["Coordenação", "Mecânica"]   (mais de uma função)
      photo: "assets/membros/ana.jpg"  (opcional; caminho a partir da raiz
             do site. Sem foto, aparecem as iniciais sobre a cor da equipe)
+     description: "Apresentação do integrante" (opcional)
+     photos: ["assets/membros/ana-evento.jpg"] (opcional; fotos extras)
+     socials: { Instagram: "https://...", GitHub: "https://..." } (opcional)
 
    Competição (cada uma ganha a própria página: competicao.html?c=ID):
      id:         "obr"   (curto, sem espaço/acentos; é o que liga tudo)
      teams:      ["orion"]  ou  ["orion", "nexa"]
      categories: ["sumo", "artistica"]   (chaves de "categories" abaixo)
+     members: ["orion-lucas"] (opcional; IDs de integrantes presentes. Sem este
+              campo, a galeria de avatares usa como demonstração os membros das equipes)
      year:       "2025"  ou  ["2024", "2025"]   (opcional; alimenta o filtro de ano)
      images:     ["assets/competicoes/obr-1.jpg",
                   { src: "assets/competicoes/obr-2.jpg", caption: "Equipe na OBR" }]
@@ -42,6 +48,7 @@
      id:      "projeto-x"  (único; abre projeto.html?p=projeto-x)
      category: "Pesquisa", "Ensino" ou "Extensão" (opcional; aparece no cartão e na página do projeto)
      teams:   ["orion"]  ou  ["orion", "nexa"]   (opcional)
+     members: ["orion-lucas"] (opcional; integrantes específicos do projeto)
      title, description
      status:  "Em andamento"   (opcional)
      image:   "assets/projetos/foto.jpg"   (opcional)
@@ -105,7 +112,7 @@ window.NUCLEO_DATA = {
       description: "Competição de robótica de alcance internacional, na qual testamos nossos projetos contra equipes de diversos lugares.",
       categories: [], year: "", images: [] },
 
-    { id: "omr", teams: ["orion"], short: "OMR", name: "OMR — Olimpíada Maranhense de Robótica",
+    { id: "omr", teams: ["orion"], short: "OMR", name: "OMR — Olimpíada Moviema de Robótica",
       description: "Etapa estadual que reúne estudantes maranhenses e aproxima a robótica da comunidade escolar.",
       categories: [], year: "", images: [] },
 
@@ -183,16 +190,19 @@ window.NUCLEO_DATA = {
 
   /* ---------- INTEGRANTES ---------- */
   members: [
-    { team: "orion", level: "superior", name: "Nome do coordenador", role: "Coordenação" },
-    { team: "orion", level: "medio",    name: "Nome do integrante",  role: "Mecânica" },
-    { team: "orion", level: "medio",    name: "Nome do integrante",  role: "Eletrônica" },
-    { team: "orion", level: "superior", name: "Nome do integrante",  role: "Programação" },
-    { team: "orion", level: "medio",    name: "Nome do integrante",  role: "Marketing" },
+    { team: "orion", level: "medio", name: "Lucas", role: "Programação", photo: "assets/orion/members/lucas.png", socials: { Instagram: "https://www.instagram.com/lucas.yyp/" } },
+    { team: "orion", level: "medio", name: "Davy", role: ["Montagem", "Programação", "Mídia"], photo: "assets/orion/members/davy.png", socials: { Instagram: "https://www.instagram.com/davyxcosta/" } },
+    { team: "orion", level: "medio", name: "Felipe", role: ["Mecânica", "Montagem", "Eletrônica"], photo: "assets/orion/members/felipe.png", socials: { Instagram: "https://www.instagram.com/philyppe.nleal/" } },
+    { team: "orion", level: "medio", name: "Guilherme", role: ["Programação", "Montagem", "Eletrônica"], photo: "assets/orion/members/guilherme.png", socials: { Instagram: "https://www.instagram.com/pg.mendess/" } },
+    { team: "orion", level: "medio", name: "Lara", role: ["Figurino e ornamentação artística", "Mídia"], photo: "assets/orion/members/lara.png", socials: { Instagram: "https://www.instagram.com/lara.jansen._/" } },
+    { team: "orion", level: "medio", name: "Ezequiel", role: "Mecânica", photo: "assets/orion/members/ezequiel.png" },
+    { team: "orion", level: "medio", name: "Leonardo “Leo”", role: "Montagem", photo: "assets/orion/members/leonardo.png" },
+    { team: "orion", level: "superior", name: "Ana Caroline “Carol”", role: "Coordenação", photo: "assets/orion/members/ana-caroline.png", socials: { Instagram: "https://www.instagram.com/anacarolmeireles_/" } },
 
-    { team: "nexa",  level: "superior", name: "Nome do coordenador", role: "Coordenação" },
-    { team: "nexa",  level: "superior", name: "Nome do integrante",  role: "Mecânica" },
-    { team: "nexa",  level: "medio",    name: "Nome do integrante",  role: "Eletrônica" },
-    { team: "nexa",  level: "superior", name: "Nome do integrante",  role: ["Programação", "Marketing"] },
-    { team: "nexa",  level: "medio",    name: "Nome do integrante",  role: "Marketing" }
+    { team: "nexa", level: "superior", name: "Nome do coordenador", role: "Coordenação" },
+    { team: "nexa", level: "superior", name: "Nome do integrante", role: "Mecânica" },
+    { team: "nexa", level: "medio",    name: "Nome do integrante", role: "Eletrônica" },
+    { team: "nexa", level: "superior", name: "Nome do integrante", role: ["Programação", "Marketing"] },
+    { team: "nexa", level: "medio",    name: "Nome do integrante", role: "Marketing" }
   ]
 };

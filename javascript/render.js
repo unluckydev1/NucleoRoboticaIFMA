@@ -31,12 +31,30 @@
 
   const toRoles = (m) => toArray(m.role || []);
 
+  function isTeamLead(member) {
+    return toRoles(member).some((role) => {
+      const normalized = String(role).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      return /\bcoorden|\bcapita(?:o)?\b/.test(normalized);
+    });
+  }
+
+  function compareMembers(a, b) {
+    const leadershipOrder = Number(isTeamLead(b)) - Number(isTeamLead(a));
+    if (leadershipOrder) return leadershipOrder;
+
+    const nameOrder = String(a.name || '').localeCompare(String(b.name || ''), 'pt-BR', { sensitivity: 'base' });
+    if (nameOrder) return nameOrder;
+
+    return teamName(a.team).localeCompare(teamName(b.team), 'pt-BR', { sensitivity: 'base' });
+  }
+
   function roleIcons(member) {
     const areas = [
-      { keys: ['mecan'], label: 'Mecânica', file: 'iconMec.svg' },
+      { keys: ['mecan', 'montag'], label: 'Mecânica e montagem', file: 'iconMec.svg' },
       { keys: ['eletron'], label: 'Eletrônica', file: 'iconEletro.svg' },
       { keys: ['program'], label: 'Programação', file: 'iconProgram.svg' },
-      { keys: ['coordena', 'gest', 'marketing', 'comunica'], label: 'Gestão e comunicação', file: 'iconGest.svg' }
+      { keys: ['figurino', 'ornament'], label: 'Arte e figurino', file: 'iconGest.svg' },
+      { keys: ['coordena', 'gest', 'marketing', 'comunica', 'midia', 'media'], label: 'Gestão e mídia', file: 'iconGest.svg' }
     ];
     const roles = toRoles(member).map((role) => String(role).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase());
     let mainArea = null;
@@ -70,6 +88,7 @@
     seen[base] = (seen[base] || 0) + 1;
     memberId.set(m, seen[base] > 1 ? `${base}-${seen[base]}` : base);
   });
+  const memberIndex = new Map([...memberId].map(([member, id]) => [id, member]));
 
   /* id único de cada competição (o mesmo usado em competicao.html?c=id) */
   const compId = new Map();
@@ -175,7 +194,7 @@
   window.NUCLEO_UTIL = {
     roles: toRoles, toArray, teamName, slug, root,
     compId, compIndex, compHref, compYears, compCategories, compImages,
-    dragScroll
+    dragScroll, memberDeck
   };
 
   function emptyState(message) {
@@ -203,11 +222,12 @@
   /* ---------- competições ---------- */
 
   function competitionCard(c) {
-    const card = el('a', 'comp-card');
-    card.href = compHref(c);
-    card.appendChild(el('h3', '', c.name));
-    card.appendChild(el('p', '', c.description || ''));
-    card.appendChild(el('span', 'comp-more', 'Ver detalhes →'));
+    const card = el('article', 'comp-card');
+    const link = el('a', 'comp-card-link');
+    link.href = compHref(c);
+    link.append(el('h3', '', c.name), el('p', '', c.description || ''), el('span', 'comp-more', 'Ver detalhes →'));
+    card.appendChild(link);
+    memberDeck(card, c.teams || c.team, { memberIds: c.members });
     return card;
   }
 
@@ -336,12 +356,79 @@
       img.loading = 'lazy';
       box.appendChild(img);
     } else {
-      const initials = m.name.split(/\s+/).filter(Boolean)
+      const initials = (m.name.match(/[\p{L}\p{N}]+/gu) || [])
         .slice(0, 2).map((w) => w[0]).join('').toUpperCase();
       box.appendChild(el('span', 'initials', initials));
     }
 
     return box;
+  }
+
+  function openMemberProfile(member, trigger) {
+    if (!W || !W.memberProfile) return;
+    const memberTeams = toArray(member.teams || member.team);
+    const memberKey = memberId.get(member);
+    const belongsToActivity = (item) => {
+      const ids = toArray(item.teams || item.team).filter(Boolean);
+      return Array.isArray(item.members) && item.members.length
+        ? item.members.includes(memberKey)
+        : ids.some((id) => memberTeams.includes(id));
+    };
+    const activities = [
+      ...(D.competitions || []).filter(belongsToActivity)
+        .map((item) => ({ type: 'Competição', title: item.short || item.name, href: `${root}competicao.html?c=${encodeURIComponent(compId.get(item))}` })),
+      ...(D.projects || []).filter(belongsToActivity)
+        .map((item) => ({ type: 'Projeto', title: item.title, href: `${root}projeto.html?p=${encodeURIComponent(item.id || slug(item.title))}` }))
+    ];
+    W.memberProfile().open(member, {
+      trigger,
+      team: D.teams[member.team] || {},
+      level: (D.levels || {})[member.level] || '',
+      root,
+      activities
+    });
+  }
+
+  function memberDeck(host, teams, { limit = 7, memberIds = [] } = {}) {
+    if (!host) return;
+    const teamIds = toArray(teams).filter(Boolean);
+    const explicitMembers = toArray(memberIds).filter(Boolean).map((id) => memberIndex.get(id)).filter(Boolean);
+    const members = (explicitMembers.length ? explicitMembers : (D.members || []).filter((member) => teamIds.includes(member.team)))
+      .slice().sort(compareMembers);
+    if (!members.length) return;
+
+    const deck = el('div', 'member-deck');
+    deck.setAttribute('aria-label', 'Integrantes das equipes participantes');
+    const buttons = members.map((member, index) => {
+      const button = el('button', 'member-deck-button');
+      button.type = 'button';
+      button.title = `Ver perfil de ${member.name}`;
+      button.setAttribute('aria-label', `Ver perfil de ${member.name}`);
+      button.hidden = index >= limit;
+      button.appendChild(avatar(member));
+      button.addEventListener('click', () => openMemberProfile(member, button));
+      deck.appendChild(button);
+      return button;
+    });
+    if (members.length > limit) {
+      const hiddenCount = members.length - limit;
+      const more = el('button', 'member-deck-more', `+${hiddenCount}`);
+      more.type = 'button';
+      more.setAttribute('aria-expanded', 'false');
+      more.setAttribute('aria-label', `Mostrar mais ${hiddenCount} integrantes`);
+      more.title = 'Mostrar integrantes que não couberam';
+      more.addEventListener('click', () => {
+        const expanded = more.getAttribute('aria-expanded') !== 'true';
+        more.setAttribute('aria-expanded', String(expanded));
+        more.setAttribute('aria-label', expanded ? 'Recolher integrantes' : `Mostrar mais ${hiddenCount} integrantes`);
+        more.title = expanded ? 'Recolher integrantes' : 'Mostrar integrantes que não couberam';
+        more.textContent = expanded ? '−' : `+${hiddenCount}`;
+        deck.classList.toggle('is-expanded', expanded);
+        buttons.slice(limit).forEach((button) => { button.hidden = !expanded; });
+      });
+      deck.appendChild(more);
+    }
+    host.appendChild(deck);
   }
 
   function renderMembers(box, items) {
@@ -350,16 +437,29 @@
       return;
     }
 
+    const orderedItems = [...items].sort(compareMembers);
+
     /* página "Integrantes": diretório completo (o filtro fica em integrantes.js) */
     if (box.dataset.view === 'directory') {
       const grid = el('div', 'mem-grid');
 
-      items.forEach((m) => {
+      orderedItems.forEach((m) => {
         const card = el('article', 'mem-card');
         const t = D.teams[m.team] || {};
         const level = (D.levels || {})[m.level];
 
         card.id = memberId.get(m);
+        card.tabIndex = 0;
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-haspopup', 'dialog');
+        card.setAttribute('aria-label', `Ver perfil de ${m.name}`);
+        card.addEventListener('click', () => openMemberProfile(m, card));
+        card.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openMemberProfile(m, card);
+          }
+        });
         card.dataset.team = m.team;
         card.dataset.level = m.level || '';
         card.dataset.roles = toRoles(m).join('|');
@@ -389,13 +489,18 @@
 
     const grid = el('div', 'team-grid');
 
-    interleave(items).slice(0, limit).forEach((m) => {
+    orderedItems.slice(0, limit).forEach((m) => {
       const href =
         `${root}integrantes.html${team ? `?equipe=${team}` : ''}#${memberId.get(m)}`;
 
       const card = el('a', 'team-card');
       card.href = href;
       card.setAttribute('aria-label', `Ver ${m.name} em Integrantes`);
+      card.setAttribute('aria-haspopup', 'dialog');
+      card.addEventListener('click', (event) => {
+        event.preventDefault();
+        openMemberProfile(m, card);
+      });
 
       const role = toRoles(m).join(' · ');
       card.append(
@@ -412,25 +517,6 @@
     dragScroll(grid);
     if (W) W.dots(grid, { host: box });
   }
-
-  /* A1 B1 A2 B2 ... (só quando a página mostra mais de uma equipe) */
-  function interleave(items) {
-    if (team) return items;
-
-    const groups = {};
-    items.forEach((m) => (groups[m.team] = groups[m.team] || []).push(m));
-
-    const lists = Object.values(groups);
-    const out = [];
-
-    for (let i = 0; lists.some((l) => i < l.length); i++) {
-      lists.forEach((l) => { if (i < l.length) out.push(l[i]); });
-    }
-
-    return out;
-  }
-
-
 
   /* ---------- notícias, projetos e galeria ---------- */
 

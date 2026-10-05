@@ -116,6 +116,7 @@ window.NUCLEO_WIDGETS = (function () {
     let list = [];
     let index = 0;
     let lastFocus = null;
+    let activityResizeObserver = null;
 
     const root = el('div', 'lb');
     root.hidden = true;
@@ -180,6 +181,8 @@ window.NUCLEO_WIDGETS = (function () {
     function shut() {
       root.hidden = true;
       document.body.style.overflow = '';
+      if (activityResizeObserver) activityResizeObserver.disconnect();
+      activityResizeObserver = null;
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     }
 
@@ -209,5 +212,204 @@ window.NUCLEO_WIDGETS = (function () {
     return lb;
   }
 
-  return { dots, lightbox };
+  /* ---------- perfil ampliado de integrante ---------- */
+
+  let profile = null;
+
+  function memberProfile() {
+    if (profile) return profile;
+
+    let lastFocus = null;
+    const root = el('div', 'member-profile');
+    root.hidden = true;
+    root.setAttribute('role', 'dialog');
+    root.setAttribute('aria-modal', 'true');
+    root.setAttribute('aria-labelledby', 'member-profile-name');
+
+    const backdrop = el('button', 'member-profile-backdrop');
+    backdrop.type = 'button';
+    backdrop.setAttribute('aria-label', 'Fechar perfil');
+    const panel = el('section', 'member-profile-panel');
+    const close = el('button', 'member-profile-close', '×');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Fechar perfil');
+    const content = el('div', 'member-profile-content');
+    panel.appendChild(content);
+    root.append(backdrop, panel);
+
+    function shut() {
+      root.hidden = true;
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    function open(member, options = {}) {
+      if (!member) return;
+      lastFocus = options.trigger || document.activeElement;
+      const team = options.team || {};
+      const level = options.level || '';
+      const rootPath = options.root || '';
+      const photos = [member.photo, ...(Array.isArray(member.photos) ? member.photos : [])]
+        .filter(Boolean)
+        .map((photo) => typeof photo === 'string' ? { src: photo } : photo);
+
+      const teamColor = team.color || 'var(--accent)';
+      panel.style.setProperty('--member-team-color', teamColor);
+      content.replaceChildren();
+
+      const main = el('div', 'member-profile-main');
+      main.style.setProperty('--member-team-color', teamColor);
+      main.dataset.team = member.team || '';
+      main.appendChild(close);
+      const hero = el('div', 'member-profile-hero');
+      if (photos.length) {
+        const image = el('img', 'member-profile-photo');
+        image.src = rootPath + photos[0].src;
+        image.alt = `Foto de ${member.name}`;
+        hero.appendChild(image);
+        if (photos.length > 1) {
+          const more = el('button', 'member-profile-photo-more', `Ver fotos (${photos.length})`);
+          more.type = 'button';
+          more.addEventListener('click', () => lightbox().open(photos.map((photo) => ({
+            src: rootPath + photo.src,
+            caption: photo.caption || '',
+            label: member.name
+          }))));
+          hero.appendChild(more);
+        }
+      } else {
+        const initials = (member.name.match(/[\p{L}\p{N}]+/gu) || []).slice(0, 2).map((word) => word[0]).join('').toUpperCase();
+        hero.appendChild(el('div', 'member-profile-initials', initials));
+      }
+
+      const details = el('div', 'member-profile-details');
+      details.appendChild(el('p', 'member-profile-team', team.name || 'Integrante'));
+      const name = el('h2', '', member.name);
+      name.id = 'member-profile-name';
+      details.appendChild(name);
+      const meta = [level].filter(Boolean);
+      if (meta.length) details.appendChild(el('p', 'member-profile-meta', meta.join(' · ')));
+      hero.appendChild(details);
+      main.appendChild(hero);
+
+      const description = member.description || member.bio;
+      if (description) main.appendChild(el('p', 'member-profile-description', description));
+
+      const roles = Array.isArray(member.role) ? member.role : [member.role];
+      if (roles.filter(Boolean).length) {
+        const roleSection = el('section', 'member-profile-section');
+        roleSection.appendChild(el('h3', '', 'Atuação'));
+        const chips = el('div', 'member-profile-roles');
+        roles.filter(Boolean).forEach((role) => chips.appendChild(el('span', '', role)));
+        roleSection.appendChild(chips);
+        main.appendChild(roleSection);
+      }
+
+      const socials = member.socials && typeof member.socials === 'object' ? Object.entries(member.socials) : [];
+      const links = socials.filter(([, url]) => typeof url === 'string' && /^https?:\/\//i.test(url));
+      const instagram = links.find(([label]) => label.toLowerCase() === 'instagram');
+      if (instagram) {
+        const instagramLink = el('a', 'member-profile-instagram');
+        instagramLink.href = instagram[1];
+        instagramLink.target = '_blank';
+        instagramLink.rel = 'noopener noreferrer';
+        instagramLink.setAttribute('aria-label', `Instagram de ${member.name}`);
+        instagramLink.title = `Instagram de ${member.name}`;
+        const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        icon.setAttribute('viewBox', '0 0 24 24');
+        icon.setAttribute('width', '21');
+        icon.setAttribute('height', '21');
+        icon.setAttribute('fill', 'none');
+        icon.setAttribute('stroke', 'currentColor');
+        icon.setAttribute('stroke-width', '1.7');
+        icon.setAttribute('aria-hidden', 'true');
+        const frame = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        frame.setAttribute('x', '3'); frame.setAttribute('y', '3');
+        frame.setAttribute('width', '18'); frame.setAttribute('height', '18');
+        frame.setAttribute('rx', '5');
+        const lens = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        lens.setAttribute('cx', '12'); lens.setAttribute('cy', '12'); lens.setAttribute('r', '4');
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('cx', '17.3'); dot.setAttribute('cy', '6.7'); dot.setAttribute('r', '1');
+        icon.append(frame, lens, dot);
+        instagramLink.appendChild(icon);
+        main.appendChild(instagramLink);
+      }
+      if (links.length) {
+        const socialSection = el('section', 'member-profile-section');
+        socialSection.appendChild(el('h3', '', 'Redes sociais'));
+        const socialLinks = el('div', 'member-profile-socials');
+        links.forEach(([label, url]) => {
+          if (label.toLowerCase() === 'instagram') return;
+          const link = el('a', '', label);
+          link.href = url;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          socialLinks.appendChild(link);
+        });
+        if (socialLinks.children.length) {
+          socialSection.appendChild(socialLinks);
+          main.appendChild(socialSection);
+        }
+      }
+
+      content.appendChild(main);
+
+      const activity = el('aside', 'member-profile-activity');
+      activity.appendChild(el('h3', '', 'Competições e projetos'));
+      const activities = options.activities || [];
+      if (!activities.length) activity.appendChild(el('p', 'member-profile-activity-empty', 'Sem atividades cadastradas.'));
+      else activities.forEach((item) => {
+        const link = el('a', 'member-profile-activity-item');
+        link.href = item.href;
+        link.append(el('small', '', item.type), el('span', '', item.title));
+        activity.appendChild(link);
+      });
+      content.appendChild(activity);
+      const syncActivityHeight = () => {
+        const cardHeight = main.getBoundingClientRect().height;
+        if (!cardHeight) return;
+        const mobileLimit = window.matchMedia('(max-width: 700px)').matches ? 230 : cardHeight;
+        activity.style.height = `${Math.min(cardHeight, mobileLimit)}px`;
+      };
+      activity.addEventListener('focusin', () => activity.classList.add('is-expanded'));
+      activity.addEventListener('focusout', (event) => {
+        if (!activity.contains(event.relatedTarget)) activity.classList.remove('is-expanded');
+      });
+      activity.addEventListener('mouseenter', () => activity.classList.add('is-expanded'));
+      activity.addEventListener('mouseleave', () => {
+        if (!activity.querySelector(':focus')) activity.classList.remove('is-expanded');
+      });
+
+      if (!root.isConnected) document.body.appendChild(root);
+      root.hidden = false;
+      document.body.style.overflow = 'hidden';
+      if ('ResizeObserver' in window) {
+        activityResizeObserver = new ResizeObserver(syncActivityHeight);
+        activityResizeObserver.observe(main);
+      }
+      requestAnimationFrame(syncActivityHeight);
+      close.focus();
+    }
+
+    close.addEventListener('click', shut);
+    backdrop.addEventListener('click', shut);
+    document.addEventListener('keydown', (event) => {
+      if (root.hidden) return;
+      if (event.key === 'Escape') shut();
+      if (event.key === 'Tab') {
+        const focusable = Array.from(panel.querySelectorAll('a[href], button:not([disabled])'));
+        if (!focusable.length) { event.preventDefault(); close.focus(); return; }
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+    });
+
+    profile = { open };
+    return profile;
+  }
+
+  return { dots, lightbox, memberProfile };
 })();

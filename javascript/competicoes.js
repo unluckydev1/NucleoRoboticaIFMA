@@ -22,9 +22,10 @@
   /* ---------- cartão: foto em cima; Nome / Categoria embaixo ---------- */
 
   function card(c) {
-    const a = el('a', 'cp-card');
-    a.href = U.compHref(c);
-    a.setAttribute('aria-label', `${c.name} — ver detalhes`);
+    const a = el('article', 'cp-card');
+    const link = el('a', 'cp-main-link');
+    link.href = U.compHref(c);
+    link.setAttribute('aria-label', `${c.name} — ver detalhes`);
 
     const media = el('div', 'cp-media');
     const cover = c.cover || (U.compImages(c)[0] || {}).src;
@@ -54,8 +55,10 @@
       info.appendChild(row);
     });
 
-    a.title = c.name;
-    a.append(media, info);
+    link.title = c.name;
+    link.append(media, info);
+    a.appendChild(link);
+    U.memberDeck(a, c.teams || c.team, { memberIds: c.members });
     return a;
   }
 

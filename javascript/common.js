@@ -29,10 +29,21 @@ const hasTeamTheme = (id) => Object.prototype.hasOwnProperty.call(teamThemes, id
 
 const params = new URLSearchParams(window.location.search);
 const requestedContext = params.get('context');
-const contextTeam = hasTeamTheme(requestedContext) ? requestedContext : '';
 const sourceTeam = hasTeamTheme(document.body.dataset.team)
   ? document.body.dataset.team
   : '';
+let fixedTheme = '';
+
+try {
+  const storedTheme = window.localStorage.getItem('nucleo-theme-fixed');
+  if (hasTeamTheme(storedTheme)) fixedTheme = storedTheme;
+} catch (error) {
+  /* O tema contextual padrão continua disponível sem armazenamento local. */
+}
+
+const contextTeam = sourceTeam
+  ? ''
+  : fixedTheme || (hasTeamTheme(requestedContext) ? requestedContext : '');
 
 /* O contexto controla a camada visual; os filtros de equipe seguem independentes. */
 if (contextTeam) {
@@ -67,6 +78,48 @@ function mountTeamMotif(teamId) {
 }
 
 mountTeamMotif(contextTeam);
+
+const themePicker = document.querySelector('.theme-picker');
+if (themePicker && !sourceTeam) {
+  const themeButtons = [...themePicker.querySelectorAll('[data-theme-choice]')];
+  let reloadTimer;
+
+  if (fixedTheme) themePicker.dataset.indicatorPosition = fixedTheme;
+  themePicker.dataset.selected = String(Boolean(fixedTheme));
+  window.requestAnimationFrame(() => {
+    themePicker.dataset.ready = 'true';
+  });
+
+  themeButtons.forEach((button) => {
+    const theme = button.dataset.themeChoice;
+    button.setAttribute('aria-pressed', String(theme === fixedTheme));
+    button.addEventListener('click', () => {
+      const nextTheme = fixedTheme === theme ? '' : theme;
+
+      try {
+        if (!nextTheme) {
+          window.localStorage.removeItem('nucleo-theme-fixed');
+        } else {
+          window.localStorage.setItem('nucleo-theme-fixed', nextTheme);
+        }
+      } catch (error) {
+        /* O tema contextual padrão permanece disponível sem armazenamento local. */
+      }
+
+      fixedTheme = nextTheme;
+      themeButtons.forEach((themeButton) => {
+        themeButton.setAttribute('aria-pressed', String(themeButton.dataset.themeChoice === nextTheme));
+      });
+
+      if (nextTheme) themePicker.dataset.indicatorPosition = nextTheme;
+      themePicker.dataset.selected = String(Boolean(nextTheme));
+
+      window.clearTimeout(reloadTimer);
+      const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 260;
+      reloadTimer = window.setTimeout(() => window.location.reload(), delay);
+    });
+  });
+}
 
 function addTeamContext(link, teamId) {
   const rawHref = link.getAttribute('href') || '';

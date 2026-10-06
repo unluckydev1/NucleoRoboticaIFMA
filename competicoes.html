@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="styles/inner.css">
   <link rel="stylesheet" href="styles/competicoes.css">
   <link rel="stylesheet" href="styles/polish.css">
+  <link rel="stylesheet" href="styles/theme-switcher.css">
 </head>
 <body data-root="">
 
@@ -37,6 +38,10 @@
       </nav>
 
       <div class="header-actions">
+        <div class="theme-picker" role="group" aria-label="Tema">
+          <button class="theme-choice" type="button" data-theme-choice="orion" aria-label="Tema Órion" aria-pressed="false"><span class="theme-swatch theme-swatch-orion" aria-hidden="true"></span></button>
+          <button class="theme-choice" type="button" data-theme-choice="nexa" aria-label="Tema NEXA" aria-pressed="false"><span class="theme-swatch theme-swatch-nexa" aria-hidden="true"></span></button>
+        </div>
         <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Abrir menu" aria-controls="main-nav" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>

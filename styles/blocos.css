@@ -203,6 +203,11 @@
 .blk-stat dd { margin: 0; color: var(--accent-2); font: 700 2rem/1.05 'Rajdhani', sans-serif; }
 .blk-stat dt { color: var(--muted); font-size: .8rem; line-height: 1.3; }
 
+/* Vídeos de prova associados ao bloco e à equipe corretos. */
+.blk-video { grid-column: 1 / -1; width: min(100%, 560px); margin: 0 auto; padding: clamp(10px, 2vw, 18px); border: 1px solid var(--line); border-radius: var(--r); background: var(--bg-2); }
+.blk-video video { display: block; width: 100%; max-height: min(62vh, 560px); object-fit: contain; border-radius: calc(var(--r) * .7); background: #111; }
+.blk-video figcaption { margin-top: 9px; color: var(--muted); font-size: .88rem; line-height: 1.5; }
+
 /* ---------- text ---------- */
 
 .blk-l-text { max-width: 760px; margin-inline: auto; }
@@ -236,6 +241,7 @@
   .blk-text p { font-size: .95rem; line-height: 1.7; }
   .blk-stack { gap: 40px; }
 }
+@media (max-width: 620px) { .blk-video { padding: 8px; } }
 
 
 /* Páginas impressas do mangá mantêm a página inteira visível. */

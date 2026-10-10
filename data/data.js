@@ -197,7 +197,7 @@ window.NUCLEO_DATA = {
             { value: "+140%", label: "de desempenho" },
             { value: "13º", label: "lugar na estadual de 2026" }
           ],
-          images: [{ caption: "Foto: Orion Turtle na arena de resgate" }],
+          images: [{ src: "assets/competicoes/obr/obr-orion-turtle-equipe-01.jpeg", caption: "Equipe Órion Saiph e Orion Turtle na OBR", width: 1404, height: 936 }],
           links: [{ label: "Conhecer o projeto do robô", href: "projeto.html?p=robo-resgate" }] },
 
         { layout: "split", side: "left", eyebrow: "2025 · Etapa estadual · São Luís · 28 e 29 de agosto",
@@ -239,9 +239,9 @@ window.NUCLEO_DATA = {
           members: ["nexa-saulo", "nexa-israelly", "nexa-filipe-bispo", "nexa-paulo-ryan"] },
 
         { layout: "trio", eyebrow: "Órion · ensino médio e superior", title: "Labirinto, maratona e desafio surpresa",
-          chips: ["1º Labirinto · nível médio MRC", "3º Labirinto Robosummit", "3º Maratona", "2º Desafio Surpresa"],
+          chips: ["1º Labirinto · nível médio MRC","1º Sumô · nível Superior MRC", "3º Labirinto Robosummit", "3º Maratona", "2º Desafio Surpresa"],
           text: [
-            "Davy e Lucas, no médio, e o capitão Pedro Hiago, no superior, levaram a Órion a quatro pódios: 1º lugar no Labirinto MRC do nível médio, 3º lugar no Labirinto da Robosummit, 3º lugar na Maratona (corrida de seguidores de linha da MRC) e 2º lugar no Desafio Surpresa.",
+            "Davy e Lucas, no médio, e o capitão Pedro Hiago, no superior, levaram a Órion a cinco pódios: 1º lugar no Labirinto MRC do nível médio, 1º lugar no Sumô universitário, 3º lugar no Labirinto da Robosummit, 3º lugar na Maratona (corrida de seguidores de linha da MRC) e 2º lugar no Desafio Surpresa.",
             "A equipe ainda participou da prova de Seguidor de linha com obstáculos da Robosummit."
           ],
           images: [{ caption: "Foto: robô no labirinto" }, { caption: "Foto: maratona de seguidores de linha" }, { caption: "Foto: desafio surpresa" }],
@@ -268,6 +268,12 @@ window.NUCLEO_DATA = {
         "As provas são Resgate Simples, Sumô, Cabo de Guerra e Registro do Evento. Em 2026, na 2ª edição, em São Luís, o núcleo foi com as duas equipes."
       ],
       sections: [
+        { layout: "split", side: "right", eyebrow: "NEXA 404 · superior", title: "NEXA conquista o sumô",
+          chips: ["1º lugar", "Sumô"],
+          text: "Saulo, Israelly, Filipe Bispo e Paulo Ryan levaram a NEXA ao 1º lugar na prova de Sumô.",
+          images: [{ caption: "Foto: NEXA 404 no pódio do sumô" }],
+          members: ["nexa-saulo", "nexa-israelly", "nexa-filipe-bispo", "nexa-paulo-ryan"] },
+
         { layout: "stats", eyebrow: "2026 · 2ª edição · São Luís", title: "Ouro no sumô e prata em mídia",
           text: "Treze estudantes das duas equipes, do ensino médio ao superior, representaram o núcleo na competição.",
           stats: [
@@ -284,13 +290,9 @@ window.NUCLEO_DATA = {
             "A Órion também participou das provas de Resgate e de Sumô, no médio e no superior."
           ],
           images: [{ caption: "Foto: equipe de mídia da Órion" }],
+          video: { src: "assets/competicoes/omr/omr-sumo-medio-orion.mp4", poster: "assets/projetos/orion-turtle/orion-turtle-frontal.jpeg", mime: "video/mp4", caption: "Prova de Sumô · Órion, ensino médio · OMR 2026" },
           members: ["orion-davy", "orion-lara", "orion-leonardo", "orion-lucas", "orion-felipe", "orion-ezequiel", "orion-ivylle", "orion-marjorie", "orion-bruna"] },
 
-        { layout: "split", side: "right", eyebrow: "NEXA 404 · superior", title: "NEXA conquista o sumô",
-          chips: ["1º lugar", "Sumô"],
-          text: "Saulo, Israelly, Filipe Bispo e Paulo Ryan levaram a NEXA ao 1º lugar na prova de Sumô.",
-          images: [{ caption: "Foto: NEXA 404 no pódio do sumô" }],
-          members: ["nexa-saulo", "nexa-israelly", "nexa-filipe-bispo", "nexa-paulo-ryan"] }
       ] },
 
 
@@ -465,7 +467,17 @@ window.NUCLEO_DATA = {
     { id: "robo-resgate", teams: ["orion"], category: "Pesquisa", title: "Robô de Resgate — Orion Turtle", status: "Em andamento",
       description: "Robô autônomo de resgate usado na OBR e planejado para outras competições, com visão computacional, eletrônica embarcada e impressão 3D.",
       members: ["orion-felipe", "orion-guilherme", "orion-ezequiel", "orion-carol"],
-      image: "", link: "",
+      image: "assets/projetos/orion-turtle/orion-turtle-frontal.jpeg", imageAlt: "Vista frontal do robô Orion Turtle, com chassi azul e sensores", imageCaption: "Orion Turtle · protótipo de resgate",
+      mediaGalleryTitle: "Fotos e vídeos do Orion Turtle",
+      mediaGalleryDescription: "Fotos da equipe e do Orion Turtle na OBR, um detalhe da garra e registros em vídeo do projeto.",
+      mediaGallery: [
+        { src: "assets/projetos/orion-turtle/orion-turtle-frontal.jpeg", caption: "Vista frontal do protótipo Orion Turtle", width: 1600, height: 1200, featured: true },
+        { src: "assets/projetos/orion-turtle/orion-turtle-garra.jpeg", caption: "Protótipo com garra articulada para manipulação de objetos", width: 768, height: 1365 },
+        { src: "assets/competicoes/obr/obr-orion-turtle-equipe-01.jpeg", caption: "Equipe Órion Saiph com o Orion Turtle durante a OBR · registro 1", width: 1404, height: 936 },
+        { src: "assets/competicoes/obr/obr-orion-turtle-equipe-02.jpeg", caption: "Equipe Órion Saiph com o Orion Turtle durante a OBR · registro 2", width: 1404, height: 936 },
+        { type: "video", src: "assets/projetos/orion-turtle/orion-turtle-registro.mp4", poster: "assets/projetos/orion-turtle/orion-turtle-frontal.jpeg", caption: "Registro em vídeo do desenvolvimento do Orion Turtle", mime: "video/mp4" }
+      ],
+      link: "",
       text: [
         "O Orion Turtle é um robô autônomo para locomoção em terrenos irregulares, navegação sobre linhas e manipulação de objetos em ambientes de resgate simulado. O projeto de pesquisa é conduzido por Felipe e Guilherme, com o voluntário Ezequiel e a orientação da professora Ana Caroline Meireles Soares (Carol).",
         "Ele foi desenvolvido no IFMA Campus Santa Inês com bolsas PIBITI (Edital PRPGI Nº 08/2025 — PIBITI Ensino Médio 2025/2026, CNPq/IFMA). A ideia é usá-lo na OBR e em outras competições de resgate."
@@ -485,22 +497,22 @@ window.NUCLEO_DATA = {
             { value: "2", label: "núcleos de processamento (ESP32-S3)" },
             { value: "7", label: "meses de modelagem 3D no Fusion 360" }
           ],
-          images: [{ caption: "Foto: Orion Turtle montado" }] },
+          images: [{ src: "assets/projetos/orion-turtle/orion-turtle-montagem.jpeg", caption: "Montagem e integração dos componentes eletrônicos do Orion Turtle", width: 1500, height: 1000 }] },
 
         { layout: "split", side: "left", eyebrow: "Mecânica e impressão 3D", title: "Esteiras, garra e chassi impresso",
           text: [
             "O chassi modular foi modelado no Autodesk Fusion 360 e impresso em PLA numa Creality Ender 3 V3 SE. A tração por esteiras contínuas, acionadas por quatro motores com redução metálica, eliminou o escorregamento nas rampas da arena.",
             "Para recolher as vítimas, a garra articulada evoluiu da versão 1.0 até a v2.2, com servomotores metálicos."
           ],
-          images: [{ caption: "Foto: esteiras e garra v2.2" }] },
+          images: [{ src: "assets/projetos/orion-turtle/orion-turtle-FUSION.jpeg", caption: "Modelo do Orion Turtle desenvolvido no Autodesk Fusion 360", width: 1600, height: 1200 }] },
 
-        { layout: "banner", eyebrow: "Eletrônica e programação", title: "Dois núcleos, nenhuma leitura perdida",
+        { layout: "split", side: "right", eyebrow: "Eletrônica e programação", title: "Dois núcleos, nenhuma leitura perdida",
           text: [
             "O controle roda em um ESP32-S3 com FreeRTOS: a leitura dos sensores de cor TCS34725 fica em um núcleo, e a navegação, em outro. Um semáforo mutex protege o barramento I2C compartilhado.",
             "A detecção de cores usa normalização fotométrica para reconhecer o verde (cruzamentos) e o vermelho (parada). Bibliotecas próprias cuidam dos motores e dos sensores infravermelhos."
           ],
           chips: ["ESP32-S3", "FreeRTOS", "C++", "Sensores de cor e ToF"],
-          images: [{ caption: "Imagem: diagrama da arquitetura de software dual-core" }] },
+          images: [{ src: "assets/projetos/orion-turtle/orion-turtle-programacao.jpeg", caption: "Programação e preparação dos testes do Orion Turtle", width: 1500, height: 1000 }] },
 
         { layout: "split", side: "right", eyebrow: "Na arena", title: "De 120 a 288 pontos",
           chips: ["+140% de desempenho", "13º lugar na OBR 2026"],
@@ -508,7 +520,8 @@ window.NUCLEO_DATA = {
             "Na OBR Maranhão, o robô passou de 120 pontos em 2025 (arena média) para 288 pontos em 2026 (arena difícil), o que dá um ganho de 140%.",
             "O desempenho foi descrito no resumo expandido “Protótipo robótico autônomo para locomoção e manipulação de objetos aplicado à robótica educacional”."
           ],
-          links: [{ label: "Ver a OBR", href: "competicao.html?c=obr" }] },
+          links: [{ label: "Ver a OBR", href: "competicao.html?c=obr" }],
+          images: [{ src: "assets/projetos/orion-turtle/orion-turtle-teste-arena.jpeg", caption: "Orion Turtle durante teste de navegação em arena", width: 1500, height: 1000 }] },
 
         { layout: "text", eyebrow: "Próximos passos", title: "Visão computacional e outras competições",
           text: "A equipe pretende embarcar visão computacional em uma ESP32-S3 CAM, com comunicação sem fio ESP-NOW, para identificar vítimas em três dimensões, e levar o robô a outras etapas de competições de resgate." }
@@ -540,6 +553,8 @@ window.NUCLEO_DATA = {
       description: "Mangá educativo que ensina lógica de programação com raízes indígenas e aulas presenciais no IFMA Campus Santa Inês, com a participação de crianças e jovens da aldeia Guajajara próxima ao campus.",
       members: ["orion-carol", "orion-bruna", "orion-marjorie", "orion-davy", "orion-lucas", "orion-leonardo", "orion-ivylle", "orion-rynalde", "orion-angelo", "orion-ellen-cavalcante", "orion-ryan-kallebe", "orion-luis-alberto"],
       image: "assets/tecnoarte/media/aula-2026-09-24-03.webp", imageAlt: "Encontro do projeto no IFMA Campus Santa Inês", imageCaption: "Encontro do projeto · 24 set. 2026", placeholder: "Registros das atividades de extensão", link: "",
+      mediaGalleryTitle: "Encontros na escola",
+      mediaGalleryDescription: "As crianças e os jovens da comunidade Guajajara vêm ao IFMA Campus Santa Inês para participar das aulas e atividades do projeto.",
       mediaGallery: [
           { src: "assets/tecnoarte/media/aula-2026-09-17-01.webp", caption: "Registro do projeto no IFMA Campus Santa Inês · 17 set. 2026", width: 1800, height: 2400 },
           { src: "assets/tecnoarte/media/aula-2026-09-17-02.webp", caption: "Registro do projeto no IFMA Campus Santa Inês · 17 set. 2026", width: 2400, height: 1800 },

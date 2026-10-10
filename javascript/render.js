@@ -402,6 +402,7 @@
       img.src = root + m.photo;
       img.alt = '';
       img.loading = 'lazy';
+      img.decoding = 'async';
       box.appendChild(img);
     } else {
       const initials = (m.name.match(/[\p{L}\p{N}]+/gu) || [])
@@ -591,6 +592,7 @@
       img.src = root + src;
       img.alt = '';
       img.loading = 'lazy';
+      img.decoding = 'async';
       box.appendChild(img);
     } else {
       box.appendChild(el('div', 'ph-tile', label));

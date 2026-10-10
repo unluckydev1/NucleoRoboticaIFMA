@@ -41,6 +41,7 @@ window.NUCLEO_BLOCKS = (function () {
       img.src = root + image.src;
       img.alt = image.caption || label || '';
       img.loading = 'lazy';
+      img.decoding = 'async';
       fig.appendChild(img);
 
       if (W && W.lightbox) {
@@ -118,6 +119,35 @@ window.NUCLEO_BLOCKS = (function () {
     return row;
   }
 
+  function videoFigure(media) {
+    const fig = el('figure', 'blk-video');
+    const preview = el('button', 'video-preview');
+    preview.type = 'button';
+    preview.dataset.videoPreview = '';
+    preview.setAttribute('aria-label', `Reproduzir vídeo: ${media.caption || 'vídeo da competição'}`);
+    if (media.poster) {
+      const img = el('img');
+      img.src = root + media.poster;
+      img.alt = '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      preview.appendChild(img);
+    }
+    preview.appendChild(el('span', 'video-preview-play', '▶'));
+    const video = el('video');
+    video.controls = true;
+    video.playsInline = true;
+    video.preload = 'none';
+    video.hidden = true;
+    const source = el('source');
+    source.dataset.src = root + media.src;
+    source.type = media.mime || 'video/mp4';
+    video.appendChild(source);
+    fig.append(preview, video);
+    if (media.caption) fig.appendChild(el('figcaption', '', media.caption));
+    return fig;
+  }
+
   function block(b, i) {
     const layout = SLOTS[b.layout] !== undefined ? b.layout : 'split';
     const sec = el('section', `blk blk-l-${layout}`);
@@ -151,6 +181,8 @@ window.NUCLEO_BLOCKS = (function () {
       /* split: a ordem no DOM é sempre texto -> imagem; o CSS inverte com .is-left */
       sec.append(copy(b), figs[0]);
     }
+
+    if (b.video && b.video.src) sec.appendChild(videoFigure(b.video));
 
     sec.style.setProperty('--i', i);
     return sec;

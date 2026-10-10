@@ -50,15 +50,17 @@
   const media = document.getElementById('project-image');
   const mediaGallery = toArray(project.mediaGallery).filter(Boolean);
   const galleryPhotos = mediaGallery.filter((item) => item.type !== 'video' && item.src);
+  const video = mediaGallery.find((item) => item.type === 'video' && item.src);
   const lightboxPhotos = galleryPhotos.map((item) => ({
     src: new URL(`${document.body.dataset.root || ''}${item.src}`, document.baseURI).href,
     caption: item.caption || '',
-    label: 'TecnoArte · Extensão'
+    label: `${project.title} · ${project.category || 'Projeto'}`
   }));
   if (project.image) {
     const image = el('img');
     image.src = `${document.body.dataset.root || ''}${project.image}`;
     image.alt = project.imageAlt || project.title;
+    image.decoding = 'async';
     const featured = galleryPhotos.find((item) => item.src === project.image);
     if (featured?.width && featured?.height) {
       image.width = featured.width;
@@ -79,7 +81,10 @@
     zoom.appendChild(image);
     zoom.addEventListener('click', openImage);
     media.appendChild(zoom);
-    if (project.imageCaption) media.appendChild(el('figcaption', 'project-feature-caption', project.imageCaption));
+    if (project.imageCaption) {
+      media.classList.add('project-media-captioned');
+      media.appendChild(el('figcaption', 'project-feature-caption', project.imageCaption));
+    }
     if (project.id === 'tecnoarte') media.classList.add('project-media-natural');
   } else {
     media.classList.add('project-art-placeholder');
@@ -96,27 +101,31 @@
 
   if (blocks && mediaGallery.length) {
     const gallery = el('section', 'project-media-gallery');
+    const remainingPhotos = galleryPhotos.filter((item) => !item.featured);
+    if (video && remainingPhotos.length === 1) gallery.classList.add('project-media-gallery-pair');
+    if (video && remainingPhotos.length === 3) gallery.classList.add('project-media-gallery-mosaic');
     gallery.setAttribute('aria-labelledby', 'project-media-title');
     const heading = el('div', 'project-media-heading');
     heading.append(
-      el('p', 'eyebrow', 'Registros da extensão'),
-      el('h2', '', 'Encontros na escola')
+      el('p', 'eyebrow', project.category === 'Extensão' ? 'Registros da extensão' : 'Registros do projeto'),
+      el('h2', '', project.mediaGalleryTitle || 'Fotos e vídeos do projeto')
     );
-    heading.appendChild(el('p', '', 'As crianças e os jovens da comunidade Guajajara vêm ao IFMA Campus Santa Inês para participar das aulas e atividades do projeto.'));
+    heading.appendChild(el('p', '', project.mediaGalleryDescription || 'Fotos e vídeos das atividades e do desenvolvimento do projeto.'));
     gallery.appendChild(heading);
     const title = heading.querySelector('h2');
     title.id = 'project-media-title';
 
     const grid = el('div', 'project-media-masonry');
-    galleryPhotos.filter((item) => !item.featured).forEach((item) => {
+    remainingPhotos.forEach((item) => {
       const figure = el('figure', 'project-media-card');
       const button = el('button', 'project-media-zoom');
       button.type = 'button';
       button.setAttribute('aria-label', `Ampliar imagem: ${item.caption || 'registro do projeto'}`);
       const image = el('img');
       image.src = `${document.body.dataset.root || ''}${item.src}`;
-      image.alt = item.alt || item.caption || 'Registro do projeto TecnoArte';
+      image.alt = item.alt || item.caption || `Registro do projeto ${project.title}`;
       image.loading = 'lazy';
+      image.decoding = 'async';
       if (item.width && item.height) {
         image.width = item.width;
         image.height = item.height;
@@ -128,19 +137,32 @@
     });
     if (grid.children.length) gallery.appendChild(grid);
 
-    const video = mediaGallery.find((item) => item.type === 'video' && item.src);
     if (video) {
       const figure = el('figure', 'project-media-video');
+      const preview = el('button', 'video-preview');
+      preview.type = 'button';
+      preview.dataset.videoPreview = '';
+      preview.setAttribute('aria-label', `Reproduzir vídeo: ${video.caption || `vídeo do projeto ${project.title}`}`);
+      if (video.poster) {
+        const poster = el('img');
+        poster.src = new URL(`${document.body.dataset.root || ''}${video.poster}`, document.baseURI).href;
+        poster.alt = '';
+        poster.loading = 'lazy';
+        poster.decoding = 'async';
+        preview.appendChild(poster);
+      }
+      preview.appendChild(el('span', 'video-preview-play', '▶'));
       const player = el('video');
       player.controls = true;
       player.playsInline = true;
-      player.preload = 'metadata';
+      player.preload = 'none';
+      player.hidden = true;
       const source = el('source');
-      source.src = new URL(`${document.body.dataset.root || ''}${video.src}`, document.baseURI).href;
+      source.dataset.src = new URL(`${document.body.dataset.root || ''}${video.src}`, document.baseURI).href;
       source.type = video.mime || 'video/mp4';
       player.appendChild(source);
       player.appendChild(el('p', '', 'Seu navegador não conseguiu reproduzir o vídeo.'));
-      figure.append(player, el('figcaption', '', video.caption || 'Vídeo da atividade de extensão'));
+      figure.append(preview, player, el('figcaption', '', video.caption || `Vídeo do projeto ${project.title}`));
       gallery.appendChild(figure);
     }
     blocks.appendChild(gallery);

@@ -37,6 +37,7 @@
       img.src = U.root + cover;
       img.alt = '';
       img.loading = 'lazy';
+      img.decoding = 'async';
       media.appendChild(img);
     } else {
       media.appendChild(el('div', 'cp-ph', c.short || c.name));

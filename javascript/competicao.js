@@ -62,6 +62,7 @@
       img.src = U.root + im.src;
       img.alt = im.caption || `${c.name} — foto ${i + 1}`;
       if (i > 0) img.loading = 'lazy';
+      img.decoding = 'async';
 
       fig.appendChild(img);
       if (im.caption) fig.appendChild(el('figcaption', '', im.caption));

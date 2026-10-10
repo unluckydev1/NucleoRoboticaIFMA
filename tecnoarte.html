@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TecnoArte — O Despertar da Programação | IFMA Campus Santa Inês</title>
+<meta name="description" content="Projeto de extensão do IFMA Campus Santa Inês que ensina lógica de programação por meio de um mangá de temática indígena.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #ece4d5;
+    --bg-raised: #e2d8c4;
+    --ink: #221e19;
+    --muted: #6c6152;
+    --red: #ab2a28;
+    --red-deep: #7d1e1d;
+    --green: #3d5940;
+    --gold: #b9903a;
+    --line: #cdbf9f;
+    --paper-shadow: rgba(34,30,25,0.12);
+    --max: 780px;
+    --wide: 1080px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Karla', sans-serif;
+    font-size: 17px;
+    line-height: 1.62;
+    padding-left: 20px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (max-width: 640px){
+    body{ padding-left: 13px; font-size: 16px; }
+  }
+
+  h1, h2, h3{
+    font-family: 'Zilla Slab', serif;
+    font-weight: 600;
+    line-height: 1.15;
+    margin: 0 0 0.5em 0;
+    letter-spacing: -0.01em;
+  }
+
+  p{ margin: 0 0 1.1em 0; }
+  a{ color: var(--red-deep); }
+  a.quiet{ color: inherit; text-decoration: none; }
+
+  img{ max-width: 100%; display: block; }
+
+  /* -------- spine: the one bold recurring element -------- */
+  .spine{
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 20px;
+    z-index: 5;
+    background-color: var(--red);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='36' viewBox='0 0 20 36'%3E%3Cpolygon points='20,0 20,12 0,18 20,24 20,36 0,30 0,6' fill='%23221e19'/%3E%3C/svg%3E");
+    background-repeat: repeat-y;
+    background-size: 20px 36px;
+  }
+  @media (max-width: 640px){
+    .spine{ width: 13px; background-size: 13px 24px; }
+  }
+
+  /* -------- top nav -------- */
+  header.top{
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner{
+    max-width: var(--wide);
+    margin: 0 auto;
+    padding: 16px 28px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .brand{
+    font-family: 'Zilla Slab', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .brand span{ color: var(--red-deep); }
+  nav.links{
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    font-size: 0.92rem;
+  }
+  nav.links a{
+    text-decoration: none;
+    color: var(--muted);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+  }
+  nav.links a:hover{ color: var(--ink); border-bottom-color: var(--gold); }
+
+  @media (max-width: 640px){
+    .nav-inner{ flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 18px; }
+    nav.links{ gap: 14px; font-size: 0.86rem; }
+  }
+
+  section{ padding: 72px 28px; }
+  @media (max-width: 640px){ section{ padding: 46px 18px; } }
+
+  .wrap{ max-width: var(--wide); margin: 0 auto; }
+  .prose{ max-width: var(--max); }
+
+  .kicker{
+    font-family: 'Karla', sans-serif;
+    font-size: 0.86rem;
+    color: var(--muted);
+    margin: 0 0 10px 0;
+  }
+
+  /* -------- hero -------- */
+  .hero{
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+  .hero-grid{
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 56px;
+    align-items: center;
+  }
+  @media (max-width: 860px){
+    .hero-grid{ grid-template-columns: 1fr; }
+    .hero-grid .hero-art{ order: -1; max-width: 320px; }
+  }
+  .hero h1{
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+  }
+  .hero .lede{
+    font-size: 1.12rem;
+    color: var(--ink);
+    max-width: 46ch;
+  }
+  .hero .sub{
+    font-family: 'Zilla Slab', serif;
+    font-size: 1.25rem;
+    color: var(--red-deep);
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+  .cta-row{
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .btn{
+    display: inline-block;
+    padding: 12px 22px;
+    text-decoration: none;
+    font-family: 'Karla', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+  }
+  .btn.primary{
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .btn.primary:hover{ background: var(--red-deep); border-color: var(--red-deep); }
+  .btn.ghost:hover{ background: var(--bg-raised); }
+  .btn.disabled{
+    background: var(--bg-raised);
+    color: var(--muted);
+    border-color: var(--line);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .btn-block{ display: inline-flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .btn-note{
+    font-family: 'Karla', sans-serif;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .hero-art{
+    border: 1px solid var(--line);
+    box-shadow: 6px 6px 0 var(--paper-shadow);
+    background: #fff;
+    padding: 8px;
+  }
+  .hero-art img{ width: 100%; height: auto; }
+
+  hr.rule{
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 0;
+  }
+
+  /* -------- sobre -------- */
+  .cols-2{
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 60px;
+  }
+  @media (max-width: 860px){ .cols-2{ grid-template-columns: 1fr; gap: 30px; } }
+
+  .fact-box{
+    border: 1px solid var(--line);
+    padding: 24px 26px;
+    background: var(--bg-raised);
+  }
+  .fact-box h3{ font-size: 1.05rem; margin-bottom: 14px; }
+  .fact-box dl{ margin: 0; }
+  .fact-box dt{ font-size: 0.82rem; color: var(--muted); margin-top: 14px; }
+  .fact-box dt:first-child{ margin-top: 0; }
+  .fact-box dd{ margin: 2px 0 0 0; font-family: 'Zilla Slab', serif; font-size: 1.02rem; }
+
+  ul.obj{ padding-left: 20px; margin: 0 0 1.2em 0; }
+  ul.obj li{ margin-bottom: 10px; }
+
+  /* -------- historia -------- */
+  .story-grid{
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 860px){
+    .story-grid{ grid-template-columns: 1fr; }
+  }
+  .frame{
+    border: 1px solid var(--line);
+    box-shadow: 6px 6px 0 var(--paper-shadow);
+    background: #fff;
+    padding: 8px;
+  }
+  figcaption{
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  .filmstrip{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 40px;
+  }
+  @media (max-width: 640px){ .filmstrip{ grid-template-columns: 1fr; } }
+
+  .status-note{
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 3px 10px;
+  }
+
+  /* -------- metodologia -------- */
+  .map-table{ width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .map-table th{
+    text-align: left;
+    font-family: 'Karla', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--muted);
+    padding: 10px 16px 10px 0;
+    border-bottom: 1px solid var(--ink);
+  }
+  .map-table td{
+    padding: 16px 16px 16px 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .map-table td.a{ font-family: 'Zilla Slab', serif; font-size: 1.05rem; color: var(--green); width: 40%; }
+  @media (max-width: 640px){
+    .map-table, .map-table thead, .map-table tbody, .map-table tr, .map-table td{ display: block; width: 100%; }
+    .map-table thead{ display: none; }
+    .map-table tr{ padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .map-table td{ border: none; padding: 4px 0; }
+    .map-table td.a{ width: auto; }
+  }
+
+  /* -------- equipe -------- */
+  .team-grid{
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 860px){ .team-grid{ grid-template-columns: 1fr; } }
+
+  .role-block{ margin-bottom: 30px; }
+  .role-block h3{
+    font-size: 0.85rem;
+    text-transform: none;
+    color: var(--muted);
+    font-family: 'Karla', sans-serif;
+    font-weight: 600;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+  }
+  .names{
+    columns: 2;
+    column-gap: 30px;
+    font-family: 'Zilla Slab', serif;
+    font-size: 1.02rem;
+  }
+  .names.single{ columns: 1; }
+  .names p{ margin: 0 0 6px 0; break-inside: avoid; }
+  @media (max-width: 500px){ .names{ columns: 1; } }
+
+  /* -------- apoio -------- */
+  .support-list{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--ink);
+  }
+  .support-item{
+    padding: 26px 24px 26px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .support-item:not(:last-child){ border-right: 1px solid var(--line); padding-right: 24px; }
+  @media (max-width: 860px){
+    .support-list{ grid-template-columns: 1fr; }
+    .support-item{ border-right: none !important; padding-right: 0 !important; }
+  }
+  .support-item h3{ font-size: 1.05rem; margin-bottom: 8px; }
+  .support-item p{ font-size: 0.95rem; color: var(--ink); margin-bottom: 0; }
+
+  .callout{
+    margin-top: 44px;
+    border: 1.5px solid var(--ink);
+    padding: 26px 28px;
+    background: var(--bg-raised);
+  }
+  .callout p:last-child{ margin-bottom: 0; }
+  .callout .label{
+    font-family: 'Karla', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--red-deep);
+    margin-bottom: 8px;
+  }
+
+  footer{
+    padding: 40px 28px 60px;
+    border-top: 1px solid var(--line);
+  }
+  .footer-inner{
+    max-width: var(--wide);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    font-size: 0.86rem;
+    color: var(--muted);
+  }
+  .footer-copyright{
+    max-width: var(--wide);
+    margin: 18px auto 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  section > .wrap > .kicker + h2{ margin-bottom: 22px; }
+
+  .credit-logos{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .credit-logo{
+    border: 1px solid var(--line);
+    background: #fff;
+    padding: 14px;
+    box-shadow: 4px 4px 0 var(--paper-shadow);
+  }
+  .credit-logo img{ width: 100%; height: auto; max-height: 150px; object-fit: contain; }
+  @media (max-width: 860px){ .credit-logos{ grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 500px){ .credit-logos{ grid-template-columns: 1fr; } }
+</style>
+<style>
+:root{--wide:1120px;--ease-draw:cubic-bezier(.2,.75,.22,1)}
+html{scroll-behavior:smooth} body{background-color:var(--bg);background-image:radial-gradient(rgba(91,70,40,.035) .7px,transparent .7px);background-size:7px 7px}
+header.top{background:rgba(236,228,213,.94);backdrop-filter:blur(10px);border:0;transition:box-shadow .3s}header.top.is-scrolled{box-shadow:0 8px 24px rgba(34,30,25,.11)}
+.nav-inner,.wrap,.footer-inner,.footer-copyright{width:min(var(--wide),calc(100% - 52px))}.nav-inner{max-width:none}nav.links{gap:clamp(12px,2vw,26px)}nav.links a{transition:color .2s,transform .2s}nav.links a:hover{color:var(--red);transform:translateY(-2px)}
+.hero{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 82% 30%,rgba(185,144,58,.14),transparent 30%),linear-gradient(125deg,#f1eadc,var(--bg) 70%)}.hero::before,.hero::after{content:"";position:absolute;z-index:-1;right:8%;top:14%;width:clamp(170px,24vw,300px);aspect-ratio:1;border:3px solid rgba(61,89,64,.18);border-radius:47% 53% 62% 38% / 44% 38% 62% 56%;transform:rotate(-18deg);pointer-events:none}.hero::after{right:11%;top:22%;width:clamp(130px,18vw,230px);border:2px solid rgba(171,42,40,.2);border-radius:50% 42% 52% 48%;transform:rotate(25deg)}
+.wrap.hero-grid{width:min(var(--wide),calc(100% - 52px));display:grid;grid-template-columns:minmax(0,1.08fr) minmax(270px,.8fr);gap:clamp(30px,7vw,82px)}.hero h1{font-size:clamp(3rem,6.3vw,5.4rem);line-height:.98;text-wrap:balance;position:relative}.hero h1::after{content:"";display:block;width:180px;max-width:55%;height:10px;border-bottom:4px solid var(--gold);border-radius:50%;transform:rotate(-2deg);margin-top:13px}.hero-art{filter:drop-shadow(10px 18px 18px rgba(34,30,25,.18));transform:rotate(2deg);transition:transform .5s var(--ease-draw),filter .5s}.hero-art:hover{transform:rotate(-1deg) translateY(-7px);filter:drop-shadow(15px 25px 20px rgba(34,30,25,.21))}
+.btn{transition:transform .22s,box-shadow .22s}.btn:hover{transform:translateY(-3px) rotate(-1deg);box-shadow:0 9px 18px rgba(34,30,25,.17)}
+section:not(.hero){position:relative;padding-block:clamp(54px,8vw,92px)}section:nth-of-type(even):not(.hero){background:rgba(255,252,245,.22)}h2{font-size:clamp(2.2rem,4vw,3.6rem)}.kicker{color:var(--red);letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;font-weight:700}
+.cols-2,.story-grid,.team-grid{gap:clamp(28px,5vw,64px)}.frame{position:relative;border:0!important;border-radius:0!important;background:transparent!important;padding:0!important;box-shadow:none!important;filter:drop-shadow(8px 13px 12px rgba(34,30,25,.15));transform:rotate(-1.3deg);transition:transform .45s var(--ease-draw),filter .45s}.frame::before{content:"";position:absolute;inset:-9px 7px 7px -7px;z-index:-1;background:rgba(185,144,58,.25);clip-path:polygon(4% 2%,96% 0,100% 93%,1% 100%)}.frame:hover{transform:rotate(.8deg) translateY(-5px);filter:drop-shadow(12px 20px 15px rgba(34,30,25,.2))}.frame img{border:0!important;border-radius:0!important;clip-path:polygon(2% 1%,99% 0,97% 98%,0 95%);transition:clip-path .4s}.frame:hover img{clip-path:polygon(0 2%,96% 0,100% 94%,3% 100%)}.filmstrip{gap:clamp(15px,3vw,32px)}.filmstrip .frame:nth-child(2){transform:rotate(1.5deg) translateY(12px)}.filmstrip .frame:nth-child(3){transform:rotate(-1deg) translateY(-6px)}
+.learning-wrap{margin-top:clamp(54px,8vw,100px);position:relative}.learning-path{position:relative;padding:clamp(24px,5vw,54px) 0}.learning-path::before{content:"";position:absolute;z-index:-1;inset:0 -4vw;background:rgba(185,144,58,.09);clip-path:polygon(2% 2%,98% 0,100% 96%,0 100%)}.learning-path h2{max-width:18ch}.path-intro{max-width:58ch;color:var(--muted)}.concept-flow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:30px}.concept-card{min-height:130px;display:grid;grid-template-columns:42px minmax(0,1fr) 26px minmax(0,1fr);align-items:center;gap:12px;padding:18px 16px;background:rgba(255,252,245,.65);clip-path:polygon(2% 0,100% 3%,98% 100%,0 96%);transition:transform .3s var(--ease-draw),background .3s}.concept-card:nth-child(odd){transform:rotate(-.35deg)}.concept-card:nth-child(even){transform:rotate(.35deg)}.concept-card:hover{transform:translateY(-4px) rotate(0);background:#fffaf0}.concept-number{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:var(--red);color:white;font:700 .85rem 'Karla',sans-serif}.concept-card small{display:block;color:var(--green);font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em}.concept-card p{margin:.32em 0 0;font-weight:600;line-height:1.35}.concept-code span{font-size:.84rem;color:var(--muted);line-height:1.35;display:block;margin-top:4px}.concept-arrow{color:var(--gold);font-size:1.5rem;transform:rotate(12deg)}
+.role-block{border:0!important;padding-block:15px!important}.role-block h3{color:var(--green)}.names{line-height:1.55}.support-list{gap:20px}.support-item,.support-item:not(:last-child){padding:22px 20px;border:0;background:rgba(255,252,245,.63);clip-path:polygon(2% 0,100% 3%,98% 100%,0 96%);transition:transform .3s var(--ease-draw),filter .3s}.support-item:hover{transform:translateY(-5px) rotate(.4deg);filter:drop-shadow(0 10px 12px rgba(34,30,25,.1))}.partner-marks{margin-top:44px}.credit-logos{display:flex;align-items:center;justify-content:flex-start;gap:clamp(24px,5vw,58px);flex-wrap:wrap;padding:8px 0}.credit-logo{padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;transition:transform .3s}.credit-logo:hover{transform:translateY(-5px) rotate(-2deg)}.credit-logo img{height:clamp(60px,8vw,92px);width:auto;max-width:min(28vw,190px);object-fit:contain;mix-blend-mode:multiply}
+footer{border:0} [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .65s var(--ease-draw),transform .65s var(--ease-draw);transition-delay:var(--delay,0ms)}[data-reveal].is-visible{opacity:1;transform:none}.links a:focus-visible,.btn:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+@media(max-width:900px){.wrap.hero-grid{grid-template-columns:minmax(0,1fr) minmax(230px,.8fr);gap:28px}.concept-flow{grid-template-columns:1fr}}
+@media(max-width:700px){.wrap.hero-grid,.cols-2,.story-grid,.team-grid{grid-template-columns:1fr}.hero-art{order:-1;width:min(72vw,330px)}.nav-inner{flex-direction:column;align-items:flex-start;gap:8px;padding:12px 14px}nav.links{width:100%;overflow-x:auto;white-space:nowrap;padding-bottom:4px}.hero{padding:42px 16px}.wrap.hero-grid{width:calc(100% - 28px)}section:not(.hero){padding:48px 16px}.filmstrip{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.filmstrip .frame:nth-child(3){grid-column:1/-1;width:78%;justify-self:center}.concept-card{grid-template-columns:34px minmax(0,1fr) 20px minmax(0,1fr);gap:7px;padding:14px 10px}.concept-card p{font-size:.86rem}.concept-code span{font-size:.74rem}}
+@media(max-width:420px){.concept-card{grid-template-columns:30px 1fr 16px 1fr;gap:5px;padding:12px 7px}.concept-number{width:28px;height:28px;font-size:.72rem}.concept-card p{font-size:.78rem}.concept-card small{font-size:.57rem}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}[data-reveal]{opacity:1;transform:none}}
+</style>
+<style>
+.cover-link{position:relative;display:block;text-decoration:none;isolation:isolate;cursor:pointer}.cover-link::before{content:"";position:absolute;z-index:-1;inset:-7% -8% 2% 3%;background:var(--gold);opacity:.38;clip-path:polygon(12% 0,100% 8%,88% 100%,0 84%);transform:rotate(5deg);transition:transform .45s cubic-bezier(.2,.75,.22,1),opacity .3s}.cover-link::after{content:"";position:absolute;z-index:1;inset:-11% -12% -7% -6%;border:3px solid rgba(171,42,40,.48);border-radius:45% 55% 53% 47% / 55% 42% 58% 45%;transform:rotate(-9deg) scale(.96);transition:transform .5s cubic-bezier(.2,.75,.22,1)}.cover-link:hover::before,.cover-link:focus-visible::before{transform:rotate(-2deg) translate(3px,-5px);opacity:.58}.cover-link:hover::after,.cover-link:focus-visible::after{transform:rotate(2deg) scale(1.04)}.cover-link img{position:relative;z-index:2;transition:transform .5s cubic-bezier(.2,.75,.22,1),filter .5s}.cover-link:hover img,.cover-link:focus-visible img{transform:translateY(-8px) rotate(-2deg) scale(1.025);filter:drop-shadow(12px 17px 13px rgba(34,30,25,.23))}.cover-hint{position:absolute;z-index:3;right:-8%;bottom:2%;padding:10px 15px;background:var(--red);color:#fffaf0;font-weight:700;font-size:.86rem;clip-path:polygon(3% 0,100% 7%,96% 100%,0 93%);transform:rotate(-3deg) translateY(8px);opacity:0;transition:opacity .25s,transform .3s}.cover-link:hover .cover-hint,.cover-link:focus-visible .cover-hint{opacity:1;transform:rotate(-3deg) translateY(0)}.cover-link:focus-visible{outline:3px solid var(--gold);outline-offset:10px}
+.hero{background-image:radial-gradient(ellipse at 83% 31%,rgba(185,144,58,.2),transparent 32%),linear-gradient(125deg,#f1eadc,var(--bg) 70%)}.hero .wrap::after{content:"✳";position:absolute;right:7%;top:10%;font-size:clamp(5rem,13vw,10rem);color:rgba(171,42,40,.15);animation:orbit-drift 18s linear infinite;pointer-events:none}.hero .wrap{position:relative}.hero-art{z-index:1}.hero h1{position:relative}.hero h1::before{content:"";position:absolute;left:-.17em;top:-.34em;width:.68em;height:.68em;border:2px solid rgba(61,89,64,.33);border-radius:58% 42% 50% 50%;transform:rotate(25deg);pointer-events:none}.gallery-section{overflow:hidden;isolation:isolate;background:linear-gradient(155deg,rgba(185,144,58,.10),transparent 50%),var(--bg)}.gallery-section::before,.gallery-section::after{content:"";position:absolute;z-index:-1;pointer-events:none}.gallery-section::before{left:-7%;top:12%;width:28vw;height:58%;border:3px solid rgba(61,89,64,.2);border-radius:60% 40% 55% 45%;transform:rotate(-22deg)}.gallery-section::after{right:-6%;bottom:4%;width:24vw;height:45%;border:3px solid rgba(171,42,40,.18);border-radius:43% 57% 40% 60%;transform:rotate(18deg)}.gallery-intro{max-width:58ch;color:var(--muted)}.gallery-carousel{position:relative;max-width:900px;margin:32px auto 0;padding:clamp(12px,3vw,30px);background:rgba(255,252,245,.42);clip-path:polygon(1% 2%,98% 0,100% 96%,0 100%)}.gallery-window{overflow:hidden;clip-path:polygon(1% 0,100% 2%,98% 100%,0 97%)}.gallery-track{display:flex;transition:transform .65s cubic-bezier(.2,.75,.22,1);will-change:transform}.gallery-slide{position:relative;flex:0 0 100%;margin:0;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(180px,.65fr);align-items:center;gap:clamp(18px,4vw,46px);padding:clamp(14px,3vw,30px)}.gallery-slide img{width:100%;height:clamp(280px,48vw,520px);object-fit:contain;filter:drop-shadow(9px 14px 12px rgba(34,30,25,.14));transition:transform .45s}.gallery-slide:hover img{transform:rotate(-1.4deg) scale(1.015)}.gallery-slide figcaption{position:relative;color:var(--green);font:600 clamp(1.35rem,3vw,2.5rem)/1.1 'Zilla Slab',serif;max-width:11ch}.gallery-slide figcaption::after{content:"";display:block;width:80%;height:10px;margin-top:12px;border-bottom:3px solid var(--gold);border-radius:50%;transform:rotate(-3deg)}.gallery-slide figcaption span{display:block;color:var(--red);font:700 .8rem 'Karla',sans-serif;letter-spacing:.1em;margin-bottom:12px}.gallery-controls{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:14px}.gallery-arrow{width:46px;height:46px;border:0;border-radius:50%;background:var(--green);color:#fffaf0;font-size:1.3rem;cursor:pointer;transition:transform .22s,background .22s}.gallery-arrow:hover{background:var(--red);transform:scale(1.08) rotate(-8deg)}.gallery-dots{display:flex;align-items:center;gap:9px}.gallery-dot{width:11px;height:11px;padding:0;border:0;border-radius:50%;background:rgba(61,89,64,.32);cursor:pointer;transition:transform .2s,background .2s}.gallery-dot[aria-current="true"]{background:var(--red);transform:scale(1.35)}.gallery-count{margin:8px 0 0;text-align:center;color:var(--muted);font-size:.78rem}.partner-marks{margin-top:58px;padding-top:18px;position:relative}.partner-marks::before{content:"";position:absolute;top:0;left:-2vw;width:min(440px,55vw);height:7px;border-top:3px solid rgba(185,144,58,.72);border-radius:50%;transform:rotate(-1deg)}.credit-logos{justify-content:space-around;gap:clamp(28px,6vw,76px);padding:24px clamp(4px,2vw,20px);min-height:190px}.credit-logo{display:flex;align-items:center;justify-content:center;min-width:clamp(125px,17vw,210px);min-height:148px;padding:8px!important;filter:drop-shadow(0 8px 9px rgba(34,30,25,.08))}.credit-logo img{height:clamp(112px,14vw,154px);width:auto;max-width:clamp(140px,18vw,210px);object-fit:contain;mix-blend-mode:multiply;transition:transform .35s,filter .35s}.credit-logo:hover img{transform:scale(1.07) rotate(-2deg);filter:drop-shadow(0 7px 8px rgba(34,30,25,.17))}@keyframes orbit-drift{to{transform:rotate(360deg)}}
+@media(max-width:650px){.gallery-slide{grid-template-columns:1fr;gap:12px}.gallery-slide img{height:clamp(260px,80vw,410px)}.gallery-slide figcaption{max-width:none;font-size:1.55rem}.credit-logos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding-inline:0}.credit-logo{min-width:0;min-height:120px;padding:0!important}.credit-logo img{max-width:29vw;height:clamp(82px,25vw,122px)}.cover-hint{right:-3%;font-size:.72rem}.hero .wrap::after{right:0;top:3%}}
+@media(prefers-reduced-motion:reduce){.hero .wrap::after{animation:none}.gallery-track{transition:none}}
+</style>
+<style>
+/* Projeto: contexto e objetivos em camadas, como páginas de um caderno ilustrado. */
+.about-section{overflow:hidden;isolation:isolate}.about-section::before{content:"";position:absolute;z-index:-1;right:-7%;top:4%;width:clamp(170px,28vw,360px);aspect-ratio:1;border:3px solid rgba(61,89,64,.13);border-radius:42% 58% 63% 37% / 47% 39% 61% 53%;transform:rotate(23deg);pointer-events:none}.about-section .cols-2{grid-template-columns:minmax(0,1.25fr) minmax(270px,.72fr);align-items:center;gap:clamp(36px,8vw,100px)}.about-section .prose h2{max-width:19ch}.about-note{position:relative;max-width:58ch;margin:24px 0;padding:17px 22px 18px 25px;color:var(--green);font:500 1.12rem/1.48 'Zilla Slab',serif;background:rgba(185,144,58,.1);clip-path:polygon(1% 4%,98% 0,100% 94%,0 100%)}.about-note span{display:block;margin-bottom:5px;color:var(--red);font:700 .68rem 'Karla',sans-serif;text-transform:uppercase;letter-spacing:.12em}.obj{display:grid;gap:10px;padding:0;list-style:none;counter-reset:objective}.obj li{counter-increment:objective;position:relative;padding:11px 14px 11px 48px;background:rgba(255,252,245,.5);clip-path:polygon(1% 0,100% 4%,98% 100%,0 96%);transition:transform .26s,background .26s}.obj li::before{content:"0" counter(objective);position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--red);font:700 .78rem 'Karla',sans-serif}.obj li:hover{transform:translateX(5px) rotate(-.25deg);background:rgba(255,252,245,.9)}.fact-box{position:relative;overflow:hidden;padding:clamp(24px,4vw,38px)!important;background:rgba(226,216,196,.72)!important;clip-path:polygon(3% 0,100% 3%,97% 100%,0 96%);transition:transform .35s,filter .35s}.fact-box:hover{transform:rotate(.6deg) translateY(-4px);filter:drop-shadow(0 13px 14px rgba(34,30,25,.13))}.fact-box h3{font:600 1.55rem 'Zilla Slab',serif}.fact-stamp{position:absolute;right:18px;top:14px;width:50px;height:50px;display:grid;place-items:center;border:2px solid rgba(171,42,40,.44);border-radius:50%;color:var(--red);font:700 .8rem 'Karla',sans-serif;transform:rotate(11deg)}.fact-box dl{display:grid;grid-template-columns:1fr;gap:0}.fact-box dt{margin-top:13px;color:var(--red);font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}.fact-box dd{margin:0;color:var(--ink);font-weight:600}.fact-box dd:last-child{display:inline-flex;width:max-content;margin-top:3px;padding:4px 10px;border-radius:20px;background:rgba(61,89,64,.13);color:var(--green)}
+/* Créditos: rostos do trabalho à frente; listas completas sob demanda. */
+.team-section{overflow:hidden;isolation:isolate;background:linear-gradient(145deg,rgba(61,89,64,.075),transparent 45%)}.team-section::after{content:"✳";position:absolute;z-index:-1;right:4%;top:11%;font-size:clamp(5rem,12vw,9rem);color:rgba(185,144,58,.17);transform:rotate(-14deg);pointer-events:none}.section-heading{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:28px}.section-heading h2{margin-bottom:0}.section-heading>p{max-width:37ch;margin:0 4% 5px 0;color:var(--muted)}.team-spotlights{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,3vw,28px)}.team-highlight{position:relative;min-height:205px;padding:clamp(23px,4vw,38px);overflow:hidden;background:rgba(255,252,245,.78);clip-path:polygon(2% 1%,98% 0,100% 92%,0 100%);transition:transform .35s,filter .35s}.team-highlight:nth-child(1){transform:rotate(-.45deg)}.team-highlight:nth-child(2){transform:rotate(.55deg);background:rgba(185,144,58,.12)}.team-highlight:hover{transform:translateY(-6px) rotate(0);filter:drop-shadow(0 12px 14px rgba(34,30,25,.12))}.team-index{position:absolute;right:18px;top:12px;color:rgba(171,42,40,.22);font:700 clamp(3.7rem,8vw,6rem)/1 'Zilla Slab',serif}.team-role-label{position:relative;color:var(--red);font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.team-highlight h3{position:relative;max-width:18ch;margin:18px 0 0;color:var(--green);font:600 clamp(1.45rem,3vw,2.2rem)/1.12 'Zilla Slab',serif}.team-swoosh{position:absolute;left:8%;bottom:22px;width:42%;height:9px;border-bottom:3px solid var(--gold);border-radius:50%;transform:rotate(-2deg)}.team-rosters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}.team-roster{align-self:start;background:rgba(236,228,213,.72);clip-path:polygon(1% 0,100% 3%,98% 100%,0 96%);transition:background .25s,transform .25s}.team-roster[open]{background:rgba(255,252,245,.83);transform:rotate(-.2deg)}.team-roster summary{display:grid;grid-template-columns:38px 1fr auto 22px;align-items:center;gap:11px;padding:15px 18px;list-style:none;cursor:pointer}.team-roster summary::-webkit-details-marker{display:none}.roster-index{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--green);color:white;font-size:.72rem;font-weight:700}.roster-name{font:600 1.2rem 'Zilla Slab',serif;color:var(--ink)}.roster-count{color:var(--muted);font-size:.77rem}.roster-plus{color:var(--red);font-size:1.5rem;transition:transform .25s}.team-roster[open] .roster-plus{transform:rotate(45deg)}.team-roster ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px;margin:0;padding:3px 22px 20px 68px;list-style:none}.team-roster li{padding:7px 0;border-top:1px solid rgba(108,97,82,.12);font-size:.92rem}
+/* Apoio e rodapé: fechar a página como um convite, sem criar mais caixas pesadas. */
+.support-section{overflow:hidden;isolation:isolate}.support-section::before{content:"";position:absolute;z-index:-1;left:-8%;bottom:9%;width:24vw;height:38%;border:3px solid rgba(171,42,40,.13);border-radius:51% 49% 62% 38%;transform:rotate(-19deg)}.support-heading{align-items:end}.support-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.support-item,.support-item:not(:last-child){position:relative;min-height:190px;padding:25px 24px 22px 74px;background:rgba(255,252,245,.69);clip-path:polygon(2% 1%,100% 0,98% 100%,0 96%)}.support-item::before{content:counter(support,decimal-leading-zero);counter-increment:support;position:absolute;left:22px;top:24px;color:var(--red);font:700 1.1rem 'Zilla Slab',serif}.support-list{counter-reset:support}.support-item:first-child{grid-column:1/-1;min-height:160px;background:rgba(61,89,64,.09)}.support-item h3{font:600 1.42rem 'Zilla Slab',serif}.support-item p{max-width:64ch}.partner-marks{margin-top:64px}.partner-marks .kicker{margin-bottom:14px}.site-footer{position:relative;padding:40px max(28px,calc((100% - var(--wide))/2)) 22px;background:var(--green);color:#f4ead7;overflow:hidden}.site-footer::before{content:"";position:absolute;right:-60px;top:-150px;width:300px;height:300px;border:2px solid rgba(244,234,215,.17);border-radius:44% 56% 58% 42%;transform:rotate(25deg);pointer-events:none}.footer-inner{width:100%;max-width:none;display:grid;grid-template-columns:minmax(220px,.8fr) 1.5fr;align-items:center;gap:34px}.footer-signature{display:flex;align-items:center;gap:14px}.footer-signature>div{display:grid;gap:2px}.footer-signature strong{font:600 1.7rem 'Zilla Slab',serif}.footer-signature span:not(.footer-mark){font-size:.82rem;color:rgba(244,234,215,.75)}.footer-mark{width:50px;height:50px;display:grid;place-items:center;border:2px solid rgba(244,234,215,.6);border-radius:50%;font-weight:700;transform:rotate(-9deg)}.footer-links{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px 22px}.footer-links a{color:#f4ead7;text-decoration:none;font-size:.88rem;transition:color .2s,transform .2s}.footer-links a:hover{color:#e6c36e;transform:translateY(-2px)}.footer-links .footer-publisher{font-weight:700}.footer-links .back-to-top{padding:8px 12px;border:1px solid rgba(244,234,215,.3);border-radius:30px}.footer-copyright{width:100%;max-width:none;margin:28px 0 0;padding-top:15px;border-top:1px solid rgba(244,234,215,.18);color:rgba(244,234,215,.68);font-size:.76rem;line-height:1.5}
+@media(max-width:760px){.about-section .cols-2{grid-template-columns:1fr}.fact-box{max-width:620px}.section-heading{align-items:start;flex-direction:column;gap:8px}.team-spotlights,.team-rosters{grid-template-columns:1fr}.team-highlight{min-height:165px}.support-list{grid-template-columns:1fr}.support-item:first-child{grid-column:auto}.footer-inner{grid-template-columns:1fr}.footer-links{justify-content:flex-start}.footer-copyright{margin-top:22px}}
+@media(max-width:480px){.team-roster summary{grid-template-columns:34px 1fr 20px;gap:8px;padding:13px}.roster-count{grid-column:2;grid-row:2}.roster-plus{grid-column:3;grid-row:1/3}.team-roster ul{grid-template-columns:1fr;padding-left:56px}.support-item,.support-item:not(:last-child){padding:22px 17px 20px 58px}.support-item::before{left:16px}.footer-links{gap:12px 16px}}
+</style>
+<style>
+.zoomable-media{cursor:zoom-in}.zoomable-media:hover{filter:brightness(1.04)}.gallery-slide-video{grid-template-columns:minmax(0,1fr) minmax(180px,.65fr)}.gallery-slide-video video{display:block;width:100%;height:auto;max-height:68vh;object-fit:contain;background:#171717;cursor:auto}.gallery-dots{max-width:min(58vw,540px);overflow-x:auto;overscroll-behavior-inline:contain;padding:8px 4px}.site-photo-viewer[hidden]{display:none}.site-photo-viewer{position:fixed;z-index:300;inset:0;display:flex;align-items:center;justify-content:center;padding:50px 76px;background:rgba(16,20,17,.94)}.viewer-backdrop{position:absolute;inset:0;border:0;background:transparent;cursor:default}.viewer-figure{position:relative;z-index:1;display:grid;justify-items:center;gap:12px;max-width:100%;max-height:100%;margin:0}.viewer-figure img{display:block;width:auto;height:auto;max-width:min(92vw,1600px);max-height:82vh;object-fit:contain;filter:drop-shadow(0 18px 24px rgba(0,0,0,.25))}.viewer-figure figcaption{max-width:90vw;color:#f8f1e5;text-align:center;font-size:.9rem}.viewer-close,.viewer-nav{position:absolute;z-index:2;display:grid;place-items:center;border:1px solid rgba(255,255,255,.25);border-radius:50%;background:rgba(255,255,255,.1);color:white;cursor:pointer;transition:transform .2s,background .2s}.viewer-close:hover,.viewer-nav:hover{transform:scale(1.08);background:var(--red)}.viewer-close{top:16px;right:18px;width:48px;height:48px;font-size:1.9rem}.viewer-nav{top:50%;width:46px;height:46px;font-size:1.2rem}.viewer-prev{left:17px}.viewer-next{right:17px}
+@media(max-width:640px){.gallery-slide-video{grid-template-columns:1fr}.site-photo-viewer{padding:60px 50px 38px}.viewer-figure img{max-width:94vw;max-height:78vh}.viewer-prev{left:5px}.viewer-next{right:5px}.viewer-close{top:8px;right:8px}}
+</style>
+</head>
+<body>
+
+<div class="spine"></div>
+
+<header class="top">
+  <div class="nav-inner">
+    <div class="brand">Tecno<span>Arte</span></div>
+    <nav class="links">
+      <a href="#sobre">O projeto</a>
+      <a href="#historia">A história</a>
+      <a href="#galeria">Galeria</a>
+      <a href="#metodologia">Como aprende</a>
+      <a href="#equipe">Equipe</a>
+      <a href="#apoio">Apoio</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="sub">O despertar da programação</p>
+      <h1>Um mangá para ensinar lógica de programação com raízes indígenas.</h1>
+      <p class="lede">TecnoArte é um projeto de extensão do IFMA — Campus Santa Inês que transforma
+      conceitos de programação em uma história em quadrinhos, unindo saberes tradicionais
+      indígenas e pensamento computacional para estudantes da educação básica.</p>
+      <div class="cta-row">
+        <span class="btn-block">
+          <a class="btn primary" href="https://editora.ifma.edu.br/index.php/edifma/catalog/book/139" target="_blank" rel="noopener noreferrer">Ler a história</a>
+        </span>
+        <a class="btn ghost" href="#sobre">Conhecer o projeto</a>
+      </div>
+    </div>
+    <a class="hero-art cover-link" href="https://editora.ifma.edu.br/index.php/edifma/catalog/book/139" target="_blank" rel="noopener noreferrer" aria-label="Abrir o livro TecnoArte na Editora do IFMA em nova aba">
+      <img src="assets/tecnoarte/capa.jpg" alt="Capa do mangá TecnoArte: O Despertar da Programação">
+    <span class="cover-hint" aria-hidden="true">Abrir na Editora do IFMA ↗</span></a>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="sobre" class="about-section">
+  <div class="wrap">
+    <div class="cols-2">
+      <div class="prose">
+        <p class="kicker">O projeto</p>
+        <h2>Ciência da computação contada como se conta uma história ao redor do fogo.</h2>
+        <p class="about-note"><span>O elo do projeto</span> Mangá, aulas presenciais e práticas pedagógicas conectam programação, robótica, cultura e educação.</p>
+        <p>O TecnoArte: Robótica, Programação e Cultura por meio de Mangás Educativos é um
+        projeto de extensão do IFMA — Campus Santa Inês que aproxima o pensamento computacional
+        de contextos culturais indígenas. A proposta utiliza narrativa, ilustração e situações
+        da vida na aldeia para apresentar conceitos de lógica de programação de forma didática,
+        criativa e culturalmente situada.</p>
+        <p>O mangá acompanha personagens da Aldeia Januária, na Terra Indígena Rio Pindaré,
+        como Tapixi, Zahy e Tàmuz. Ao longo das histórias, conceitos como linguagem, entrada e
+        saída de dados, variáveis, condições, laços de repetição e funções são apresentados
+        por meio de situações ligadas à natureza, aos ciclos da vida e aos saberes da aldeia.</p>
+        <p>Além do material teórico — o próprio mangá — o projeto integra ações práticas e pedagógicas desenvolvidas pelos estudantes dos níveis médio e superior. As aulas presenciais acontecem no IFMA Campus Santa Inês: crianças e jovens da comunidade Guajajara próxima ao campus vêm até a escola para participar das atividades, conectando programação, robótica, cultura e educação.</p>
+        <ul class="obj">
+          <li>Introduzir conceitos de lógica de programação por meio de uma narrativa gráfica acessível.</li>
+          <li>Valorizar saberes e contextos indígenas como parte da construção da experiência pedagógica.</li>
+          <li>Integrar materiais teóricos, atividades práticas e ações pedagógicas produzidos pelos estudantes.</li>
+        </ul>
+      </div>
+      <aside class="fact-box" aria-label="Ficha do projeto TecnoArte">
+        <span class="fact-stamp" aria-hidden="true">TA</span>
+        <h3>Ficha do projeto</h3>
+        <dl>
+          <dt>Tipo</dt>
+          <dd>Projeto de extensão</dd>
+          <dt>Instituição</dt>
+          <dd>IFMA — Campus Santa Inês</dd>
+          <dt>Formato</dt>
+          <dd>Mangá / história em quadrinhos</dd>
+          <dt>Público</dt>
+          <dd>Estudantes da educação básica</dd>
+          <dt>Eixo temático</dt>
+          <dd>Programação e cultura indígena</dd>
+          <dt>ODS relacionado</dt>
+          <dd>ODS 4 — Educação de Qualidade</dd>
+        </dl>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="historia">
+  <div class="wrap">
+    <p class="kicker">A história</p>
+    <h2>O Eco das Sementes Douradas</h2>
+    <div class="story-grid" style="margin-top: 28px;">
+      <figure class="frame">
+        <img src="assets/tecnoarte/pagina-1.jpg" alt="Página do primeiro capítulo do mangá TecnoArte, mostrando o menino Tapixi na aldeia Januária">
+        <figcaption>Abertura do primeiro capítulo, em produção pela equipe de roteiro e ilustração.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>O mangá acompanha Tapixi, Zahy e Tàmuz na Aldeia Januária, na Terra Indígena Rio
+        Pindaré. A narrativa parte de situações do cotidiano e dos saberes da aldeia para
+        criar uma ponte com o pensamento computacional.</p>
+        <p>A história começa com <em>O Eco das Sementes Douradas</em>, que apresenta a ideia de
+        linguagem e o ciclo de entrada, processamento e saída por meio da metáfora das sementes.
+        Nos capítulos seguintes, a narrativa explora variáveis, condições, laços de repetição
+        e funções, sempre relacionando os conceitos de programação aos acontecimentos e aos
+        elementos da natureza presentes na história.</p>
+        <p>O resultado é um material teórico que não separa completamente tecnologia e cultura:
+        a programação aparece dentro da narrativa, enquanto os personagens aprendem a observar,
+        organizar ideias, tomar decisões e compreender processos. O mangá foi pensado para
+        introduzir esses conteúdos de maneira leve, significativa e culturalmente situada.</p>
+      </div>
+    </div>
+
+    <div class="filmstrip">
+      <figure class="frame">
+        <img src="assets/tecnoarte/capa.jpg" alt="Capa ilustrada do mangá TecnoArte">
+        <figcaption>Capa — arte de Cristiano Caragiu Viana Guajajara Júnior.</figcaption>
+      </figure>
+      <figure class="frame">
+        <img src="assets/tecnoarte/pagina-14.png" alt="Página interna do capítulo O Eco das Sementes Douradas">
+        <figcaption>Página interna — capítulo "O Eco das Sementes Douradas".</figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="wrap learning-wrap"><div class="learning-path" id="metodologia"><p class="kicker">Da vivência ao código</p><h2>Como a história ensina lógica</h2><p class="path-intro">Uma jornada visual entre os acontecimentos da narrativa e as ideias que a programação ajuda a organizar.</p><div class="concept-flow"><article class="concept-card"><span class="concept-number">01</span><div class="concept-story"><small>Na história</small><p>A ordem do plantio: preparar a terra, semear, regar, colher</p></div><span class="concept-arrow" aria-hidden="true">↗</span><div class="concept-code"><small>Na programação</small><p>Sequência</p><span>um algoritmo é uma série de passos executados em ordem.</span></div></article><article class="concept-card"><span class="concept-number">02</span><div class="concept-story"><small>Na história</small><p>"Se chover, a semente brota; se não, ela espera"</p></div><span class="concept-arrow" aria-hidden="true">↗</span><div class="concept-code"><small>Na programação</small><p>Estruturas condicionais</p><span>decisões que mudam o resultado.</span></div></article><article class="concept-card"><span class="concept-number">03</span><div class="concept-story"><small>Na história</small><p>As estações que se repetem a cada ciclo de plantio</p></div><span class="concept-arrow" aria-hidden="true">↗</span><div class="concept-code"><small>Na programação</small><p>Repetição (laços)</p><span>ações que se repetem sob uma condição.</span></div></article><article class="concept-card"><span class="concept-number">04</span><div class="concept-story"><small>Na história</small><p>Tapixi escuta a terra para entender por que algo não brotou</p></div><span class="concept-arrow" aria-hidden="true">↗</span><div class="concept-code"><small>Na programação</small><p>Depuração</p><span>observar, testar e corrigir um processo passo a passo.</span></div></article><article class="concept-card"><span class="concept-number">05</span><div class="concept-story"><small>Na história</small><p>O saber transmitido pelos mais velhos, aldeia após aldeia</p></div><span class="concept-arrow" aria-hidden="true">↗</span><div class="concept-code"><small>Na programação</small><p>Documentação</p><span>registrar o raciocínio para que outros possam reutilizá-lo.</span></div></article></div></div></div>
+</section>
+<section id="galeria" class="gallery-section">
+  <div class="wrap">
+    <p class="kicker">Traços, histórias e descobertas</p>
+    <h2>Galeria TecnoArte</h2>
+    <p class="gallery-intro">Um passeio pelas imagens do mangá e pelo universo visual criado para aproximar programação, narrativa e cultura.</p>
+    <div class="gallery-carousel" aria-roledescription="carrossel" aria-label="Galeria de imagens do TecnoArte">
+      <div class="gallery-window"><div class="gallery-track">
+        
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-09-17-01.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 17 set. 2026" loading="lazy" width="1800" height="2400"><figcaption><span>04 · 17 set. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-09-17-02.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 17 set. 2026" loading="lazy" width="2400" height="1800"><figcaption><span>05 · 17 set. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-09-22-01.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 22 set. 2026" loading="lazy" width="2400" height="1594"><figcaption><span>06 · 22 set. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-09-22-02.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 22 set. 2026" loading="lazy" width="2400" height="1594"><figcaption><span>07 · 22 set. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-09-22-03.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 22 set. 2026" loading="lazy" width="2400" height="1594"><figcaption><span>08 · 22 set. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-09-22-04.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 22 set. 2026" loading="lazy" width="2400" height="1594"><figcaption><span>09 · 22 set. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-09-22-05.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 22 set. 2026" loading="lazy" width="1280" height="850"><figcaption><span>10 · 22 set. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-09-24-01.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 24 set. 2026" loading="lazy" width="1351" height="2400"><figcaption><span>11 · 24 set. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-09-24-02.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 24 set. 2026" loading="lazy" width="1351" height="2400"><figcaption><span>12 · 24 set. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-09-24-03.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 24 set. 2026" loading="lazy" width="2400" height="1351"><figcaption><span>13 · 24 set. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-10-08-01.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 8 out. 2026" loading="lazy" width="2400" height="1350"><figcaption><span>14 · 8 out. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-10-08-02.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 8 out. 2026" loading="lazy" width="2400" height="1351"><figcaption><span>15 · 8 out. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide"><img class="zoomable-media" src="assets/tecnoarte/media/aula-2026-10-08-03.webp" alt="Atividade do TecnoArte no IFMA Campus Santa Inês, 8 out. 2026" loading="lazy" width="2400" height="1350"><figcaption><span>16 · 8 out. 2026</span> Vivências do TecnoArte</figcaption></figure>
+        <figure class="gallery-slide gallery-slide-video"><video controls playsinline preload="metadata" poster="assets/tecnoarte/media/aula-2026-09-17-01.webp"><source src="assets/tecnoarte/media/atividade-2026-09-17.mp4" type="video/mp4">Seu navegador não conseguiu carregar este vídeo. <a href="assets/tecnoarte/media/atividade-2026-09-17.mp4">Abrir o vídeo</a>.</video><figcaption><span>17 set. 2026 · VÍDEO</span> Registro de uma atividade no IFMA Campus Santa Inês</figcaption></figure>
+      </div></div>
+      <div class="gallery-controls"><button class="gallery-arrow" type="button" data-gallery-prev aria-label="Imagem anterior">←</button><div class="gallery-dots" aria-label="Escolher imagem"></div><button class="gallery-arrow" type="button" data-gallery-next aria-label="Próxima imagem">→</button></div>
+      <p class="gallery-count" aria-live="polite">1 / 17</p>
+    </div>
+
+
+</section>
+
+
+<hr class="rule">
+
+<section id="equipe" class="team-section">
+  <div class="wrap">
+    <div class="section-heading team-heading"><div><p class="kicker">Créditos</p><h2>Quem faz o TecnoArte</h2></div><p>Uma criação coletiva que reúne orientação, ilustração, roteiro e colaboração estudantil.</p></div>
+    <div class="team-spotlights"><article class="team-highlight"><span class="team-index">01</span><p class="team-role-label">Orientação</p><h3>Ana Caroline Soares Meireles</h3><span class="team-swoosh" aria-hidden="true"></span></article><article class="team-highlight"><span class="team-index">02</span><p class="team-role-label">Ilustração</p><h3>Cristiano Caragiu Viana Guajajara Júnior</h3><span class="team-swoosh" aria-hidden="true"></span></article></div>
+    <div class="team-rosters" aria-label="Integrantes das equipes"><details class="team-roster"><summary><span class="roster-index">03</span><span class="roster-name">Equipe de roteiro</span><span class="roster-count">9 nomes</span><span class="roster-plus" aria-hidden="true">+</span></summary><ul><li>Alan Carvalho da Silva</li><li>Bruna Letícia da Silva Bastos</li><li>Davy da Costa Pereira</li><li>Erroflim Alves Cutrim Junior</li><li>Marjorie Pereira de Castro</li><li>Pedro Elias Mendes Araújo</li><li>Felipe da Conceição Nascimento</li><li>Geovana Marinho Trindade</li><li>Ingrid dos Santos Cutrim</li></ul></details><details class="team-roster"><summary><span class="roster-index">04</span><span class="roster-name">Colaboradores</span><span class="roster-count">5 nomes</span><span class="roster-plus" aria-hidden="true">+</span></summary><ul><li>Ezequiel Araújo Nascimento</li><li>Luiz Felipe Nascimento Leal</li><li>Pedro Guilherme Mendes Sousa</li><li>Rynalde Gabriel Silva Serejo</li><li>Lucas Nunes de Souza</li></ul></details></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="apoio" class="support-section">
+  <div class="wrap">
+    <p class="kicker">Apoio institucional</p>
+    <div class="section-heading support-heading"><h2>Realização e apoio</h2><p>Uma rede de educação, pesquisa e criação que torna o projeto possível.</p></div>
+    <div class="support-list">
+      <div class="support-item">
+        <h3>IFMA — Campus Santa Inês</h3>
+        <p>Instituição responsável pela ação de extensão, disponibilizando orientação
+        pedagógica e estrutura para o desenvolvimento coletivo do projeto.</p>
+      </div>
+      <div class="support-item">
+        <h3>NEABI</h3>
+        <p>Núcleo de Estudos Afro-Brasileiros e Indígenas do IFMA, parceiro na construção
+        do olhar cultural e na revisão da temática indígena da narrativa.</p>
+      </div>
+      <div class="support-item">
+        <h3>Robotic Orion</h3>
+        <p>O projeto foi idealizado e desenvolvido pela equipe de robótica Robotic Orion, do Campus Santa Inês,
+           com a participação de seus integrantes e a colaboração de alunos do campus, que contribuíram para diferentes
+           etapas de sua concepção, desenvolvimento e execução.</p>
+      </div>
+    </div>
+    <div class="partner-marks"><p class="kicker">Marcas do projeto</p><div class="credit-logos" aria-label="Logos de apoio e instituições relacionadas ao projeto">
+        <div class="credit-logo"><img src="assets/tecnoarte/orion.png" alt="Logo da equipe Orion Robotics" loading="lazy"></div>
+        <div class="credit-logo"><img src="assets/tecnoarte/ifma.png" alt="Logo do Instituto Federal do Maranhão, Campus Santa Inês" loading="lazy"></div>
+        <div class="credit-logo"><img src="assets/tecnoarte/neabi.png" alt="Logo do NEABI" loading="lazy"></div>
+      </div></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-signature"><span class="footer-mark" aria-hidden="true">TA</span><div><strong>TecnoArte</strong><span>Instituto Federal do Maranhão · Campus Santa Inês</span></div></div>
+    <nav class="footer-links" aria-label="Navegação do rodapé"><a href="#sobre">O projeto</a><a href="#equipe">Quem faz</a><a href="#apoio">Apoio</a><a class="footer-publisher" href="https://editora.ifma.edu.br/index.php/edifma/catalog/book/139" target="_blank" rel="noopener noreferrer">Conheça o mangá na Editora IFMA ↗</a><a class="back-to-top" href="#top">Voltar ao início ↑</a></nav>
+  </div>
+  <p class="footer-copyright">© 2026 TecnoArte · IFMA Campus Santa Inês. Todos os direitos reservados. A reprodução ou utilização deste material depende de autorização dos respectivos titulares.</p>
+</footer>
+
+<script>(()=>{const h=document.querySelector('.top');const scroll=()=>h?.classList.toggle('is-scrolled',scrollY>8);addEventListener('scroll',scroll,{passive:true});scroll();if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver'in window))return;const ns=[...document.querySelectorAll('.hero-grid>*,.cols-2>*,.story-grid>*,.filmstrip>*,.concept-card,.team-highlight,.team-roster,.support-item,.credit-logo,.about-note,.obj li,.fact-box')];const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}}),{threshold:.12});ns.forEach((n,i)=>{n.setAttribute('data-reveal','');n.style.setProperty('--delay',`${i%4*55}ms`);io.observe(n)})})();</script>
+<script>(()=>{const root=document.querySelector('.gallery-carousel');if(!root)return;const track=root.querySelector('.gallery-track'),slides=[...root.querySelectorAll('.gallery-slide')],dots=root.querySelector('.gallery-dots'),count=root.querySelector('.gallery-count');let index=0;slides.forEach((slide,i)=>{const b=document.createElement('button');b.type='button';b.className='gallery-dot';b.setAttribute('aria-label',`Mostrar imagem ${i+1}`);b.addEventListener('click',()=>show(i));dots.appendChild(b)});function show(i){index=(i+slides.length)%slides.length;track.style.transform=`translateX(-${index*100}%)`;slides.forEach((s,n)=>s.setAttribute('aria-hidden',n===index?'false':'true'));[...dots.children].forEach((d,n)=>d.setAttribute('aria-current',n===index?'true':'false'));count.textContent=`${index+1} / ${slides.length}`}root.querySelector('[data-gallery-prev]').addEventListener('click',()=>show(index-1));root.querySelector('[data-gallery-next]').addEventListener('click',()=>show(index+1));root.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')show(index-1);if(e.key==='ArrowRight')show(index+1)});let x=0;root.addEventListener('touchstart',e=>x=e.changedTouches[0].screenX,{passive:true});root.addEventListener('touchend',e=>{const dx=e.changedTouches[0].screenX-x;if(Math.abs(dx)>45)show(index+(dx<0?1:-1))},{passive:true});show(0)})();</script>
+<div class="site-photo-viewer" hidden role="dialog" aria-modal="true" aria-label="Visualizador de imagens"><button class="viewer-backdrop" type="button" data-viewer-close aria-label="Fechar imagem ampliada"></button><figure class="viewer-figure"><img alt=""><figcaption></figcaption></figure><button class="viewer-close" type="button" data-viewer-close aria-label="Fechar">×</button><button class="viewer-nav viewer-prev" type="button" aria-label="Imagem anterior">←</button><button class="viewer-nav viewer-next" type="button" aria-label="Próxima imagem">→</button></div>
+<script>(()=>{const modal=document.querySelector('.site-photo-viewer');if(!modal)return;const large=modal.querySelector('.viewer-figure img'),caption=modal.querySelector('.viewer-figure figcaption');let images=[],at=0,focus=null;function show(i){if(!images.length)return;at=(i+images.length)%images.length;const im=images[at];large.src=im.currentSrc||im.src;large.alt=im.alt;caption.textContent=im.closest('figure')?.querySelector('figcaption')?.textContent.trim()||im.alt}function open(im){const group=im.closest('.gallery-carousel')||im.closest('.filmstrip')||im.closest('.story-grid');images=group?[...group.querySelectorAll('img')]:[im];at=images.indexOf(im);focus=document.activeElement;show(at);modal.hidden=false;document.body.style.overflow='hidden';modal.querySelector('.viewer-close').focus()}function close(){modal.hidden=true;document.body.style.overflow='';focus?.focus()}document.querySelectorAll('.story-grid img,.filmstrip img,.gallery-carousel img').forEach(im=>{im.tabIndex=0;im.setAttribute('role','button');im.setAttribute('aria-label',`Ampliar imagem: ${im.alt||'TecnoArte'}`);im.addEventListener('click',()=>open(im));im.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(im)}})});modal.querySelectorAll('[data-viewer-close]').forEach(b=>b.addEventListener('click',close));modal.querySelector('.viewer-prev').addEventListener('click',()=>show(at-1));modal.querySelector('.viewer-next').addEventListener('click',()=>show(at+1));document.addEventListener('keydown',e=>{if(modal.hidden)return;if(e.key==='Escape')close();else if(e.key==='ArrowLeft')show(at-1);else if(e.key==='ArrowRight')show(at+1)})})();</script>
+</body>
+</html>

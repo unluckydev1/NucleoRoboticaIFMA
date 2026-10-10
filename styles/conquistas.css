@@ -23,4 +23,5 @@
 }
 
 .ach-year .timeline { max-width: none; }
-.ach-year .timeline li:last-child { padding-bottom: 20px; }
+.ach-year .timeline li { padding-bottom: 14px; }
+.ach-year .timeline li:last-child { padding-bottom: 0; }

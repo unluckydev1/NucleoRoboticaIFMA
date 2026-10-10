@@ -1,0 +1,64 @@
+/* Mídias do projeto TecnoArte: proporção natural e ampliação acessível. */
+.project-detail-media.project-media-natural {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: auto;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+}
+.project-feature-zoom,
+.project-media-zoom {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+.project-feature-zoom img,
+.project-media-zoom img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  transition: transform .35s ease, filter .35s ease;
+}
+.project-feature-zoom:hover img,
+.project-media-zoom:hover img { transform: scale(1.025); filter: brightness(1.04); }
+.project-feature-zoom:focus-visible,
+.project-media-zoom:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+.project-feature-caption,
+.project-media-card figcaption,
+.project-media-video figcaption { margin-top: 8px; color: var(--muted); font-size: .82rem; line-height: 1.45; }
+.project-media-gallery { margin: clamp(42px, 7vw, 76px) auto 12px; padding: 0 clamp(0px, 2vw, 24px); }
+.project-media-heading { display: grid; grid-template-columns: minmax(0,1fr) minmax(240px,.8fr); align-items: end; gap: 10px 32px; margin-bottom: 25px; }
+.project-media-heading .eyebrow { grid-column: 1 / -1; margin: 0; }
+.project-media-heading h2 { margin: 0; }
+.project-media-heading > p:last-child { max-width: 42ch; margin: 0; color: var(--muted); }
+.project-media-masonry { columns: 3 220px; column-gap: 18px; }
+.project-media-card { break-inside: avoid; margin: 0 0 18px; padding: 8px; border-radius: 10px; background: var(--bg-2); }
+.project-media-zoom { border-radius: 6px; }
+.project-media-zoom::after { content: 'Ampliar ↗'; position: absolute; right: 9px; bottom: 9px; padding: 5px 9px; border-radius: 30px; background: rgba(10,20,15,.74); color: #fff; font-size: .72rem; opacity: 0; transition: opacity .2s; }
+.project-media-zoom:hover::after,
+.project-media-zoom:focus-visible::after { opacity: 1; }
+.project-media-card figcaption { padding: 0 3px 2px; }
+.project-media-video { width: min(100%, 900px); margin: 34px auto 0; padding: clamp(10px,2vw,18px); border-radius: 14px; background: var(--bg-2); }
+.project-media-video video { display: block; width: 100%; height: auto; max-height: 78vh; object-fit: contain; background: #111; border-radius: 8px; }
+.project-media-video figcaption { margin-top: 10px; }
+@media (max-width: 640px) {
+  .project-media-heading { grid-template-columns: 1fr; gap: 8px; }
+  .project-media-masonry { columns: 2 145px; column-gap: 10px; }
+  .project-media-card { margin-bottom: 10px; padding: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-feature-zoom img, .project-media-zoom img { transition: none; }
+}

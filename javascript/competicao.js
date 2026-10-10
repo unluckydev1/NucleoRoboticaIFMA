@@ -3,6 +3,7 @@
 
    Esquerda: fotos da equipe (carrossel se houver mais de uma).
    Direita:  nome, equipes/ano/categorias, texto e conquistas.
+   Abaixo, os blocos de "sections" (javascript/blocos.js).
    Tudo vem de data/data.js — não há um HTML por competição.
    ========================================================= */
 
@@ -34,6 +35,7 @@
   }
 
   document.title = `${c.name} · Núcleo de Robótica IFMA Santa Inês`;
+  const wins = (D.achievements || []).filter((a) => a.competition === id);
 
 
   /* ---------- galeria (esquerda) ---------- */
@@ -142,9 +144,15 @@
 
     U.compYears(c).forEach((y) => meta.appendChild(el('span', 'cd-chip', y)));
 
-    U.compCategories(c).forEach((k) =>
-      meta.appendChild(el('span', 'cd-chip cd-chip-cat', (D.categories || {})[k] || k))
-    );
+    const categoryNames = U.compCategories(c).map((k) => (D.categories || {})[k] || k);
+    if (categoryNames.length) {
+      const categoryDetails = el('details', 'cd-category-details');
+      categoryDetails.appendChild(el('summary', '', `Modalidades (${categoryNames.length})`));
+      const categoryList = el('div', 'cd-category-list');
+      categoryNames.forEach((name) => categoryList.appendChild(el('span', 'cd-chip cd-chip-cat', name)));
+      categoryDetails.appendChild(categoryList);
+      meta.appendChild(categoryDetails);
+    }
 
     if (meta.children.length) col.appendChild(meta);
 
@@ -159,32 +167,46 @@
     paragraphs.forEach((p) => body.appendChild(el('p', '', p)));
     col.appendChild(body);
 
-    /* conquistas ligadas a esta competição */
-    const wins = (D.achievements || []).filter((a) => a.competition === id);
-
-    if (wins.length) {
-      col.appendChild(el('h2', 'cd-sub', 'Conquistas'));
-
-      const ul = el('ul', 'timeline');
-      wins.forEach((a) => {
-        const li = el('li');
-        const content = el('div', 'tl-content');
-        const dot = el('span', 'tl-dot');
-        dot.setAttribute('aria-hidden', 'true');
-
-        const label = [U.teamName(a.team), a.year].filter(Boolean).join(' · ');
-        if (label) content.appendChild(el('small', '', label));
-        content.appendChild(el('h3', '', a.title));
-        if (a.description) content.appendChild(el('p', '', a.description));
-
-        li.append(dot, content);
-        ul.appendChild(li);
-      });
-      col.appendChild(ul);
+    if (wins.length && wins.length < 3) {
+      col.appendChild(achievementList());
     }
 
     return col;
   }
 
+  function achievementList() {
+    const section = el('section', 'cd-achievements');
+    section.appendChild(el('h2', 'cd-sub', 'Conquistas'));
+    const ul = el('ul', 'timeline');
+    wins.forEach((a) => {
+      const li = el('li');
+      const content = el('div', 'tl-content');
+      const dot = el('span', 'tl-dot');
+      dot.setAttribute('aria-hidden', 'true');
+      const label = [U.teamName(a.team), a.year].filter(Boolean).join(' · ');
+      if (label) content.appendChild(el('small', '', label));
+      content.appendChild(el('h3', '', a.title));
+      if (a.description) content.appendChild(el('p', '', a.description));
+      li.append(dot, content);
+      ul.appendChild(li);
+    });
+    section.appendChild(ul);
+    return section;
+  }
+
   box.append(gallery(), details());
+  if (wins.length >= 3) {
+    box.classList.add('cd-many-wins');
+    if (!U.compImages(c).length) box.classList.add('cd-many-wins-no-photos');
+    box.appendChild(achievementList());
+  }
+  window.NUCLEO_MOTION?.reveal(box);
+
+  /* blocos de texto + imagem (campo "sections" do data.js), abaixo das duas colunas */
+  if (window.NUCLEO_BLOCKS && c.sections) {
+    const host = el('div', 'cd-blocks');
+    box.after(host);
+    window.NUCLEO_BLOCKS.render(host, c.sections);
+    window.NUCLEO_MOTION?.reveal(host);
+  }
 })();

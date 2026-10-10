@@ -44,22 +44,29 @@
 
     const info = el('div', 'cp-info');
 
-    const rows = [
-      ['Nome', c.short || c.name],
-      ['Categoria', U.compCategories(c).map((k) => cats[k] || k).join(', ') || '—']
-    ];
-    const years = U.compYears(c);
-    if (years.length) rows.push(['Ano', years.join(' · ')]);
+    const nameRow = el('div', 'cp-row');
+    nameRow.append(el('b', '', 'Nome'), el('span', '', c.short || c.name));
+    info.appendChild(nameRow);
 
-    rows.forEach(([k, v]) => {
+    const categoryNames = U.compCategories(c).map((k) => cats[k] || k);
+    if (categoryNames.length) {
+      const details = el('details', 'cp-categories');
+      details.appendChild(el('summary', '', `${categoryNames.length} ${categoryNames.length === 1 ? 'modalidade' : 'modalidades'}`));
+      const list = el('div', 'cp-category-list');
+      categoryNames.forEach((name) => list.appendChild(el('span', 'cp-category-chip', name)));
+      details.appendChild(list);
+      info.appendChild(details);
+    }
+    const years = U.compYears(c);
+    if (years.length) {
       const row = el('div', 'cp-row');
-      row.append(el('b', '', k), el('span', '', v));
+      row.append(el('b', '', 'Ano'), el('span', '', years.join(' · ')));
       info.appendChild(row);
-    });
+    }
 
     link.title = c.name;
-    link.append(media, info);
-    a.appendChild(link);
+    link.append(media);
+    a.append(link, info);
     U.memberDeck(a, c.teams || c.team, { memberIds: c.members });
     return a;
   }
@@ -96,6 +103,12 @@
 
   const usedCats = new Set(comps.flatMap(U.compCategories));
   const years = [...new Set(comps.flatMap(U.compYears))].sort().reverse();
+  const categoryOptions = new Map();
+  Object.entries(cats).filter(([key]) => usedCats.has(key)).forEach(([key, label]) => {
+    const value = (D.categoryGroups || {})[key] || key;
+    const text = (D.categoryGroupLabels || {})[value] || label;
+    if (!categoryOptions.has(value)) categoryOptions.set(value, text);
+  });
 
   const groups = [
     {
@@ -107,11 +120,8 @@
       options: years.map((y) => ({ v: y, l: y }))
     },
     {
-      key: 'categoria', label: 'Categoria', all: 'Todas as categorias',
-      /* só as categorias que alguma competição realmente usa */
-      options: Object.entries(cats)
-        .filter(([k]) => usedCats.has(k))
-        .map(([v, l]) => ({ v, l }))
+      key: 'categoria', label: 'Modalidade', all: 'Todas as modalidades',
+      options: [...categoryOptions].map(([v, l]) => ({ v, l }))
     }
   ];
 
@@ -127,7 +137,7 @@
         const ok =
           (!s.equipe || U.toArray(c.teams || c.team).includes(s.equipe)) &&
           (!s.ano || U.compYears(c).includes(s.ano)) &&
-          (!s.categoria || U.compCategories(c).includes(s.categoria));
+          (!s.categoria || U.compCategories(c).some((key) => ((D.categoryGroups || {})[key] || key) === s.categoria));
 
         node.hidden = true;
         if (ok) matches.push({ c, node });

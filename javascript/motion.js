@@ -29,7 +29,7 @@
       targets.push(node);
     });
   });
-  document.querySelectorAll('main .about-grid > *, main .pillars > *').forEach((n) => targets.push(n));
+  document.querySelectorAll('main .about-grid > *, main .pillars > *, main .cd > *, main .project-layout > *, main .blk-stack > .blk').forEach((n) => targets.push(n));
 
   const list = Array.from(new Set(targets));
   if (!list.length) return;
@@ -51,11 +51,21 @@
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
 
-  list.forEach((node, i) => {
+  function reveal(node, index = 0, peers = list) {
+    if (!node || node.hasAttribute('data-reveal')) return;
     node.setAttribute('data-reveal', '');
-    /* itens vizinhos entram com um pequeno atraso entre si */
-    const siblings = node.parentElement ? Array.from(node.parentElement.children).filter((c) => list.includes(c)) : [];
-    node.style.setProperty('--rd', `${Math.min(siblings.indexOf(node), 4) * 70}ms`);
+    const siblings = node.parentElement ? Array.from(node.parentElement.children).filter((c) => peers.includes(c)) : [];
+    node.style.setProperty('--rd', `${Math.min(Math.max(siblings.indexOf(node), index), 4) * 70}ms`);
     io.observe(node);
+  }
+
+  list.forEach((node, i) => reveal(node, i));
+  window.NUCLEO_MOTION = Object.freeze({
+    reveal(container) {
+      if (!container) return;
+      const dynamic = Array.from(container.matches?.('.blk') ? [container] : [])
+        .concat(Array.from(container.querySelectorAll('.blk, .cd-gallery, .cd-text')));
+      dynamic.forEach((node, i) => reveal(node, i, dynamic));
+    }
   });
 })();

@@ -23,6 +23,8 @@ Competições aceitam `categories`, `year`, `images`, `text` e `members` (IDs de
 
 Integrantes com `role` de coordenação ou capitania aparecem primeiro; os demais seguem ordem alfabética pelo nome, em todas as páginas.
 
+Competições e projetos aceitam `sections`: blocos de texto + imagem com layouts variados (`split`, `banner`, `trio`, `mosaic`, `stats`, `text`), renderizados por `javascript/blocos.js` e `styles/blocos.css`. Imagem sem `src` vira espaço reservado com a legenda; basta preencher o caminho quando a foto existir. A sintaxe completa está no topo de `data/data.js`.
+
 As pastas de fotos podem ser criadas dentro de `assets/` conforme forem necessárias, por exemplo `assets/projetos/` ou `assets/galeria/`. Caminhos vazios mostram um espaço reservado.
 
 ## Identidade visual e navegação
@@ -45,7 +47,10 @@ Para ajustar o campo de estrelas, edite `STAR_CONFIG` no início de `javascript/
 | `index.html` | Home neutra e seções do núcleo |
 | `integrantes.html`, `competicoes.html`, `galeria.html` | Listagens e filtros |
 | `competicao.html`, `projeto.html` | Detalhes dinâmicos |
+| `tecnoarte.html` | Site do TecnoArte, aberto em nova aba a partir da página de projeto |
+| `assets/tecnoarte/` | Imagens do mangá e marcas usadas pelo site do TecnoArte |
 | `equipes/orion/`, `equipes/nexa/` | Páginas próprias das equipes e suas cores |
+| `javascript/blocos.js`, `styles/blocos.css` | Blocos `sections` de competições e projetos |
 | `javascript/render.js` | Renderização das listas a partir dos dados |
 | `javascript/filters.js` | Criação e estado compartilhado dos filtros |
 | `javascript/widgets.js` | Bolinhas de navegação, passada automática, visualizador de imagens e perfil ampliado |

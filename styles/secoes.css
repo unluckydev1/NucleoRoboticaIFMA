@@ -481,3 +481,6 @@ a.proj-card .card-more { display: block; margin-top: auto; padding: 10px 18px 16
 @media (max-width: 600px) {
   .project-detail-media { min-height: 220px; max-height: 560px; margin: 28px 0; border-radius: var(--r); }
 }
+
+.project-download-link { display: inline-flex; margin-top: 20px; align-items: center; gap: 9px; text-decoration: none; }
+.project-download-link::after { content: '↓'; font-size: 1.1em; }

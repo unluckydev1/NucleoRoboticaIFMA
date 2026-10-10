@@ -626,7 +626,7 @@ window.NUCLEO_DATA = {
     { id: "orion-ezequiel", team: "orion", level: "medio", name: "Ezequiel", role: "Mecânica", photo: "assets/orion/members/ezequiel.png" },
     { id: "orion-leonardo", team: "orion", level: "medio", name: "Leonardo “Leo”", role: "Montagem", photo: "assets/orion/members/leonardo.png" },
     { id: "orion-gabi", team: "orion", level: "medio", name: "Gabi", role: "Integrante" },
-    { id: "orion-ivylle", team: "orion", level: "medio", name: "Ivylle", role: "Integrante" },
+    { id: "orion-ivylle", team: "orion", level: "medio", name: "Ivylle", role: ["Programação","Mídia"],photo: "assets/orion/members/ivylle.png" },
 
     /* --- Órion · superior --- */
     { id: "orion-carol", team: "orion", level: "superior", name: "Carol Meireles", role: "Coordenação", photo: "assets/orion/members/carol.png", socials: { Instagram: "https://www.instagram.com/anacarolmeireles_/" } },

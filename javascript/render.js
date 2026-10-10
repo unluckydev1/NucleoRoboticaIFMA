@@ -22,7 +22,7 @@
   }
 
   const W = window.NUCLEO_WIDGETS;
-  const { el, slug, toArray } = dom;
+  const { el, slug, toArray, arrowButton, stagger } = dom;
 
   const team = document.body.dataset.team || null;
   const root = document.body.dataset.root || '';
@@ -107,13 +107,33 @@
   const compYears = (c) => toArray(c.year || []).filter(Boolean).map(String);
   const compCategories = (c) => toArray(c.categories || []).filter(Boolean);
 
+  /* ---------- ordenação e limites (escala conforme a lista cresce) ---------- */
+
+  const cfg = D.settings || {};
+  const limitOf = (key, fallback) => {
+    const n = Number(cfg[key]);
+    return Number.isFinite(n) && n > 0 ? n : fallback;
+  };
+
+  /* ano mais recente do item (0 = sem ano, vai para o fim) */
+  const latestYear = (item) =>
+    Math.max(0, ...toArray(item.year || []).map((y) => parseInt(y, 10)).filter(Number.isFinite));
+
+  /* do ano mais novo para o mais antigo; empates e itens sem ano mantêm a ordem do data.js */
+  const byYearDesc = (list) =>
+    list
+      .map((item, i) => ({ item, i }))
+      .sort((a, b) => latestYear(b.item) - latestYear(a.item) || a.i - b.i)
+      .map(({ item }) => item);
+
   /* fotos: aceita "caminho.jpg" ou { src, caption } */
   const compImages = (c) =>
     toArray(c.images || []).filter(Boolean).map((i) =>
       typeof i === 'string' ? { src: i, caption: '' } : i
     );
 
-  /* arrastar com o mouse (toque usa a rolagem nativa) + dica de que há mais */
+  /* arrastar com o mouse (toque usa a rolagem nativa), dica de que há mais
+     e passada automática em loop (widgets.js: autoPass) */
   function dragScroll(track, { fade = true } = {}) {
     let down = false;
     let drag = false;
@@ -124,6 +144,7 @@
 
     track.classList.add('drag-row');
     track.addEventListener('dragstart', (e) => e.preventDefault());
+    if (W) W.autoPass(track);
 
     track.addEventListener('pointerdown', (e) => {
       if (e.pointerType !== 'mouse' || e.button !== 0) return;
@@ -194,7 +215,7 @@
   window.NUCLEO_UTIL = {
     roles: toRoles, toArray, teamName, slug, root,
     compId, compIndex, compHref, compYears, compCategories, compImages,
-    dragScroll, memberDeck
+    dragScroll, memberDeck, limitOf, latestYear, byYearDesc, achievementItem
   };
 
   function emptyState(message) {
@@ -225,19 +246,24 @@
     const card = el('article', 'comp-card');
     const link = el('a', 'comp-card-link');
     link.href = compHref(c);
-    link.append(el('h3', '', c.name), el('p', '', c.description || ''), el('span', 'comp-more', 'Ver detalhes →'));
+    link.append(el('h3', '', c.name), el('p', '', c.description || ''), el('span', 'comp-more', 'Ver detalhes'));
     card.appendChild(link);
     return card;
   }
 
-  function renderCompetitions(box, items) {
-    if (!items.length) {
+  function renderCompetitions(box, allItems) {
+    if (!allItems.length) {
       box.appendChild(emptyState('Em atualização.'));
       return;
     }
 
+    /* mais recentes primeiro; a lista inteira fica em competicoes.html */
+    const sorted = byYearDesc(allItems);
+
     /* home: etiquetas simples (cada uma leva à página da competição) */
     if (!team) {
+      const max = limitOf('competitionsHomeLimit', 10);
+      const items = sorted.slice(0, max);
       const ul = el('ul', 'chips');
 
       items.forEach((c) => {
@@ -251,9 +277,19 @@
         ul.appendChild(li);
       });
 
+      if (sorted.length > items.length) {
+        const li = el('li', 'chip-more');
+        const a = el('a', '', `+${sorted.length - items.length} competições`);
+        a.href = `${root}competicoes.html`;
+        li.appendChild(a);
+        ul.appendChild(li);
+      }
+
       box.appendChild(ul);
       return;
     }
+
+    const items = sorted.slice(0, limitOf('competitionsTeamLimit', 8));
 
     /* equipe: poucos itens = grade; muitos = carrossel */
     if (items.length <= 3) {
@@ -265,15 +301,12 @@
 
     const slider = el('div', 'comp-slider');
     const carousel = el('div', 'comp-carousel');
-    const previous = el('button', 'comp-btn', '‹');
+    const previous = arrowButton('comp-btn', 'prev', 'Competição anterior');
     const track = el('div', 'comp-track');
-    const next = el('button', 'comp-btn', '›');
+    const next = arrowButton('comp-btn', 'next', 'Próxima competição');
 
-    previous.type = next.type = 'button';
     previous.id = 'comp-prev';
     next.id = 'comp-next';
-    previous.setAttribute('aria-label', 'Competição anterior');
-    next.setAttribute('aria-label', 'Próxima competição');
     track.id = 'comp-track';
     track.tabIndex = 0;
     track.setAttribute('aria-label', 'Lista de competições, arraste para ver mais');
@@ -288,52 +321,68 @@
 
   /* ---------- conquistas ---------- */
 
-  function renderAchievements(box, items, opts = {}) {
-    if (!items.length) {
+  /* um item da linha do tempo. opts: { showTeam, noLinks } */
+  function achievementItem(a, opts = {}) {
+    const li = el('li');
+    const content = el('div', 'tl-content');
+
+    const dot = el('span', 'tl-dot');
+    dot.setAttribute('aria-hidden', 'true');
+    if (a.place) dot.dataset.place = String(a.place);   // 1, 2 ou 3: cor do marcador
+
+    /* equipe (quando a lista mistura equipes) · ano */
+    const label = [opts.showTeam ? teamName(a.team) : '', a.year]
+      .filter(Boolean)
+      .join(' · ');
+
+    if (label) content.appendChild(el('small', '', label));
+
+    const h3 = el('h3');
+    const comp = a.competition && compIndex[a.competition];
+
+    if (a.competition && !comp) {
+      console.warn(`Competição desconhecida "${a.competition}" em:`, a);
+    }
+
+    /* linka para a competição, exceto na própria página dela */
+    if (comp && !opts.noLinks) {
+      const link = el('a', 'tl-link', a.title);
+      link.href = compHref(comp);
+      h3.appendChild(link);
+    } else {
+      h3.textContent = a.title;
+    }
+
+    content.appendChild(h3);
+    if (a.description) content.appendChild(el('p', '', a.description));
+
+    li.append(dot, content);
+    return li;
+  }
+
+  /* Home e páginas das equipes mostram só os destaques mais recentes
+     (limites em settings); a lista completa fica em conquistas.html. */
+  function renderAchievements(box, allItems, opts = {}) {
+    if (!allItems.length) {
       box.appendChild(emptyState('Em atualização.'));
       return;
     }
 
+    const sorted = byYearDesc(allItems);
+    const featured = sorted.filter((a) => a.featured);
+    const pool = featured.length ? featured : sorted;
+    const max = limitOf(team ? 'achievementsTeamLimit' : 'achievementsHomeLimit', team ? 5 : 6);
+    const items = pool.slice(0, max);
+
     const ul = el('ul', 'timeline');
-
-    items.forEach((a) => {
-      const li = el('li');
-      const content = el('div', 'tl-content');
-
-      const dot = el('span', 'tl-dot');
-      dot.setAttribute('aria-hidden', 'true');
-
-      /* home mostra a equipe; página da equipe mostra só o ano */
-      const label = [team ? '' : teamName(a.team), a.year]
-        .filter(Boolean)
-        .join(' · ');
-
-      if (label) content.appendChild(el('small', '', label));
-
-      const h3 = el('h3');
-      const comp = a.competition && compIndex[a.competition];
-
-      if (a.competition && !comp) {
-        console.warn(`Competição desconhecida "${a.competition}" em:`, a);
-      }
-
-      /* linka para a competição, exceto na própria página dela */
-      if (comp && !opts.noLinks) {
-        const link = el('a', 'tl-link', a.title);
-        link.href = compHref(comp);
-        h3.appendChild(link);
-      } else {
-        h3.textContent = a.title;
-      }
-
-      content.appendChild(h3);
-      if (a.description) content.appendChild(el('p', '', a.description));
-
-      li.append(dot, content);
-      ul.appendChild(li);
-    });
-
+    items.forEach((a) => ul.appendChild(achievementItem(a, { showTeam: !team, noLinks: opts.noLinks })));
     box.appendChild(ul);
+
+    if (allItems.length > items.length) {
+      const more = el('a', 'list-more', `Ver todas as conquistas (${allItems.length})`);
+      more.href = `${root}conquistas.html${team ? `?equipe=${encodeURIComponent(team)}` : ''}`;
+      box.appendChild(more);
+    }
   }
 
 
@@ -480,6 +529,7 @@
         grid.appendChild(card);
       });
 
+      stagger(grid);
       box.appendChild(grid);
       return;
     }
@@ -567,7 +617,7 @@
       if (n.date) body.appendChild(el('span', 'news-date', fmtDate(n.date)));
       body.appendChild(el('h3', '', n.title));
       if (n.summary) body.appendChild(el('p', '', n.summary));
-      body.appendChild(el('span', 'card-more', 'Ampliar notícia ↗'));
+      body.appendChild(el('span', 'card-more', 'Ampliar notícia'));
 
       card.append(media('news-media', n.image, 'Notícia'), body);
       const enlarge = () => {
@@ -580,7 +630,7 @@
         if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); enlarge(); }
       });
       if (n.link) {
-        const external = el('a', 'news-external', 'Abrir notícia completa ↗');
+        const external = el('a', 'news-external', 'Abrir notícia completa');
         external.href = n.link;
         external.target = '_blank';
         external.rel = 'noopener noreferrer';
@@ -591,6 +641,8 @@
     });
 
     box.appendChild(grid);
+    dragScroll(grid);
+    if (W) W.dots(grid, { host: box });
   }
 
   function renderProjects(box, items) {
@@ -607,28 +659,29 @@
       card.href = `${root}projeto.html?p=${encodeURIComponent(projectId)}`;
       card.setAttribute('aria-label', `Conheça o projeto ${p.title}`);
 
+      /* tipo do projeto acima do título; equipes e situação em uma linha só de texto */
       const body = el('div', 'proj-body');
+      if (p.category) body.appendChild(el('span', 'proj-kicker', p.category));
       body.appendChild(el('h3', '', p.title));
       if (p.description) body.appendChild(el('p', '', p.description));
 
-      const tags = el('div', 'proj-tags');
-      if (p.category) tags.appendChild(el('span', 'proj-tag proj-category', p.category));
+      const meta = el('div', 'proj-meta');
       toArray(p.teams || p.team || []).filter(Boolean).forEach((id) => {
         const t = D.teams[id] || {};
-        const tag = el('span', 'proj-tag');
-        const dot = el('i');
-        if (t.color) dot.style.setProperty('--dot', t.color);
-        tag.append(dot, document.createTextNode(t.name || id));
-        tags.appendChild(tag);
+        const label = el('span', 'proj-team', t.name || id);
+        if (t.color) label.style.setProperty('--dot', t.color);
+        meta.appendChild(label);
       });
-      if (p.status) tags.appendChild(el('span', 'proj-tag proj-status', p.status));
-      if (tags.children.length) body.appendChild(tags);
+      if (p.status) meta.appendChild(el('span', 'proj-status', p.status));
+      if (meta.children.length) body.appendChild(meta);
 
-      card.append(media('proj-media', p.image, 'Projeto'), body, el('span', 'card-more', 'Ver projeto →'));
+      card.append(media('proj-media', p.image, 'Projeto'), body, el('span', 'card-more', 'Ver projeto'));
       grid.appendChild(card);
     });
 
     box.appendChild(grid);
+    dragScroll(grid);
+    if (W) W.dots(grid, { host: box });
   }
 
   /* galeria: na página Galeria há uma coleção em grade; nos demais
@@ -650,16 +703,10 @@
 
     const slider = page ? null : el('div', 'comp-slider');
     const carousel = page ? null : el('div', 'comp-carousel');
-    const prev = page ? null : el('button', 'comp-btn', '‹');
-    const next = page ? null : el('button', 'comp-btn', '›');
+    const prev = page ? null : arrowButton('comp-btn', 'prev', 'Fotos anteriores');
+    const next = page ? null : arrowButton('comp-btn', 'next', 'Próximas fotos');
     const track = el('div', page ? 'gallery-collection' : 'gal-track');
     track.setAttribute('aria-label', page ? 'Coleção de fotos' : 'Galeria de fotos, arraste para ver mais');
-
-    if (!page) {
-      prev.type = next.type = 'button';
-      prev.setAttribute('aria-label', 'Fotos anteriores');
-      next.setAttribute('aria-label', 'Próximas fotos');
-    }
 
     const nodes = shown.map((g) => {
       const item = el('button', 'gal-item');
@@ -678,8 +725,10 @@
       return { item: g, node: item };
     });
 
-    if (page) box.appendChild(track);
-    else {
+    if (page) {
+      stagger(track);
+      box.appendChild(track);
+    } else {
       carousel.append(prev, track, next);
       slider.appendChild(carousel);
       box.appendChild(slider);

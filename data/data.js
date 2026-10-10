@@ -38,6 +38,16 @@
                  (se faltar, usa "description")
    Conquista:
      competition: "obr"   (id da competição; o título vira link para a página dela)
+     year:     "2026"     (recomendado: ordena do mais novo ao mais antigo e alimenta o filtro)
+     place:    1, 2 ou 3  (opcional; cor do marcador: ouro, prata, bronze)
+     featured: true       (opcional; destaque. Home e páginas das equipes mostram os
+                           destaques mais recentes; sem nenhum destaque, mostram os mais recentes)
+   Como a lista cresce sem virar bagunça:
+     • Home e equipes mostram só uma amostra (limites em "settings" abaixo) e um
+       link "Ver todas". O histórico completo, com filtros e "mostrar mais",
+       fica em conquistas.html e competicoes.html.
+     • Tudo é ordenado pelo ano (mais novo primeiro); item sem ano vai para o fim.
+     • Exemplos de teste estão marcados com "EXEMPLO" — apague-os ao colocar os reais.
 
    Notícia (lista "news"; aparece na home):
      date:    "2026-09-20"   (ano-mês-dia)
@@ -68,9 +78,18 @@ window.NUCLEO_DATA = {
 
   /* ---------- equipes (só mexa se criar uma equipe nova) ---------- */
   teams: {
-    orion: { name: "Robotic Órion", color: "#2E5A88", ink: "#FFFFFF" },
-    nexa:  { name: "NEXA 404",      color: "#86D011", ink: "#08090C" }
-  },   /* color = cor do avatar; ink = cor das iniciais */
+    orion: {
+      name: "Robotic Órion", color: "#2E5A88", ink: "#FFFFFF",
+      page: "equipes/orion/index.html", logo: "assets/orion/logo_roundness.png", effect: "stars",
+      summary: "Robótica e programação. Mecânica, eletrônica e código para competir da OBR à Robosummit."
+    },
+    nexa: {
+      name: "NEXA 404", color: "#86D011", ink: "#08090C",
+      page: "equipes/nexa/index.html", logo: "assets/nexa/logo.png", effect: "circuit",
+      summary: "Robótica competitiva universitária, guiada por engenharia, inovação e inclusão."
+    }
+  },   /* color = cor do avatar; ink = cor das iniciais.
+          page, logo, summary e effect ("stars" ou "circuit") montam o painel da seção Equipes da home */
 
   /* ---------- níveis de ensino (usados no filtro) ---------- */
   levels: {
@@ -94,7 +113,17 @@ window.NUCLEO_DATA = {
     memberLimit: 8,
 
     /* quantas fotos a home mostra no carrossel (a página Galeria mostra todas) */
-    galleryHomeLimit: 8
+    galleryHomeLimit: 8,
+
+    /* competições: etiquetas na home / cartões na página da equipe / por "página" em competicoes.html */
+    competitionsHomeLimit: 10,
+    competitionsTeamLimit: 8,
+    competitionsPageSize: 12,
+
+    /* conquistas: itens na home / na página da equipe / por "página" em conquistas.html */
+    achievementsHomeLimit: 6,
+    achievementsTeamLimit: 5,
+    achievementsPageSize: 10
   },
 
 
@@ -126,7 +155,28 @@ window.NUCLEO_DATA = {
 
     { id: "porto-itaqui", teams: ["orion"], short: "Prêmio Porto Itaqui", name: "Prêmio Porto Itaqui",
       description: "Premiação voltada a projetos de ciência e inovação, na qual apresentamos nosso trabalho.",
-      categories: [], year: "", images: [] }
+      categories: [], year: "", images: [] },
+
+    /* ----- EXEMPLOS (apague ao cadastrar as competições reais) ----- */
+    { id: "ex-torneio-regional", teams: ["orion"], short: "Torneio Regional", name: "EXEMPLO — Torneio Regional de Robótica",
+      description: "Competição de exemplo: etapa regional com provas de seguidor de linha e resgate.",
+      categories: ["labirinto", "resgate"], year: ["2025", "2026"], images: [] },
+
+    { id: "ex-copa-sumo", teams: ["nexa"], short: "Copa de Sumô", name: "EXEMPLO — Copa Nordeste de Sumô",
+      description: "Competição de exemplo: confrontos de sumô de robôs entre equipes universitárias.",
+      categories: ["sumo"], year: "2026", images: [] },
+
+    { id: "ex-mostra-tecnica", teams: ["orion", "nexa"], short: "Mostra Técnica", name: "EXEMPLO — Mostra Técnica de Robótica",
+      description: "Competição de exemplo: apresentação de projetos para uma banca avaliadora.",
+      categories: ["artistica"], year: "2025", images: [] },
+
+    { id: "ex-desafio-explorer", teams: ["nexa"], short: "Desafio Explorer", name: "EXEMPLO — Desafio DRC-Explorer",
+      description: "Competição de exemplo: robôs exploradores em terreno com obstáculos.",
+      categories: ["drc-explorer"], year: "2024", images: [] },
+
+    { id: "ex-feira-ciencias", teams: ["orion"], short: "Feira de Ciências", name: "EXEMPLO — Feira Estadual de Ciências",
+      description: "Competição de exemplo: exposição de projetos de ciência e tecnologia.",
+      categories: [], year: "2024", images: [] }
   ],
 
 
@@ -139,7 +189,40 @@ window.NUCLEO_DATA = {
       description: "Equipe representou o campus na etapa nacional da competição." },
 
     { team: "nexa", competition: "robosummit", year: "", title: "1º lugar — Sumô, categoria universitária",
-      description: "Premiação conquistada na Robosummit." }   /* confirmar edição e ano */
+      description: "Premiação conquistada na Robosummit." },   /* confirmar edição e ano */
+
+    /* ----- EXEMPLOS (apague ao cadastrar as conquistas reais) ----- */
+    { team: "nexa", competition: "ex-copa-sumo", year: "2026", place: 2, featured: true,
+      title: "EXEMPLO — 2º lugar na Copa Nordeste de Sumô",
+      description: "Conquista de exemplo: vice-campeonato na categoria universitária." },
+
+    { team: "orion", competition: "ex-torneio-regional", year: "2026", place: 1, featured: true,
+      title: "EXEMPLO — 1º lugar no Torneio Regional, prova de resgate",
+      description: "Conquista de exemplo: melhor pontuação entre as equipes do ensino médio." },
+
+    { team: "orion", competition: "ex-torneio-regional", year: "2025", place: 3,
+      title: "EXEMPLO — 3º lugar no Torneio Regional, labirinto",
+      description: "Conquista de exemplo: terceira colocação na prova de labirinto." },
+
+    { team: "orion", competition: "ex-mostra-tecnica", year: "2025", featured: true,
+      title: "EXEMPLO — Prêmio de melhor projeto na Mostra Técnica",
+      description: "Conquista de exemplo: reconhecimento da banca avaliadora." },
+
+    { team: "nexa", competition: "ex-mostra-tecnica", year: "2025",
+      title: "EXEMPLO — Menção honrosa na Mostra Técnica",
+      description: "Conquista de exemplo: destaque em inovação e inclusão." },
+
+    { team: "nexa", competition: "ex-desafio-explorer", year: "2024", place: 1, featured: true,
+      title: "EXEMPLO — Campeã do Desafio DRC-Explorer",
+      description: "Conquista de exemplo: melhor tempo no percurso com obstáculos." },
+
+    { team: "orion", competition: "ex-feira-ciencias", year: "2024",
+      title: "EXEMPLO — Classificação para a etapa nacional da Feira de Ciências",
+      description: "Conquista de exemplo: projeto selecionado entre os finalistas estaduais." },
+
+    { team: "orion", competition: "ex-feira-ciencias", year: "2023", place: 2,
+      title: "EXEMPLO — 2º lugar na Feira Estadual de Ciências",
+      description: "Conquista de exemplo: categoria robótica educacional." }
   ],
 
 
@@ -197,7 +280,8 @@ window.NUCLEO_DATA = {
     { team: "orion", level: "medio", name: "Lara", role: ["Figurino e ornamentação artística", "Mídia"], photo: "assets/orion/members/lara.png", socials: { Instagram: "https://www.instagram.com/lara.jansen._/" } },
     { team: "orion", level: "medio", name: "Ezequiel", role: "Mecânica", photo: "assets/orion/members/ezequiel.png" },
     { team: "orion", level: "medio", name: "Leonardo “Leo”", role: "Montagem", photo: "assets/orion/members/leonardo.png" },
-    { team: "orion", level: "superior", name: "Ana Caroline “Carol”", role: "Coordenação", photo: "assets/orion/members/ana-caroline.png", socials: { Instagram: "https://www.instagram.com/anacarolmeireles_/" } },
+    { team: "orion", level: "superior", name: "Carol Meireles", role: "Coordenação", photo: "assets/orion/members/carol.png", socials: { Instagram: "https://www.instagram.com/anacarolmeireles_/" } },
+    { team: "orion", level: "superior", name: "Marjorie", role: ["Programação","Mídia"], photo: "assets/orion/members/marjorie.png", socials: { Instagram: "https://www.instagram.com/eng.marjoriecastro/" } },
 
     { team: "nexa", level: "superior", name: "Nome do coordenador", role: "Coordenação" },
     { team: "nexa", level: "superior", name: "Nome do integrante", role: "Mecânica" },

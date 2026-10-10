@@ -9,7 +9,7 @@
    ========================================================= */
 
 (function () {
-  const canvas = document.querySelector('#nx-circuit');
+function mountCircuit(canvas) {
   if (!canvas || !canvas.getContext) return;
 
   const ctx = canvas.getContext('2d');
@@ -295,9 +295,18 @@
     new ResizeObserver(() => {
       if (first) { first = false; return; }
       clearTimeout(timer);
-      timer = setTimeout(build, 150);
+      /* só refaz se o tamanho realmente mudou (evita redesenhar trilhas à toa) */
+      timer = setTimeout(() => {
+        const r = canvas.getBoundingClientRect();
+        if (Math.abs(r.width - w) > 8 || Math.abs(r.height - h) > 8) build();
+      }, 250);
     }).observe(canvas);
   }
 
   start();
+}
+
+/* Disponível para outras seções (ex.: painéis da home) e montado no cabeçalho temático. */
+window.NUCLEO_FX = Object.assign(window.NUCLEO_FX || {}, { circuit: mountCircuit });
+mountCircuit(document.querySelector('#nx-circuit'));
 })();

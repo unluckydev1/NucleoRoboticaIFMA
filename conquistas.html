@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Galeria de fotos do Núcleo de Robótica do IFMA, Campus Santa Inês: filtre por ano e amplie as fotos.">
-  <title>Galeria · Núcleo de Robótica IFMA Santa Inês</title>
+  <meta name="description" content="Conquistas do Núcleo de Robótica do IFMA, Campus Santa Inês: filtre por equipe, ano e competição.">
+  <title>Conquistas · Núcleo de Robótica IFMA Santa Inês</title>
   <link rel="icon" href="assets/orion/logo_roundness.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="styles/base.css">
   <link rel="stylesheet" href="styles/home.css">
   <link rel="stylesheet" href="styles/inner.css">
-  <link rel="stylesheet" href="styles/secoes.css">
+  <link rel="stylesheet" href="styles/conquistas.css">
   <link rel="stylesheet" href="styles/polish.css">
   <link rel="stylesheet" href="styles/motion.css">
   <link rel="stylesheet" href="styles/theme-switcher.css">
@@ -25,7 +25,7 @@
     <div class="wrap header-inner">
 
       <a class="brand" href="index.html" aria-label="Núcleo de Robótica — início">
-        <img src="assets/logo-nucleo.png" alt="" width="36" height="36">
+        <span class="mark" aria-hidden="true"></span>
         <span>Núcleo de Robótica</span>
       </a>
 
@@ -33,8 +33,8 @@
         <a href="index.html">Núcleo</a>
         <a href="index.html#equipes">Equipes</a>
         <a href="competicoes.html">Competições</a>
-        <a href="index.html#conquistas">Conquistas</a>
-        <a href="galeria.html" aria-current="page">Galeria</a>
+        <a href="conquistas.html" aria-current="page">Conquistas</a>
+        <a href="galeria.html">Galeria</a>
         <a href="integrantes.html">Integrantes</a>
       </nav>
 
@@ -56,10 +56,11 @@
 
     <section class="page-head">
       <div class="wrap">
-        <p class="eyebrow rise">Registros</p>
-        <h1 class="rise" style="--d:.06s">Galeria</h1>
+        <p class="eyebrow rise">Resultados</p>
+        <h1 class="rise" style="--d:.06s">Conquistas</h1>
         <p class="rise" style="--d:.12s">
-          Fotos das competições e dos bastidores. Explore a coleção e clique numa foto para ampliar.
+          O histórico de resultados do núcleo, do mais recente ao mais antigo.
+          Cada conquista leva à página da competição.
         </p>
       </div>
     </section>
@@ -68,12 +69,12 @@
     <section class="section" style="padding-top:28px">
       <div class="wrap">
 
-        <div class="filters" id="filters" aria-label="Filtro de fotos por ano"></div>
+        <div class="filters" id="filters" aria-label="Filtros de conquistas"></div>
 
-        <div data-list="gallery" data-view="page"></div>
+        <div id="ach-list"></div>
 
         <div class="empty" id="no-results" hidden>
-          <p>Nenhuma foto nesse ano.</p>
+          <p>Nenhuma conquista com esses filtros.</p>
         </div>
 
       </div>
@@ -105,6 +106,6 @@
   <script src="javascript/common.js"></script>
   <script src="javascript/motion.js"></script>
   <script src="javascript/filters.js"></script>
-  <script src="javascript/galeria.js"></script>
+  <script src="javascript/conquistas.js"></script>
 </body>
 </html>

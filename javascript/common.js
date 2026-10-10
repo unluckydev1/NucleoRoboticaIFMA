@@ -72,8 +72,14 @@ function mountTeamMotif(teamId) {
   motif.setAttribute('aria-hidden', 'true');
   host.prepend(motif);
 
+  const effect = teamId === 'orion' ? 'stars' : 'circuit';
+  if (window.NUCLEO_FX && window.NUCLEO_FX[effect]) {
+    window.NUCLEO_FX[effect](motif);
+    return;
+  }
+
   const script = document.createElement('script');
-  script.src = `${document.body.dataset.root || ''}javascript/${teamId === 'orion' ? 'stars.js' : 'circuit.js'}`;
+  script.src = `${document.body.dataset.root || ''}javascript/${effect === 'stars' ? 'stars.js' : 'circuit.js'}`;
   document.body.appendChild(script);
 }
 

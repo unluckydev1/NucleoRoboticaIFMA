@@ -14,7 +14,9 @@
   <link rel="stylesheet" href="styles/base.css">
   <link rel="stylesheet" href="styles/home.css">
   <link rel="stylesheet" href="styles/secoes.css">
+  <link rel="stylesheet" href="styles/equipes.css">
   <link rel="stylesheet" href="styles/polish.css">
+  <link rel="stylesheet" href="styles/motion.css">
   <link rel="stylesheet" href="styles/theme-switcher.css">
 </head>
 <body data-root="">
@@ -65,7 +67,6 @@
         </p>
         <div class="hero-ctas rise" style="--d:.24s">
           <a class="btn btn-primary" href="#equipes">Conheça as equipes</a>
-          <a class="btn btn-ghost" href="#competicoes">Ver competições</a>
         </div>
       </div>
     </section>
@@ -109,34 +110,13 @@
 
 
     <!-- EQUIPES -->
-    <section id="equipes" class="section section-alt">
+    <section id="equipes" class="section section-alt eq-section">
       <div class="wrap">
         <p class="eyebrow">Equipes</p>
         <h2>Quem faz parte</h2>
-
-        <div class="eq-grid">
-
-          <a class="eq-card" href="equipes/orion/index.html">
-            <div class="eq-art"><img src="assets/orion/logo_roundness.png" alt="Logo do Robotic Órion"></div>
-            <div class="eq-body">
-              <h3>Robotic Órion</h3>
-              <p>Robótica e programação. Mecânica, eletrônica e código para competir da OBR à Robosummit.</p>
-              <span class="eq-more">Conhecer a equipe →</span>
-            </div>
-          </a>
-
-          <a class="eq-card eq-nexa" href="equipes/nexa/index.html">
-            <div class="eq-art"><img src="assets/nexa/logo.png" alt="Logo da equipe NEXA 404"></div>
-            <div class="eq-body">
-              <h3>NEXA 404</h3>
-              <p>Robótica competitiva universitária, guiada por engenharia, inovação e inclusão.</p>
-              <span class="eq-more">Conhecer a equipe →</span>
-            </div>
-          </a>
-
-        </div>
-
       </div>
+
+      <div class="eq-split" id="eq-split"></div>
     </section>
 
 
@@ -252,6 +232,10 @@
   <script src="data/data.js"></script>
   <script src="javascript/widgets.js"></script>
   <script src="javascript/render.js"></script>
+  <script src="javascript/stars.js"></script>
+  <script src="javascript/circuit.js"></script>
+  <script src="javascript/equipes.js"></script>
   <script src="javascript/common.js"></script>
+  <script src="javascript/motion.js"></script>
 </body>
 </html>

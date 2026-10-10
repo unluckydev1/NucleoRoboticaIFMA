@@ -1,0 +1,26 @@
+/* Página Conquistas: histórico agrupado por ano. */
+
+.ach-year { margin-bottom: 8px; }
+
+.section .ach-year-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 16px;
+  padding: 0;
+  color: var(--ink);
+  font-size: 1.3rem;
+}
+
+.section .ach-year-title::before { display: none; }
+.section .ach-year-title::after {
+  position: static;
+  width: auto;
+  height: 1px;
+  flex: 1;
+  background: var(--line);
+  content: '';
+}
+
+.ach-year .timeline { max-width: none; }
+.ach-year .timeline li:last-child { padding-bottom: 20px; }

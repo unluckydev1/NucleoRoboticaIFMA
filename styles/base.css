@@ -217,7 +217,10 @@ a {
    ========================================================= */
 
 .btn {
+  position: relative;
+  isolation: isolate;
   display: inline-block;
+  overflow: hidden;
 
   padding: 12px 24px;
 
@@ -231,40 +234,61 @@ a {
   text-transform: uppercase;
 
   transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease;
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.15s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
 }
 
 .btn-primary {
   background: var(--accent);
 
   color: var(--on-accent);
-
-  box-shadow:
-    0 0 0 1px rgba(var(--accent-2-rgb), 0.15);
 }
 
 .btn-primary:hover {
   background: var(--accent-2);
 
   color: var(--on-accent);
-
-  box-shadow:
-    0 0 20px rgba(var(--accent-rgb), 0.22);
 }
 
+/* O preenchimento entra da esquerda no hover; sem sombra nem brilho. */
 .btn-ghost {
+  --btn-fill: var(--accent);
+
   border: 1px solid var(--line);
 
   color: var(--ink);
 }
 
-.btn-ghost:hover {
-  border-color: var(--accent);
+.btn-ghost::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
 
-  color: var(--accent-2);
+  background: var(--btn-fill);
+
+  content: '';
+
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  border-color: var(--btn-fill);
+
+  color: var(--on-accent);
+}
+
+.btn-ghost:hover::before,
+.btn-ghost:focus-visible::before {
+  transform: scaleX(1);
 }
 
 
@@ -802,9 +826,12 @@ a.comp-card:hover .comp-more,
 /* ---------- setas ---------- */
 
 .comp-btn {
+  display: grid;
   flex-shrink: 0;
+  place-items: center;
   width: 40px;
   height: 40px;
+  padding: 0;
 
   background: var(--bg-3);
   color: var(--ink);
@@ -812,11 +839,23 @@ a.comp-card:hover .comp-more,
   border: 1px solid var(--line);
   border-radius: var(--r);
 
-  font-size: 1.4rem;
-  line-height: 1;
   cursor: pointer;
 
   transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Setas desenhadas em SVG (dom.js: arrowButton), compartilhadas pelos carrosséis. */
+.comp-btn svg,
+.cd-btn svg,
+.lb-btn svg {
+  width: 20px;
+  height: 20px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .comp-btn:hover {
@@ -1001,7 +1040,9 @@ a.comp-card:hover .comp-more,
 
 /* lista de integrantes: uma fileira; passou do que cabe, arrasta (ver .drag-row).
    Com mais itens que colunas, o próximo cartão "espia" na borda (dica de arraste). */
-.team-grid {
+.team-grid,
+.news-grid,
+.proj-grid {
   --base: 4;       /* cartões inteiros visíveis */
   --peek: 0;       /* fração extra do próximo cartão, quando há mais (is-overflow) */
   --cols: calc(var(--base) + var(--peek));
@@ -1346,12 +1387,11 @@ a.comp-card:hover .comp-more,
   background: var(--member-team-color);
   border-radius: 50%;
   text-decoration: none;
-  transition: transform .18s ease, box-shadow .18s ease;
+  transition: transform .18s ease;
 }
 
 .member-profile-instagram:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 14px rgba(var(--shadow-rgb), .22);
 }
 
 .member-deck {
@@ -1379,7 +1419,7 @@ a.comp-card:hover .comp-more,
   border: 2px solid var(--bg-2);
   border-radius: 50%;
   cursor: pointer;
-  transition: transform .16s ease, box-shadow .16s ease;
+  transition: transform .16s ease;
 }
 
 .member-deck-button[data-team="orion"] {
@@ -1410,8 +1450,7 @@ a.comp-card:hover .comp-more,
 .member-deck-button:focus-visible {
   z-index: 2;
   outline: none;
-  transform: translateY(-5px) scale(1.14);
-  box-shadow: 0 5px 14px rgba(var(--shadow-rgb), .3);
+  transform: translateY(-4px);
 }
 
 .member-deck-more {
@@ -1961,6 +2000,18 @@ iframe#maps {
   to   { opacity: 1; transform: none; }
 }
 
+/* Surgimento em sequência dos itens de uma listagem (dom.js: stagger).
+   Só o estado inicial é descrito: o final é o estilo normal do item, então
+   o hover continua livre para mover o cartão. */
+.stagger-in > * {
+  animation: surface 0.6s cubic-bezier(0.22, 0.7, 0.2, 1) backwards;
+  animation-delay: calc(120ms + min(var(--i, 0), 12) * 45ms);
+}
+
+@keyframes surface {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+}
+
 .footer-simple .footer-brand { order: 0; justify-content: flex-start; text-align: left; flex-direction: row-reverse; }
 
 /* =========================================================
@@ -2064,7 +2115,9 @@ a.team-card:hover h3 {
 }
 
 
-.team-grid.is-overflow {
+.team-grid.is-overflow,
+.news-grid.is-overflow,
+.proj-grid.is-overflow {
   --peek: 0.3;
 }
 

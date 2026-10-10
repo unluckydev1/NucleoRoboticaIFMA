@@ -9,7 +9,7 @@
 (function () {
   const D = window.NUCLEO_DATA;
   const U = window.NUCLEO_UTIL;
-  const { el } = window.NUCLEO_DOM;
+  const { el, arrowButton } = window.NUCLEO_DOM;
   const box = document.querySelector('#comp-page');
 
   if (!D || !U || !box) return;
@@ -72,11 +72,8 @@
 
     U.dragScroll(track, { fade: false });
 
-    const prev = el('button', 'cd-btn cd-prev', '‹');
-    const next = el('button', 'cd-btn cd-next', '›');
-    prev.type = next.type = 'button';
-    prev.setAttribute('aria-label', 'Foto anterior');
-    next.setAttribute('aria-label', 'Próxima foto');
+    const prev = arrowButton('cd-btn cd-prev', 'prev', 'Foto anterior');
+    const next = arrowButton('cd-btn cd-next', 'next', 'Próxima foto');
 
     const dots = el('div', 'cd-dots');
     const dotEls = images.map((_, i) => {

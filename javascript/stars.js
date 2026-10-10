@@ -2,6 +2,7 @@
    CAMPO DE ESTRELAS
    ========================================================= */
 
+(function () {
 /*
  * Configurações visuais das estrelas.
  */
@@ -34,9 +35,10 @@ const STAR_CONFIG = {
 };
 
 
-const starfield = document.querySelector('#starfield');
+/* Preenche o elemento com estrelas e as refaz quando ele muda de tamanho. */
+function mountStars(starfield) {
+  if (!starfield) return;
 
-if (starfield) {
   let lastWidth = 0;
   let lastHeight = 0;
   let resizeTimer;
@@ -246,3 +248,8 @@ if (starfield) {
 
   resizeObserver.observe(starfield);
 }
+
+/* Disponível para outras seções (ex.: painéis da home) e montado no cabeçalho temático. */
+window.NUCLEO_FX = Object.assign(window.NUCLEO_FX || {}, { stars: mountStars });
+mountStars(document.querySelector('#starfield'));
+})();

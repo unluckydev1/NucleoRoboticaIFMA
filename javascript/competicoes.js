@@ -9,14 +9,16 @@
   const D = window.NUCLEO_DATA;
   const U = window.NUCLEO_UTIL;
   const F = window.NUCLEO_FILTERS;
-  const { el } = window.NUCLEO_DOM;
+  const { el, stagger } = window.NUCLEO_DOM;
   const grid = document.querySelector('#comp-grid');
   const filtersBox = document.querySelector('#filters');
   const noResults = document.querySelector('#no-results');
 
   if (!D || !U || !F || !grid || !filtersBox) return;
 
-  const comps = D.competitions || [];
+  const comps = U.byYearDesc(D.competitions || []);   // mais recentes primeiro
+  const pageSize = U.limitOf('competitionsPageSize', 12);
+  let limit = pageSize;
   const cats = D.categories || {};
 
   /* ---------- cartão: foto em cima; Nome / Categoria embaixo ---------- */
@@ -68,6 +70,27 @@
     return { c, node };
   });
 
+  stagger(grid);
+
+  /* "Mostrar mais": a lista cresce de pouco em pouco, em vez de uma parede de cartões */
+  const moreBtn = el('button', 'btn btn-ghost list-more-btn', 'Mostrar mais');
+  moreBtn.type = 'button';
+  moreBtn.hidden = true;
+  grid.insertAdjacentElement('afterend', moreBtn);
+  moreBtn.addEventListener('click', () => {
+    limit += pageSize;
+    refresh();
+  });
+
+  let matches = [];
+
+  function refresh() {
+    matches.forEach(({ node }, i) => { node.hidden = i >= limit; });
+    const rest = matches.length - limit;
+    moreBtn.hidden = rest <= 0;
+    moreBtn.textContent = `Mostrar mais (${Math.max(rest, 0)} ${rest === 1 ? 'restante' : 'restantes'})`;
+  }
+
 
   /* ---------- filtros ---------- */
 
@@ -97,7 +120,8 @@
     total: items.length,
 
     onChange(s) {
-      let shown = 0;
+      limit = pageSize;
+      matches = [];
 
       items.forEach(({ c, node }) => {
         const ok =
@@ -105,12 +129,13 @@
           (!s.ano || U.compYears(c).includes(s.ano)) &&
           (!s.categoria || U.compCategories(c).includes(s.categoria));
 
-        node.hidden = !ok;
-        if (ok) shown++;
+        node.hidden = true;
+        if (ok) matches.push({ c, node });
       });
 
-      if (noResults) noResults.hidden = shown > 0;
-      return shown;
+      refresh();
+      if (noResults) noResults.hidden = matches.length > 0;
+      return matches.length;
     }
   });
 })();

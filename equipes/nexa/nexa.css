@@ -29,8 +29,6 @@
 
 .brand b { color: var(--accent); }
 
-.btn-primary:hover { box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3); }
-
 
 /* trilhas de circuito atrás do topo (circuit.js); o centro fica mais suave p/ o texto */
 .nx-circuit {

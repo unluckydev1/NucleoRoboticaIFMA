@@ -6,13 +6,19 @@
      Os itens são os filhos do trilho (os que estiverem com
      [hidden] são ignorados). Devolve { refresh() }.
 
+   NUCLEO_WIDGETS.autoPass(trilho, { interval, resume })
+     Avança o trilho um item por vez, em loop, enquanto ele estiver
+     visível. Qualquer rolagem do usuário (arrastar, tocar, bolinhas,
+     setas, teclado) reinicia a contagem: a "passada passiva" só volta
+     depois de `resume` ms sem interação.
+
    NUCLEO_WIDGETS.lightbox().open(lista, indice)
      Visualizador em tela cheia para ampliar fotos.
      lista = [{ src, caption, label }]  (sem src = espaço reservado)
    ========================================================= */
 
 window.NUCLEO_WIDGETS = (function () {
-  const { el } = window.NUCLEO_DOM;
+  const { el, arrowButton } = window.NUCLEO_DOM;
 
 
   /* ---------- bolinhas ---------- */
@@ -106,6 +112,61 @@ window.NUCLEO_WIDGETS = (function () {
   }
 
 
+  /* ---------- passada automática ---------- */
+
+  function autoPass(track, { interval = 2200, resume = 4500 } = {}) {
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const SETTLE = 800;   // duração máxima da rolagem suave iniciada por nós
+    const canHover = window.matchMedia('(hover: hover)');
+    let timer = 0;
+    let ownScrollUntil = 0;
+
+    const schedule = (delay) => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(pass, delay);
+    };
+
+    function step() {
+      const first = Array.from(track.children).find((n) => !n.hidden);
+      if (!first) return 0;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return first.offsetWidth + gap;
+    }
+
+    /* Mouse em cima ou foco por teclado: o usuário está usando a lista. */
+    const inUse = () =>
+      (canHover.matches && track.matches(':hover')) ||
+      track.classList.contains('dragging') ||
+      Boolean(track.querySelector(':focus-visible'));
+
+    function pass() {
+      const max = track.scrollWidth - track.clientWidth;
+
+      if (max > 2 && !document.hidden && !inUse()) {
+        const atEnd = track.scrollLeft >= max - 2;
+        ownScrollUntil = performance.now() + SETTLE;
+        track.scrollTo({
+          left: atEnd ? 0 : Math.min(track.scrollLeft + step(), max),
+          behavior: 'smooth'
+        });
+      }
+      schedule(interval);
+    }
+
+    /* rolagem fora da nossa janela = ação do usuário */
+    track.addEventListener('scroll', () => {
+      if (performance.now() > ownScrollUntil) schedule(resume);
+    }, { passive: true });
+
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) schedule(interval);
+      else window.clearTimeout(timer);
+    }).observe(track);
+  }
+
+
   /* ---------- ampliar fotos ---------- */
 
   let lb = null;
@@ -131,12 +192,10 @@ window.NUCLEO_WIDGETS = (function () {
     fig.append(stage, cap);
 
     const close = el('button', 'lb-btn lb-close', '×');
-    const prev = el('button', 'lb-btn lb-prev', '‹');
-    const next = el('button', 'lb-btn lb-next', '›');
-    [close, prev, next].forEach((b) => { b.type = 'button'; });
+    const prev = arrowButton('lb-btn lb-prev', 'prev', 'Foto anterior');
+    const next = arrowButton('lb-btn lb-next', 'next', 'Próxima foto');
+    close.type = 'button';
     close.setAttribute('aria-label', 'Fechar');
-    prev.setAttribute('aria-label', 'Foto anterior');
-    next.setAttribute('aria-label', 'Próxima foto');
 
     root.append(backdrop, fig, close, prev, next);
 
@@ -411,5 +470,5 @@ window.NUCLEO_WIDGETS = (function () {
     return profile;
   }
 
-  return { dots, lightbox, memberProfile };
+  return { dots, autoPass, lightbox, memberProfile };
 })();

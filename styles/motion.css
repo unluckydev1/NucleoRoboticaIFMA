@@ -1,0 +1,192 @@
+/* =========================================================
+   MOVIMENTO — animações suaves e discretas
+   Entrada ao rolar (fade + leve subida), sublinhado dos títulos,
+   cabeçalho que ganha sombra ao rolar e microtransições de links/botões.
+   Tudo desligado com "reduzir movimento". Sem brilho nem efeitos fortes.
+   ========================================================= */
+
+:root {
+  --ease: cubic-bezier(0.22, 0.7, 0.2, 1);
+  --t-fast: 0.2s;
+  --t-med: 0.55s;
+}
+
+/* ---------- entrada ao rolar (motion.js liga .js-motion) ---------- */
+
+.js-motion [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--t-med) var(--ease), transform var(--t-med) var(--ease);
+  transition-delay: var(--rd, 0ms);
+}
+
+.js-motion [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* título: o traço do sublinhado cresce quando o bloco aparece */
+.js-motion .section h2[data-reveal]::after {
+  width: 0;
+  transition: width 0.7s var(--ease) 0.25s;
+}
+.js-motion .section h2[data-reveal].is-in::after { width: 48px; }
+
+/* ---------- cabeçalho ---------- */
+
+.site-header {
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+.site-header:not(.is-scrolled) { box-shadow: 0 1px 0 rgba(var(--shadow-rgb), 0.08); }
+.site-header.is-scrolled { box-shadow: 0 8px 24px rgba(var(--shadow-rgb), 0.14); }
+
+.brand img { transition: transform 0.35s var(--ease); }
+.brand:hover img { transform: scale(1.05); }
+
+/* links do menu: sublinhado que desliza */
+.main-nav a { position: relative; }
+.main-nav a::after {
+  position: absolute;
+  right: 12px;
+  bottom: 4px;
+  left: 12px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  content: '';
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease);
+  pointer-events: none;
+}
+@media (min-width: 861px) {
+  .main-nav a:hover::after,
+  .main-nav a:focus-visible::after { transform: scaleX(1); }
+}
+
+/* ---------- botões e links ---------- */
+
+.btn {
+  transition: transform var(--t-fast) ease, background-color var(--t-fast) ease,
+    border-color var(--t-fast) ease, color var(--t-fast) ease, box-shadow var(--t-fast) ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+main a:not([class]) {
+  text-decoration-color: transparent;
+  transition: color var(--t-fast) ease, text-decoration-color var(--t-fast) ease;
+}
+main a:not([class]):hover { text-decoration-color: currentColor; }
+
+/* ---------- cartões e imagens ---------- */
+
+.comp-card, .area-card, .cp-card, .mem-card, .news-card, .proj-card,
+.project-related-card, .gal-item, .pillar {
+  transition-timing-function: var(--ease);
+}
+
+.proj-card img, .news-card img, .gal-item img, .mem-card img, .project-related-card img {
+  transition: transform 0.6s var(--ease);
+}
+.proj-card:hover img, .news-card:hover img, .gal-item:hover img,
+.project-related-card:hover img { transform: scale(1.035); }
+
+.pillar { transition: transform 0.3s var(--ease), border-color 0.3s ease, background-color 0.3s ease; }
+.pillar:hover { transform: translateY(-3px); }
+
+/* ---------- carrosséis: setas e bolinhas ---------- */
+
+.comp-dot { transition: transform 0.25s var(--ease), background-color 0.25s ease, opacity 0.25s ease; }
+
+/* ---------- transição entre páginas (navegadores que suportam) ---------- */
+
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 0.18s ease both vt-out; }
+::view-transition-new(root) { animation: 0.28s ease both vt-in; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; } }
+
+/* =========================================================
+   HOVER UNIFICADO
+   Uma só linguagem para todos os cartões e links: sobe poucos px, sombra
+   suave, imagem com zoom leve e setas que deslizam. Sem rotações, sem
+   mudança de tamanho/espaçamento (nada empurra o layout) e sem brilho.
+   ========================================================= */
+
+.comp-card, .area-card, .cp-card, .mem-card, .news-card[role="group"],
+a.proj-card, .project-related-card, .gal-item, .chips li {
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease),
+    border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.cp-media, .news-media, .proj-media, .gal-media { overflow: hidden; }
+.cp-media img, .news-media img, .proj-media img, .gal-media img {
+  transition: transform 0.7s var(--ease);
+  will-change: transform;
+}
+
+/* pilares: antes mudavam padding/borda (o texto "pulava"); agora só deslizam */
+.pillar { padding-left: 16px; border-left-width: 3px; outline: 0; transition: transform 0.35s var(--ease), border-color 0.25s ease; }
+
+/* "Ver detalhes" / "Ver projeto" / "Ampliar notícia" ganham uma seta */
+.comp-more::after, .card-more::after {
+  display: inline-block;
+  margin-left: 6px;
+  content: '→';
+  transition: transform 0.3s var(--ease);
+}
+
+a.comp-card:hover .comp-more, .comp-card-link:hover .comp-more { text-decoration: none; }
+
+.gal-zoom { transform: translateY(6px); transition: opacity 0.25s ease, transform 0.3s var(--ease); }
+.gal-item:hover .gal-zoom, .gal-item:focus-visible .gal-zoom { transform: none; }
+
+.comp-btn { transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, transform 0.2s var(--ease), opacity 0.2s ease; }
+.comp-btn:not(:disabled):active { transform: scale(0.94); }
+
+.footer-links a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: color 0.2s ease, background-size 0.3s var(--ease); }
+.footer-links a:hover { background-size: 100% 1px; text-decoration: none; }
+
+@media (hover: hover) {
+  .comp-card:hover, .area-card:hover, .cp-card:hover, .mem-card:hover,
+  .news-card[role="group"]:hover, .news-card[role="group"]:focus-visible,
+  a.proj-card:hover, a.proj-card:focus-visible,
+  .project-related-card:hover, .project-related-card:focus-visible,
+  .gal-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(var(--shadow-rgb), 0.12);
+  }
+
+  .chips li:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(var(--shadow-rgb), 0.10); }
+
+  .cp-card:hover .cp-media img,
+  .news-card:hover .news-media img, .news-card:focus-visible .news-media img,
+  a.proj-card:hover .proj-media img, a.proj-card:focus-visible .proj-media img,
+  .gal-item:hover .gal-media img { transform: scale(1.04); }
+
+  .pillar:hover { padding-left: 16px; border-left-width: 3px; transform: translateX(4px); }
+
+  .comp-card:hover .comp-more::after,
+  a.proj-card:hover .card-more::after,
+  .news-card:hover .card-more::after { transform: translateX(4px); }
+
+  /* ícones: sem giro, só um leve movimento */
+  .area-card:hover img { transform: translateY(-2px) scale(1.06); }
+  .mem-card:hover .member-role-icon { transform: scale(1.08); box-shadow: 0 5px 12px rgba(var(--shadow-rgb), 0.22); }
+  .brand:hover img { transform: scale(1.05); }
+  a.team-card:hover .avatar { box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.28); }
+}
+
+.area-card img, .mem-card .avatar, a.team-card .avatar { transition: transform 0.35s var(--ease), box-shadow 0.35s ease, border-color 0.2s ease; }
+
+/* ---------- movimento reduzido ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .js-motion [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .js-motion .section h2[data-reveal]::after { width: 48px; transition: none; }
+  .comp-card:hover, .area-card:hover, .cp-card:hover, .mem-card:hover, .news-card:hover, a.proj-card:hover,
+  .gal-item:hover, .pillar:hover, .chips li:hover, .project-related-card:hover { transform: none !important; }
+  .cp-media img, .news-media img, .proj-media img, .gal-media img { transform: none !important; }
+  @view-transition { navigation: none; }
+}

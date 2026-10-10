@@ -61,7 +61,7 @@
     link.append(
       el('strong', '', item.title),
       el('span', '', item.description || 'Conheça esta iniciativa do núcleo.'),
-      el('i', '', 'Explorar projeto →')
+      el('i', '', 'Explorar projeto')
     );
     related.appendChild(link);
   });

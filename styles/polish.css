@@ -6,9 +6,7 @@ body { background: var(--bg); }
 
 .site-header { box-shadow: 0 8px 24px rgba(var(--shadow-rgb), .14); }
 .main-nav a { border-radius: 5px; transition: background-color .2s ease, color .2s ease; }
-.btn { border-radius: 6px; transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
-.btn-primary { box-shadow: 0 8px 20px rgba(var(--accent-rgb), .18); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(var(--accent-rgb), .26); }
+.btn { border-radius: 6px; }
 
 /* IFMA: abertura clara, editorial e com geometria discreta. */
 body:not([data-team]):not([data-context-team]) .hero {
@@ -89,7 +87,6 @@ body[data-team] .section h2 { color: var(--ink); }
 body[data-team] .eyebrow { color: var(--accent-soft); }
 
 /* Cartões: leve profundidade e detalhes de interação, sem arredondamento excessivo. */
-.eq-card,
 .comp-card,
 .area-card,
 .cp-card,
@@ -103,7 +100,6 @@ body[data-team] .eyebrow { color: var(--accent-soft); }
   transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background-color .22s ease;
 }
 
-.eq-card:hover,
 .comp-card:hover,
 .area-card:hover,
 .cp-card:hover,
@@ -120,8 +116,7 @@ body[data-team] .eyebrow { color: var(--accent-soft); }
 }
 
 .comp-card::before { border-radius: 8px 8px 0 0; }
-.cp-card:hover .cp-media img,
-.eq-card:hover .eq-art img { transform: scale(1.035); }
+.cp-card:hover .cp-media img { transform: scale(1.035); }
 .project-detail-media { border-radius: 8px; }
 .project-related-card { border-radius: 8px; }
 .gal-item { overflow: hidden; }
@@ -178,6 +173,29 @@ body[data-team] .hero { border-bottom: 1px solid var(--line); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .main-nav a, .btn, .eq-card, .comp-card, .area-card, .cp-card,
+  .main-nav a, .btn, .comp-card, .area-card, .cp-card,
   .mem-card, .news-card, .proj-card, .project-related-card, .gal-item { transition: none; }
 }
+
+
+/* ---------- listas que crescem: "ver todas", "+N" e "mostrar mais" ---------- */
+
+.list-more {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--accent-2);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.list-more::after { content: '→'; display: inline-block; margin-left: 6px; transition: transform .3s cubic-bezier(.22,.7,.2,1); }
+.list-more:hover::after { transform: translateX(4px); }
+
+.list-more-btn { display: block; margin: 26px auto 0; }
+.list-more-btn[hidden] { display: none; }
+
+.chips li.chip-more { background: transparent; border-style: dashed; color: var(--muted); }
+
+/* marcador da conquista: ouro, prata e bronze, discretos */
+.tl-dot[data-place="1"] { background: #C9A227; border-color: #A8841A; }
+.tl-dot[data-place="2"] { background: #A7B0B8; border-color: #858F99; }
+.tl-dot[data-place="3"] { background: #B4793F; border-color: #94602F; }

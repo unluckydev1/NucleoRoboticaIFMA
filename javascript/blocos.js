@@ -35,7 +35,14 @@ window.NUCLEO_BLOCKS = (function () {
   function figure(image, index, all, label) {
     const fig = el('figure', 'blk-fig');
 
-    if (image.fit === 'contain') fig.classList.add('fit-contain');
+    if (image.fit === 'contain') {
+      fig.classList.add('fit-contain');
+      if (image.width && image.height) fig.style.aspectRatio = `${image.width} / ${image.height}`;
+    }
+    if (image.fit === 'natural') {
+      fig.classList.add('fit-natural');
+      if (image.width && image.height) fig.style.aspectRatio = `${image.width} / ${image.height}`;
+    }
     if (image.src) {
       const img = el('img');
       img.src = root + image.src;
@@ -98,6 +105,12 @@ window.NUCLEO_BLOCKS = (function () {
       const row = el('div', 'blk-links');
       block.links.forEach((l) => {
         const a = el('a', l.featured ? 'btn btn-featured' : 'btn btn-primary', l.label);
+        if (l.label === 'OBR 2026') {
+          a.textContent = '';
+          a.append(el('span', '', 'OBR'), el('small', '', '2026'));
+          a.setAttribute('aria-label', 'Ir para Equipe em campo · OBR 2026');
+        }
+        if (/^OBR\b/.test(l.label)) a.classList.add('blk-link-obr');
         a.href = /^https?:/.test(l.href) ? l.href : root + l.href;
         if (/\.docx?$/i.test(l.href)) a.setAttribute('download', '');
         if (l.newTab || /^https?:|\.pdf$/i.test(l.href)) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
@@ -121,29 +134,15 @@ window.NUCLEO_BLOCKS = (function () {
 
   function videoFigure(media) {
     const fig = el('figure', 'blk-video');
-    const preview = el('button', 'video-preview');
-    preview.type = 'button';
-    preview.dataset.videoPreview = '';
-    preview.setAttribute('aria-label', `Reproduzir vídeo: ${media.caption || 'vídeo da competição'}`);
-    if (media.poster) {
-      const img = el('img');
-      img.src = root + media.poster;
-      img.alt = '';
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      preview.appendChild(img);
-    }
-    preview.appendChild(el('span', 'video-preview-play', '▶'));
     const video = el('video');
     video.controls = true;
     video.playsInline = true;
-    video.preload = 'none';
-    video.hidden = true;
     const source = el('source');
-    source.dataset.src = root + media.src;
+    source.src = root + media.src;
     source.type = media.mime || 'video/mp4';
     video.appendChild(source);
-    fig.append(preview, video);
+    video.appendChild(el('p', '', 'Seu navegador não conseguiu reproduzir o vídeo.'));
+    fig.appendChild(video);
     if (media.caption) fig.appendChild(el('figcaption', '', media.caption));
     return fig;
   }
@@ -151,6 +150,7 @@ window.NUCLEO_BLOCKS = (function () {
   function block(b, i) {
     const layout = SLOTS[b.layout] !== undefined ? b.layout : 'split';
     const sec = el('section', `blk blk-l-${layout}`);
+    if (b.presentation) sec.classList.add(`is-${b.presentation}`);
     if (layout === 'split') sec.classList.add(b.side === 'left' ? 'is-left' : 'is-right');
     if (b.title) sec.setAttribute('aria-label', b.title);
 

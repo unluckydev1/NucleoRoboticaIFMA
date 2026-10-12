@@ -1,6 +1,6 @@
 (function () {
   const data = window.NUCLEO_DATA;
-  const { el, slug, toArray } = window.NUCLEO_DOM;
+  const { el, slug, toArray, arrowButton } = window.NUCLEO_DOM;
   const id = new URLSearchParams(location.search).get('p');
   const project = (data.projects || []).find((item) => (item.id || slug(item.title)) === id);
   const title = document.getElementById('project-title');
@@ -14,6 +14,7 @@
   }
 
   title.textContent = project.title;
+  if (project.id === 'tecnoarte') document.body.classList.add('project-tecnoarte');
   document.title = `${project.title} · Núcleo de Robótica IFMA`;
   document.querySelector('meta[name="description"]').content =
     project.description || `Conheça ${project.title}, projeto do Núcleo de Robótica do IFMA.`;
@@ -49,7 +50,8 @@
 
   const media = document.getElementById('project-image');
   const mediaGallery = toArray(project.mediaGallery).filter(Boolean);
-  const galleryPhotos = mediaGallery.filter((item) => item.type !== 'video' && item.src);
+  const allGalleryPhotos = mediaGallery.filter((item) => item.type !== 'video' && item.src);
+  const galleryPhotos = allGalleryPhotos.filter((item) => !item.featured);
   const video = mediaGallery.find((item) => item.type === 'video' && item.src);
   const lightboxPhotos = galleryPhotos.map((item) => ({
     src: new URL(`${document.body.dataset.root || ''}${item.src}`, document.baseURI).href,
@@ -61,15 +63,20 @@
     image.src = `${document.body.dataset.root || ''}${project.image}`;
     image.alt = project.imageAlt || project.title;
     image.decoding = 'async';
-    const featured = galleryPhotos.find((item) => item.src === project.image);
+    if (project.imageWidth && project.imageHeight) {
+      image.width = project.imageWidth;
+      image.height = project.imageHeight;
+    }
+    const featured = allGalleryPhotos.find((item) => item.src === project.image);
     if (featured?.width && featured?.height) {
       image.width = featured.width;
       image.height = featured.height;
     }
     const openImage = () => {
       if (window.NUCLEO_WIDGETS?.lightbox) {
-        const items = lightboxPhotos.length ? lightboxPhotos : [{ src: image.src, caption: image.alt }];
-        const index = Math.max(0, galleryPhotos.findIndex((item) => item.src === project.image));
+        const inGallery = galleryPhotos.some((item) => item.src === project.image);
+        const items = inGallery ? lightboxPhotos : [{ src: image.src, caption: project.imageCaption || image.alt }];
+        const index = inGallery ? galleryPhotos.findIndex((item) => item.src === project.image) : 0;
         window.NUCLEO_WIDGETS.lightbox().open(items, index);
       } else {
         window.open(image.src, '_blank', 'noopener');
@@ -93,6 +100,57 @@
     media.append(mark, el('figcaption', '', project.placeholder || project.title));
   }
 
+  if (project.teamFeature) {
+    const feature = el('section', 'project-team-feature');
+    feature.id = 'equipe-em-campo';
+    const image = el('img');
+    const imageUrl = new URL(`${document.body.dataset.root || ''}${project.teamFeature.src}`, document.baseURI).href;
+    image.src = imageUrl;
+    image.alt = project.teamFeature.alt || project.teamFeature.caption || 'Equipe do projeto';
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    if (project.teamFeature.width && project.teamFeature.height) {
+      image.width = project.teamFeature.width;
+      image.height = project.teamFeature.height;
+    }
+    const photo = el('button', 'project-team-photo project-team-media-item');
+    photo.type = 'button';
+    photo.setAttribute('aria-label', `Ampliar foto: ${image.alt}`);
+    photo.appendChild(image);
+    photo.addEventListener('click', () => window.NUCLEO_WIDGETS?.lightbox?.().open([{
+      src: imageUrl, caption: project.teamFeature.caption || '', label: project.title
+    }], 0));
+    const copy = el('div', 'project-team-copy');
+    const heading = el('div', 'project-team-heading');
+    const headingCopy = el('div');
+    headingCopy.append(el('p', 'eyebrow', 'OBR · Equipe em campo'), el('h2', '', 'Órion Saiph e Orion Turtle'));
+    const obrLink = el('a', 'project-team-obr-link');
+    obrLink.href = `${document.body.dataset.root || ''}${project.teamFeature.link || 'competicao.html?c=obr'}`;
+    obrLink.setAttribute('aria-label', 'Ver a página da competição OBR 2026');
+    obrLink.append(el('span', '', 'OBR'), el('small', '', '2026'));
+    heading.append(headingCopy, obrLink);
+    copy.append(heading, el('p', '', project.teamFeature.caption || 'Equipe e robô na competição.'));
+    const mediaRow = el('div', 'project-team-media');
+    const photoFigure = el('figure', 'project-team-media-card project-team-photo-card');
+    photoFigure.append(photo, el('figcaption', '', project.teamFeature.caption || 'Equipe Órion Saiph na OBR'));
+    mediaRow.appendChild(photoFigure);
+    if (project.teamFeature.video?.src) {
+      const videoFigure = el('figure', 'project-team-media-card project-team-video');
+      const player = el('video');
+      player.controls = true;
+      player.playsInline = true;
+      const source = el('source');
+      source.src = new URL(`${document.body.dataset.root || ''}${project.teamFeature.video.src}`, document.baseURI).href;
+      source.type = project.teamFeature.video.mime || 'video/mp4';
+      player.appendChild(source);
+      player.appendChild(el('p', '', 'Seu navegador não conseguiu reproduzir o vídeo.'));
+      videoFigure.append(player, el('figcaption', '', project.teamFeature.video.caption || 'Registro da equipe na OBR'));
+      mediaRow.appendChild(videoFigure);
+    }
+    feature.append(copy, mediaRow);
+    document.querySelector('.project-layout')?.after(feature);
+  }
+
   const blocks = document.getElementById('project-blocks');
   if (blocks && window.NUCLEO_BLOCKS && project.sections) {
     window.NUCLEO_BLOCKS.render(blocks, project.sections);
@@ -101,9 +159,8 @@
 
   if (blocks && mediaGallery.length) {
     const gallery = el('section', 'project-media-gallery');
-    const remainingPhotos = galleryPhotos.filter((item) => !item.featured);
-    if (video && remainingPhotos.length === 1) gallery.classList.add('project-media-gallery-pair');
-    if (video && remainingPhotos.length === 3) gallery.classList.add('project-media-gallery-mosaic');
+    const useCarousel = ['robo-resgate', 'tecnoarte'].includes(project.id);
+    if (useCarousel) gallery.classList.add('project-media-gallery-carousel');
     gallery.setAttribute('aria-labelledby', 'project-media-title');
     const heading = el('div', 'project-media-heading');
     heading.append(
@@ -115,8 +172,7 @@
     const title = heading.querySelector('h2');
     title.id = 'project-media-title';
 
-    const grid = el('div', 'project-media-masonry');
-    remainingPhotos.forEach((item) => {
+    function photoFigure(item) {
       const figure = el('figure', 'project-media-card');
       const button = el('button', 'project-media-zoom');
       button.type = 'button';
@@ -129,41 +185,62 @@
       if (item.width && item.height) {
         image.width = item.width;
         image.height = item.height;
+        if (item.height > item.width) figure.classList.add('is-portrait');
       }
       button.appendChild(image);
       button.addEventListener('click', () => window.NUCLEO_WIDGETS?.lightbox?.().open(lightboxPhotos, galleryPhotos.indexOf(item)));
       figure.append(button, el('figcaption', '', item.caption || 'Atividade do projeto'));
-      grid.appendChild(figure);
-    });
-    if (grid.children.length) gallery.appendChild(grid);
+      return figure;
+    }
 
-    if (video) {
+    function videoFigure(item) {
       const figure = el('figure', 'project-media-video');
-      const preview = el('button', 'video-preview');
-      preview.type = 'button';
-      preview.dataset.videoPreview = '';
-      preview.setAttribute('aria-label', `Reproduzir vídeo: ${video.caption || `vídeo do projeto ${project.title}`}`);
-      if (video.poster) {
-        const poster = el('img');
-        poster.src = new URL(`${document.body.dataset.root || ''}${video.poster}`, document.baseURI).href;
-        poster.alt = '';
-        poster.loading = 'lazy';
-        poster.decoding = 'async';
-        preview.appendChild(poster);
-      }
-      preview.appendChild(el('span', 'video-preview-play', '▶'));
       const player = el('video');
       player.controls = true;
       player.playsInline = true;
-      player.preload = 'none';
-      player.hidden = true;
       const source = el('source');
-      source.dataset.src = new URL(`${document.body.dataset.root || ''}${video.src}`, document.baseURI).href;
-      source.type = video.mime || 'video/mp4';
+      source.src = new URL(`${document.body.dataset.root || ''}${item.src}`, document.baseURI).href;
+      source.type = item.mime || 'video/mp4';
       player.appendChild(source);
       player.appendChild(el('p', '', 'Seu navegador não conseguiu reproduzir o vídeo.'));
-      figure.append(preview, player, el('figcaption', '', video.caption || `Vídeo do projeto ${project.title}`));
-      gallery.appendChild(figure);
+      figure.append(player, el('figcaption', '', item.caption || `Vídeo do projeto ${project.title}`));
+      return figure;
+    }
+
+    if (useCarousel) {
+      const slider = el('div', 'comp-slider project-media-slider');
+      const carousel = el('div', 'comp-carousel project-media-carousel');
+      const track = el('div', 'comp-track project-media-track');
+      track.tabIndex = 0;
+      track.setAttribute('aria-label', `Fotos e vídeos de ${project.title}`);
+      const slides = mediaGallery.filter((item) => item.type === 'video' || (item.src && !item.featured));
+      slides.forEach((item) => {
+        const figure = item.type === 'video' ? videoFigure(item) : photoFigure(item);
+        figure.classList.add('project-media-slide');
+        track.appendChild(figure);
+      });
+      const previous = arrowButton('comp-btn', 'prev', 'Foto anterior');
+      const next = arrowButton('comp-btn', 'next', 'Próxima foto');
+      const update = () => {
+        const index = Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / track.clientWidth)));
+        previous.disabled = index === 0;
+        next.disabled = index >= slides.length - 1;
+      };
+      previous.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }));
+      next.addEventListener('click', () => track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }));
+      track.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      carousel.append(previous, track, next);
+      slider.appendChild(carousel);
+      gallery.appendChild(slider);
+      window.NUCLEO_WIDGETS?.dots(track, { host: slider });
+      window.NUCLEO_UTIL?.dragScroll(track, { fade: false });
+      requestAnimationFrame(update);
+    } else {
+      const grid = el('div', 'project-media-masonry');
+      galleryPhotos.filter((item) => !item.featured).forEach((item) => grid.appendChild(photoFigure(item)));
+      if (grid.children.length) gallery.appendChild(grid);
+      if (video) gallery.appendChild(videoFigure(video));
     }
     blocks.appendChild(gallery);
     window.NUCLEO_MOTION?.reveal(gallery);

@@ -1,5 +1,5 @@
 /* =========================================================
-   PÁGINA COMPETIÇÕES — grade de cartões + filtros (equipe, ano, categoria)
+   PÁGINA COMPETIÇÕES: grade de cartões + filtros (equipe, ano, categoria)
 
    Lê data/data.js (lista "competitions"). Cada cartão leva a
    competicao.html?c=ID. Estado na URL: ?equipe=orion&ano=2025&categoria=sumo
@@ -27,7 +27,7 @@
     const a = el('article', 'cp-card');
     const link = el('a', 'cp-main-link');
     link.href = U.compHref(c);
-    link.setAttribute('aria-label', `${c.name} — ver detalhes`);
+    link.setAttribute('aria-label', `${c.name}: ver detalhes`);
 
     const media = el('div', 'cp-media');
     const cover = c.cover || (U.compImages(c)[0] || {}).src;
@@ -61,7 +61,7 @@
     const years = U.compYears(c);
     if (years.length) {
       const row = el('div', 'cp-row');
-      row.append(el('b', '', 'Ano'), el('span', '', years.join(' · ')));
+      row.append(el('b', '', 'Ano'), el('span', '', years.join(', ')));
       info.appendChild(row);
     }
 

@@ -4,7 +4,7 @@
    Esquerda: fotos da equipe (carrossel se houver mais de uma).
    Direita:  nome, equipes/ano/categorias, texto e conquistas.
    Abaixo, os blocos de "sections" (javascript/blocos.js).
-   Tudo vem de data/data.js — não há um HTML por competição.
+   Tudo vem de data/data.js: não há um HTML por competição.
    ========================================================= */
 
 (function () {
@@ -21,7 +21,7 @@
   /* ---------- id inválido ---------- */
 
   if (!c) {
-    document.title = 'Competição não encontrada · Núcleo de Robótica IFMA Santa Inês';
+    document.title = 'Competição não encontrada, Núcleo de Robótica IFMA Santa Inês';
 
     const empty = el('div', 'empty');
     empty.appendChild(el('p', '', 'Não encontramos essa competição.'));
@@ -34,7 +34,7 @@
     return;
   }
 
-  document.title = `${c.name} · Núcleo de Robótica IFMA Santa Inês`;
+  document.title = `${c.name}, Núcleo de Robótica IFMA Santa Inês`;
   const wins = (D.achievements || []).filter((a) => a.competition === id);
 
 
@@ -60,7 +60,7 @@
       const img = el('img');
 
       img.src = U.root + im.src;
-      img.alt = im.caption || `${c.name} — foto ${i + 1}`;
+      img.alt = im.caption || `${c.name}: foto ${i + 1}`;
       if (i > 0) img.loading = 'lazy';
       img.decoding = 'async';
 
@@ -184,7 +184,7 @@
       const content = el('div', 'tl-content');
       const dot = el('span', 'tl-dot');
       dot.setAttribute('aria-hidden', 'true');
-      const label = [U.teamName(a.team), a.year].filter(Boolean).join(' · ');
+      const label = [U.teamName(a.team), a.year].filter(Boolean).join(', ');
       if (label) content.appendChild(el('small', '', label));
       content.appendChild(el('h3', '', a.title));
       if (a.description) content.appendChild(el('p', '', a.description));

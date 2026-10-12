@@ -3,8 +3,8 @@ window.NUCLEO_DATA = window.NUCLEO_DATA || {};
 window.NUCLEO_DATA.competitions = [
 
     /* ===== OBR ===== */
-    { id: "obr", teams: ["orion"], short: "OBR", name: "OBR — Olimpíada Brasileira de Robótica",
-      description: "Maior olimpíada de robótica do país. Disputamos a etapa estadual do Maranhão, em São Luís, em Robótica Artística e em Resgate.",
+    { id: "obr", teams: ["orion"], short: "OBR", name: "OBR: Olimpíada Brasileira de Robótica",
+      description: "Olimpíada nacional com provas teóricas e práticas de robótica. O núcleo disputa as modalidades de Resgate e Robótica Artística na etapa do Maranhão.",
       categories: ["artistica", "resgate"], year: ["2025", "2026"], images: [],
       members: ["orion-davy", "orion-lara", "orion-felipe", "orion-guilherme", "orion-ezequiel", "orion-lucas", "orion-leonardo", "orion-gabi", "orion-carol"],
       text: [
@@ -12,7 +12,7 @@ window.NUCLEO_DATA.competitions = [
         "As equipes passam por etapas regionais e estaduais, e as melhores avançam para a final nacional, em João Pessoa (PB). O núcleo compete no Maranhão com duas frentes: a Órion Rígel, na parte artística, e a Órion Saiph, no resgate."
       ],
       sections: [
-        { layout: "banner", eyebrow: "2026 · Etapa estadual · São Luís · 3 e 4 de agosto",
+        { layout: "banner", eyebrow: "2026, Etapa estadual, São Luís, 3 e 4 de agosto",
           title: "Rígel é campeã estadual e vai ao nacional",
           chips: ["1º lugar", "Robótica Artística", "Classificada para o nacional"],
           text: [
@@ -22,7 +22,7 @@ window.NUCLEO_DATA.competitions = [
           images: [{ caption: "Foto: equipe Rígel no pódio da OBR estadual 2026" }],
           members: ["orion-davy", "orion-lara", "orion-gabi", "orion-leonardo", "orion-lucas", "orion-ezequiel", "orion-felipe", "orion-guilherme", "orion-carol"] },
 
-        { layout: "stats", eyebrow: "Resgate · 2025 → 2026", title: "A evolução do Orion Turtle",
+        { layout: "stats", eyebrow: "Resgate, 2025 → 2026", title: "A evolução do Orion Turtle",
           text: "O mesmo robô, reprojetado entre uma etapa e outra, mais que dobrou a pontuação: de uma arena média em 2025 para a arena difícil em 2026.",
           stats: [
             { value: "120", label: "pontos em 2025 (arena média)" },
@@ -33,8 +33,8 @@ window.NUCLEO_DATA.competitions = [
           images: [{ src: "assets/competicoes/obr/obr-orion-turtle-equipe-01.jpeg", caption: "Equipe Órion Saiph e Orion Turtle na OBR", width: 1404, height: 936 }],
           links: [{ label: "Conhecer o projeto do robô", href: "projeto.html?p=robo-resgate" }] },
 
-        { layout: "split", side: "left", eyebrow: "2025 · Etapa estadual · São Luís · 28 e 29 de agosto",
-          title: "O ponto de partida",
+        { layout: "split", side: "left", eyebrow: "2025, Etapa estadual, São Luís, 28 e 29 de agosto",
+          title: "A campanha estadual de 2025",
           text: [
             "Em 2025 levamos duas equipes. A Órion Estrelas (Rígel), na Performance Artística, ficou em 4º lugar. A Órion Saiph, no Resgate, terminou em 22º.",
             "Foi a base do ciclo de evolução que, no ano seguinte, levou o núcleo ao topo do pódio artístico."
@@ -45,8 +45,8 @@ window.NUCLEO_DATA.competitions = [
 
 
     /* ===== MRC Brasil + Robosummit ===== */
-    { id: "robosummit", teams: ["orion", "nexa"], short: "MRC · Robosummit", name: "MRC Brasil — Robosummit (Nacional)",
-      description: "Etapa nacional da Minoan Robotsports Competition no Brasil, junto à Robosummit, em Angra dos Reis (RJ). Cinco pódios da Órion.",
+    { id: "robosummit", teams: ["orion", "nexa"], short: "MRC, Robosummit", name: "MRC Brasil: Robosummit (Nacional)",
+      description: "Etapa brasileira da Minoan Robotsports Competition, realizada junto à Robosummit, em Angra dos Reis (RJ). A Órion voltou com cinco pódios.",
       categories: ["sumo", "labirinto", "maratona", "desafio-surpresa", "seguidor-obstaculos"], year: "2026", images: [],
       members: ["orion-davy", "orion-lucas", "orion-pedro-hiago", "nexa-saulo", "nexa-israelly", "nexa-filipe-bispo", "nexa-paulo-ryan", "orion-carol"],
       text: [
@@ -54,7 +54,7 @@ window.NUCLEO_DATA.competitions = [
         "Em 2026, em Angra dos Reis (RJ), a Órion disputou provas do ensino médio e superior, com Pedro Hiago na equipe do superior. A NEXA 404 também representou o núcleo na categoria universitária."
       ],
       sections: [
-        { layout: "stats", eyebrow: "2026 · Angra dos Reis (RJ)", title: "Cinco pódios no nacional",
+        { layout: "stats", eyebrow: "2026, Angra dos Reis (RJ)", title: "Cinco pódios no nacional",
           text: "A Órion conquistou cinco pódios na mesma viagem, entre labirinto, maratona de seguidores de linha, desafio surpresa e sumô.",
           stats: [
             { value: "5", label: "pódios" },
@@ -62,17 +62,17 @@ window.NUCLEO_DATA.competitions = [
             { value: "2", label: "equipes: Órion e NEXA" }
           ],
           images: [{ caption: "Foto: delegação do núcleo em Angra dos Reis" }] },
-          { layout: "split", side: "left", eyebrow: "NEXA 404 · categoria universitária", title: "NEXA representa o núcleo",
-          chips: ["Sumô · universitário", "Labirinto · universitário", "Seguidor de linha · universitário"],
+          { layout: "split", side: "left", eyebrow: "NEXA 404, categoria universitária", title: "Participação da NEXA 404",
+          chips: ["Sumô, universitário", "Labirinto, universitário", "Seguidor de linha, universitário"],
           text: [
             "A NEXA 404 participou do Sumô e do Labirinto universitários na MRC, além de Seguidor de linha na etapa da Robosummit.",
             "A equipe integrou a delegação do IFMA em Angra dos Reis junto à Órion."
           ],
-          images: [{ caption: "Foto da NEXA 404 nas provas universitárias · registro a inserir" }],
+          images: [{ caption: "Foto da NEXA 404 nas provas universitárias, registro a inserir" }],
           members: ["nexa-saulo", "nexa-israelly", "nexa-filipe-bispo", "nexa-paulo-ryan"] },
 
-        { layout: "trio", eyebrow: "Órion · ensino médio e superior", title: "Labirinto, maratona e desafio surpresa",
-          chips: ["1º Labirinto · nível médio MRC","1º Sumô · nível Superior MRC", "3º Labirinto Robosummit", "3º Maratona", "2º Desafio Surpresa"],
+        { layout: "trio", eyebrow: "Órion, ensino médio e superior", title: "Labirinto, maratona e desafio surpresa",
+          chips: ["1º Labirinto, nível médio MRC","1º Sumô, nível Superior MRC", "3º Labirinto Robosummit", "3º Maratona", "2º Desafio Surpresa"],
           text: [
             "Davy e Lucas, no médio, e o capitão Pedro Hiago, no superior, levaram a Órion a cinco pódios: 1º lugar no Labirinto MRC do nível médio, 1º lugar no Sumô universitário, 3º lugar no Labirinto da Robosummit, 3º lugar na Maratona (corrida de seguidores de linha da MRC) e 2º lugar no Desafio Surpresa.",
             "A equipe ainda participou da prova de Seguidor de linha com obstáculos da Robosummit."
@@ -80,20 +80,20 @@ window.NUCLEO_DATA.competitions = [
           images: [{ caption: "Foto: robô no labirinto" }, { caption: "Foto: maratona de seguidores de linha" }, { caption: "Foto: desafio surpresa" }],
           members: ["orion-davy", "orion-lucas", "orion-pedro-hiago", "orion-carol"] },
 
-        { layout: "split", side: "right", eyebrow: "Órion · MRC Brasil", title: "Dois primeiros lugares!",
-          chips: ["1º Sumô universitário", "1º Labirinto · nível médio"],
+        { layout: "split", side: "right", eyebrow: "Órion, MRC Brasil", title: "Dois primeiros lugares para a Órion",
+          chips: ["1º Sumô universitário", "1º Labirinto, nível médio"],
           text: [
-            "conquistamos o 1º lugar no Sumô universitário e no Labirinto do nível médio.",
+            "A Órion conquistou o 1º lugar no Sumô universitário e no Labirinto do nível médio.",
             "Davy e Lucas disputaram o Labirinto no ensino médio. A equipe também competiu em outras modalidades da MRC e da Robosummit."
           ],
-          images: [{ caption: "Foto da Órion no MRC · Sumô universitário" }],
+          images: [{ caption: "Foto da Órion no MRC, Sumô universitário" }],
         },
       ] },
 
 
     /* ===== OMR / MOVIEMA ===== */
-    { id: "omr", teams: ["orion", "nexa"], short: "OMR · Moviema", name: "OMR — Olimpíada Moviema de Robótica",
-      description: "Olimpíada do IEMA, em São Luís, para estudantes da educação básica ao ensino superior. Em 2026, ouro no sumô com a NEXA e prata em Registro de Mídia com a Órion.",
+    { id: "omr", teams: ["orion", "nexa"], short: "OMR, Moviema", name: "OMR: Olimpíada Moviema de Robótica",
+      description: "Competição de robótica organizada pelo IEMA, em São Luís. Em 2026, a NEXA venceu o Sumô e a Órion ficou em 2º lugar em Registro de Mídia.",
       categories: ["sumo", "resgate", "registro-midia"], year: "2026", images: [],
       members: ["orion-davy", "orion-lara", "orion-leonardo", "orion-lucas", "orion-felipe", "orion-ezequiel", "orion-ivylle", "orion-marjorie", "orion-bruna", "nexa-saulo", "nexa-israelly", "nexa-filipe-bispo", "nexa-paulo-ryan", "orion-carol"],
       text: [
@@ -101,37 +101,37 @@ window.NUCLEO_DATA.competitions = [
         "As provas são Resgate Simples, Sumô, Cabo de Guerra e Registro do Evento. Em 2026, na 2ª edição, em São Luís, o núcleo foi com as duas equipes."
       ],
       sections: [
-        { layout: "split", side: "right", eyebrow: "NEXA 404 · superior", title: "NEXA conquista o sumô",
+        { layout: "split", side: "right", eyebrow: "NEXA 404, ensino superior", title: "NEXA vence o Sumô",
           chips: ["1º lugar", "Sumô"],
-          text: "Saulo, Israelly, Filipe Bispo e Paulo Ryan levaram a NEXA ao 1º lugar na prova de Sumô.",
+          text: "Saulo, Israelly, Filipe Bispo e Paulo Ryan conquistaram o 1º lugar para a NEXA na prova de Sumô.",
           images: [{ caption: "Foto: NEXA 404 no pódio do sumô" }],
           members: ["nexa-saulo", "nexa-israelly", "nexa-filipe-bispo", "nexa-paulo-ryan"] },
 
-        { layout: "stats", eyebrow: "2026 · 2ª edição · São Luís", title: "Ouro no sumô e prata em mídia",
+        { layout: "stats", eyebrow: "2026, 2ª edição, São Luís", title: "Ouro no sumô e prata em mídia",
           text: "Treze estudantes das duas equipes, do ensino médio ao superior, representaram o núcleo na competição.",
           stats: [
-            { value: "1º", label: "Sumô — NEXA 404" },
-            { value: "2º", label: "Registro de Mídia — Órion" },
+            { value: "1º", label: "Sumô: NEXA 404" },
+            { value: "2º", label: "Registro de Mídia: Órion" },
             { value: "13", label: "estudantes em competição" }
           ],
           images: [{ caption: "Foto: equipes do núcleo na OMR 2026" }] },
 
-        { layout: "split", side: "left", eyebrow: "Órion · médio e superior", title: "Registro de mídia, resgate e sumô",
+        { layout: "split", side: "left", eyebrow: "Órion, ensino médio e superior", title: "Cobertura e provas da Órion",
           chips: ["2º lugar", "Registro de Mídia"],
           text: [
             "No ensino médio, Davy, Lara, Leo, Lucas, Felipe, Ezequiel e Ivylle fizeram a cobertura do evento, que rendeu o 2º lugar em Registro de Mídia. No superior, Marjorie e Bruna completaram a delegação.",
             "A Órion também participou das provas de Resgate e de Sumô, no médio e no superior."
           ],
           images: [{ caption: "Foto: equipe de mídia da Órion" }],
-          video: { src: "assets/competicoes/omr/omr-sumo-medio-orion.mp4", poster: "assets/projetos/orion-turtle/orion-turtle-frontal.jpeg", mime: "video/mp4", caption: "Prova de Sumô · Órion, ensino médio · OMR 2026" },
+          video: { src: "assets/competicoes/omr/omr-sumo-medio-orion.mp4", poster: "assets/projetos/orion-turtle/orion-turtle-frontal.jpeg", mime: "video/mp4", caption: "Prova de Sumô do ensino médio, Órion, OMR 2026" },
           members: ["orion-davy", "orion-lara", "orion-leonardo", "orion-lucas", "orion-felipe", "orion-ezequiel", "orion-ivylle", "orion-marjorie", "orion-bruna"] },
 
       ] },
 
 
     /* ===== FIRA ===== */
-    { id: "fira", teams: ["orion"], short: "FIRA", name: "FIRA RoboWorld Cup — Maranhão",
-      description: "Etapas estaduais da FIRA RoboWorld Cup, torneio internacional de robótica educacional. Pódios em Cabo de Guerra (2025) e DRC-Explorer (2026).",
+    { id: "fira", teams: ["orion"], short: "FIRA", name: "FIRA RoboWorld Cup: Maranhão",
+      description: "Competição internacional de robótica educacional, com etapas estaduais no Maranhão. A Órion subiu ao pódio no Cabo de Guerra em 2025 e no DRC-Explorer em 2026.",
       categories: ["cabo-de-guerra", "drc-explorer", "missao-impossivel"], year: ["2025", "2026"], images: [],
       members: ["orion-davy", "orion-lara", "orion-felipe", "orion-guilherme", "orion-ezequiel", "orion-lucas", "orion-leonardo", "orion-carol"],
       text: [
@@ -139,7 +139,7 @@ window.NUCLEO_DATA.competitions = [
         "O núcleo disputou a etapa estadual nos dois anos e, em 2025, também o desafio online Missão Impossível."
       ],
       sections: [
-        { layout: "mosaic", eyebrow: "2026 · Etapa estadual · Bacabal", title: "3º lugar no DRC-Explorer",
+        { layout: "mosaic", eyebrow: "2026, Etapa estadual, Bacabal", title: "3º lugar no DRC-Explorer",
           chips: ["3º lugar", "DRC-Explorer", "Desafio surpresa"],
           text: [
             "Em março de 2026, o campus da UFMA em Bacabal recebeu a competição, que reuniu equipes de nove estados e de 32 cidades maranhenses nas modalidades DRC-Explorer, Cliff Hanger e Cabo de Guerra de Robôs.",
@@ -148,7 +148,7 @@ window.NUCLEO_DATA.competitions = [
           images: [{ caption: "Foto: robô DRC-Explorer" }, { caption: "Foto: equipe em Bacabal" }, { caption: "Foto: desafio surpresa" }],
           members: ["orion-davy", "orion-lara", "orion-leonardo", "orion-lucas", "orion-carol"] },
 
-        { layout: "split", side: "right", eyebrow: "2025 · Etapa estadual · São Luís · 23 e 24 de maio", title: "Cabo de Guerra: 3º lugar no grupo 1",
+        { layout: "split", side: "right", eyebrow: "2025, Etapa estadual, São Luís, 23 e 24 de maio", title: "Cabo de Guerra: 3º lugar no grupo 1",
           chips: ["3º lugar", "Cabo de Guerra", "Grupo 1 (baterias)"],
           text: [
             "A etapa estadual de 2025, realizada pelo IEMA no Golden Shopping Calhau, reuniu 166 equipes de todo o Maranhão.",
@@ -157,14 +157,14 @@ window.NUCLEO_DATA.competitions = [
           images: [{ caption: "Foto: robô de Cabo de Guerra" }],
           members: ["orion-davy", "orion-lara", "orion-felipe", "orion-guilherme", "orion-ezequiel", "orion-carol"] },
 
-        { layout: "text", eyebrow: "2025 · FIRA Online · 5 a 7 de setembro", title: "Missão Impossível",
-          text: "Em setembro de 2025, a Órion Saiph participou do desafio online Missão Impossível. Não houve colocação a registrar. Em 2026, na etapa de Bacabal, a equipe voltou a enfrentar o desafio surpresa, a Missão Impossível." }
+        { layout: "text", eyebrow: "2025, FIRA Online, 5 a 7 de setembro", title: "Desafio online Missão Impossível",
+          text: "Em setembro de 2025, a Órion Saiph participou da disputa online. Em 2026, a equipe voltou a enfrentar o desafio surpresa na etapa estadual de Bacabal." }
       ] },
 
 
     /* ===== Universo IFMA ===== */
     { id: "universo-ifma", teams: ["orion"], short: "Universo IFMA", name: "Universo IFMA",
-      description: "Evento de inovação do Instituto Federal do Maranhão. Em 2025, a Órion Rígel foi campeã da Performance Artística.",
+      description: "Evento de inovação do Instituto Federal do Maranhão. Em 2025, a Órion Rígel conquistou o 1º lugar na Performance Artística.",
       categories: ["artistica"], year: "2025", images: [],
       members: ["orion-davy", "orion-lara", "orion-felipe", "orion-guilherme", "orion-ezequiel", "orion-carol"],
       text: [
@@ -172,7 +172,7 @@ window.NUCLEO_DATA.competitions = [
         "Em 2025, a Robotic Órion Rígel disputou a Performance Artística."
       ],
       sections: [
-        { layout: "banner", eyebrow: "2025 · 11 a 13 de novembro", title: "Rígel é ouro na Performance Artística",
+        { layout: "banner", eyebrow: "2025, 11 a 13 de novembro", title: "Rígel é ouro na Performance Artística",
           chips: ["1º lugar", "Performance Artística"],
           text: [
             "Davy, Lara, Felipe, Guilherme e Ezequiel, com a coordenação da Carol, levaram a Robotic Órion Rígel ao 1º lugar na Performance Artística.",
@@ -184,8 +184,8 @@ window.NUCLEO_DATA.competitions = [
 
 
     /* ===== LNR ===== */
-    { id: "lnr", teams: ["orion"], short: "LNR", name: "LNR — Liga Nacional de Robótica",
-      description: "Competição em que a Órion Rígel foi campeã da Performance Artística, em dezembro de 2025.",
+    { id: "lnr", teams: ["orion"], short: "LNR", name: "LNR: Liga Nacional de Robótica",
+      description: "Liga de robótica em que a Órion Rígel conquistou o 1º lugar na Performance Artística, em dezembro de 2025.",
       categories: ["artistica"], year: "2025", images: [],
       members: ["orion-davy", "orion-lara", "orion-felipe", "orion-guilherme", "orion-ezequiel", "orion-carol"],
       text: [
@@ -193,7 +193,7 @@ window.NUCLEO_DATA.competitions = [
         "Foi o segundo ouro artístico em menos de um mês, depois do Universo IFMA."
       ],
       sections: [
-        { layout: "split", side: "left", eyebrow: "2025 · 1 a 3 de dezembro", title: "Segundo ouro artístico do ano",
+        { layout: "split", side: "left", eyebrow: "2025, 1 a 3 de dezembro", title: "Mais um título na Performance Artística",
           chips: ["1º lugar", "Performance Artística"],
           text: "A Rígel repetiu a boa fase da apresentação artística, com robô autônomo em cena, e terminou a competição no topo do pódio.",
           images: [{ caption: "Foto: Rígel na LNR 2025" }],
@@ -203,7 +203,7 @@ window.NUCLEO_DATA.competitions = [
 
     /* ===== Prêmio Porto do Itaqui ===== */
     { id: "porto-itaqui", teams: ["orion"], short: "Prêmio Porto Itaqui", name: "Prêmio Porto do Itaqui",
-      description: "Premiação do Governo do Maranhão para projetos de inovação nos setores portuário, marítimo e logístico. A Órion participou com um protótipo.",
+      description: "Premiação do Governo do Maranhão para projetos de inovação portuária, marítima e logística. A Órion participou com um protótipo.",
       categories: ["prototipo"], year: "2025", images: [],
       members: ["orion-davy", "orion-lara", "orion-felipe", "orion-guilherme", "orion-ezequiel", "orion-carol"],
       text: [
@@ -211,9 +211,9 @@ window.NUCLEO_DATA.competitions = [
         "O núcleo participou apresentando um protótipo."
       ],
       sections: [
-        { layout: "split", side: "right", eyebrow: "2025 · Protótipo", title: "Da bancada à premiação",
-          text: "A Órion apresentou um protótipo na premiação. Em breve, mais detalhes e fotos.",
-          images: [{ caption: "Foto: protótipo apresentado no Prêmio Porto do Itaqui" }] }
+        { layout: "split", side: "right", eyebrow: "2025, Participação da Órion", title: "Protótipo apresentado no prêmio",
+          text: "A equipe participou da premiação com a apresentação de um protótipo. Mais informações sobre o trabalho serão acrescentadas quando estiverem disponíveis.",
+          images: [{ caption: "Registro do protótipo apresentado pela Órion" }] }
       ] }
   ];
 

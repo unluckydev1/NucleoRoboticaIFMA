@@ -1,5 +1,5 @@
 /* =========================================================
-   PÁGINA INTEGRANTES — filtros (equipe, nível, função)
+   PÁGINA INTEGRANTES: filtros (equipe, nível, função)
 
    Os cartões já foram desenhados por render.js.
    Aqui só ligamos os filtros (filters.js) e mostramos/escondemos cartões.

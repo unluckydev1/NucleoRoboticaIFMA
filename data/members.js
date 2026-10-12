@@ -1,7 +1,7 @@
 /* Conteúdo do site: members. Edite esta lista para atualizar os dados relacionados. */
 window.NUCLEO_DATA = window.NUCLEO_DATA || {};
 window.NUCLEO_DATA.members = [
-    /* --- Órion · médio --- */
+    /* --- Órion, médio --- */
     { id: "orion-lucas", team: "orion", level: "medio", name: "Lucas", role: "Programação", photo: "assets/orion/members/lucas.png", socials: { Instagram: "https://www.instagram.com/lucas.yyp/" } },
     { id: "orion-davy", team: "orion", level: "medio", name: "Davy", role: ["Montagem", "Programação", "Mídia"], photo: "assets/orion/members/davy.png", socials: { Instagram: "https://www.instagram.com/davyxcosta/" } },
     { id: "orion-felipe", team: "orion", level: "medio", name: "Felipe", role: ["Mecânica", "Montagem", "Eletrônica"], photo: "assets/orion/members/felipe.png", socials: { Instagram: "https://www.instagram.com/philyppe.nleal/" } },
@@ -12,7 +12,7 @@ window.NUCLEO_DATA.members = [
     { id: "orion-gabi", team: "orion", level: "medio", name: "Gabi", role: "Integrante" },
     { id: "orion-ivylle", team: "orion", level: "medio", name: "Ivylle", role: ["Programação","Mídia"],photo: "assets/orion/members/ivylle.png" },
 
-    /* --- Órion · superior --- */
+    /* --- Órion, superior --- */
     { id: "orion-carol", team: "orion", level: "superior", name: "Carol Meireles", role: "Coordenação", photo: "assets/orion/members/carol.png", socials: { Instagram: "https://www.instagram.com/anacarolmeireles_/" } },
     { id: "orion-pedro-hiago", team: "orion", level: "superior", name: "Pedro Hiago", role: "Capitão" },
     { id: "orion-marjorie", team: "orion", level: "superior", name: "Marjorie", role: ["Programação", "Mídia"], photo: "assets/orion/members/marjorie.png", socials: { Instagram: "https://www.instagram.com/eng.marjoriecastro/" } },
@@ -25,7 +25,7 @@ window.NUCLEO_DATA.members = [
     { id: "orion-ryan-kallebe", team: "orion", name: "Ryan Kallebe", role: "Aulas e formação" },
     { id: "orion-luis-alberto", team: "orion", name: "Luis Alberto", role: "Professor" },
 
-    /* --- NEXA 404 · superior --- */
+    /* --- NEXA 404, superior --- */
     { id: "nexa-saulo", team: "nexa", level: "superior", name: "Saulo", role: "Integrante" },
     { id: "nexa-israelly", team: "nexa", level: "superior", name: "Israelly", role: "Integrante" },
     { id: "nexa-filipe-bispo", team: "nexa", level: "superior", name: "Filipe Bispo", role: "Integrante" },

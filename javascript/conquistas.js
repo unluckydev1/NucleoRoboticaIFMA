@@ -1,5 +1,5 @@
 /* =========================================================
-   PÁGINA CONQUISTAS — histórico completo, agrupado por ano
+   PÁGINA CONQUISTAS: histórico completo, agrupado por ano
 
    Lê data/data.js (lista "achievements"). Filtros: equipe, ano e
    competição. Mostra uma "página" por vez (settings.achievementsPageSize)

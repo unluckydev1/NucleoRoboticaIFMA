@@ -330,10 +330,10 @@
     dot.setAttribute('aria-hidden', 'true');
     if (a.place) dot.dataset.place = String(a.place);   // 1, 2 ou 3: cor do marcador
 
-    /* equipe (quando a lista mistura equipes) · ano */
+    /* equipe (quando a lista mistura equipes), ano */
     const label = [opts.showTeam ? teamName(a.team) : '', a.year]
       .filter(Boolean)
-      .join(' · ');
+      .join(', ');
 
     if (label) content.appendChild(el('small', '', label));
 
@@ -521,8 +521,8 @@
 
         const info = el('div', 'mem-info');
         info.appendChild(el('h3', '', m.name));
-        info.appendChild(el('p', 'mem-role', toRoles(m).join(' · ')));
-        info.appendChild(el('p', 'mem-meta', [t.name, level].filter(Boolean).join(' · ')));
+        info.appendChild(el('p', 'mem-role', toRoles(m).join(', ')));
+        info.appendChild(el('p', 'mem-meta', [t.name, level].filter(Boolean).join(', ')));
 
         card.append(avatar(m), info);
         const icons = roleIcons(m);
@@ -558,11 +558,11 @@
         openMemberProfile(m, card);
       });
 
-      const role = toRoles(m).join(' · ');
+      const role = toRoles(m).join(', ');
       card.append(
         avatar(m),
         el('h3', '', m.name),
-        el('span', '', team ? role : `${role} · ${teamName(m.team)}`)
+        el('span', '', team ? role : `${role}, ${teamName(m.team)}`)
       );
       const icon = team ? roleIcons(m) : null;
       if (icon) card.appendChild(icon);

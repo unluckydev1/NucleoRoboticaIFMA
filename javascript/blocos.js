@@ -11,7 +11,7 @@
              "duo"     texto + 2 imagens lado a lado
              "stats"   números em destaque (stats) + texto, imagem opcional
              "text"    só texto, coluna única
-     eyebrow:  linha pequena acima do título ("2026 · São Luís")
+     eyebrow:  linha pequena acima do título ("2026, São Luís")
      title:    título do bloco
      text:     "parágrafo"  ou  ["parágrafo 1", "parágrafo 2"]
      images:   ["caminho.jpg", { src: "caminho.jpg", caption: "Legenda" }, { caption: "Foto da equipe" }]
@@ -108,7 +108,7 @@ window.NUCLEO_BLOCKS = (function () {
         if (l.label === 'OBR 2026') {
           a.textContent = '';
           a.append(el('span', '', 'OBR'), el('small', '', '2026'));
-          a.setAttribute('aria-label', 'Ir para Equipe em campo · OBR 2026');
+          a.setAttribute('aria-label', 'Ir para Equipe em campo, OBR 2026');
         }
         if (/^OBR\b/.test(l.label)) a.classList.add('blk-link-obr');
         a.href = /^https?:/.test(l.href) ? l.href : root + l.href;

@@ -1,5 +1,5 @@
 /* =========================================================
-   PÁGINA GALERIA — filtro por ANO (único filtro) sobre o carrossel
+   PÁGINA GALERIA: filtro por ANO (único filtro) sobre o carrossel
    O carrossel e o visualizador vêm de render.js / widgets.js;
    as fotos vêm de data/data.js (lista "gallery").
    Estado na URL: ?ano=2025

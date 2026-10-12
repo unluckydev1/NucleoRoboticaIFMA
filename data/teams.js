@@ -4,12 +4,12 @@ window.NUCLEO_DATA.teams = {
     orion: {
       name: "Robotic Órion", color: "#2E5A88", ink: "#FFFFFF",
       page: "equipes/orion/index.html", logo: "assets/orion/logo_roundness.png", effect: "stars",
-      summary: "Robótica e programação. Mecânica, eletrônica e código para competir da OBR à Robosummit."
+      summary: "Estudantes do IFMA que projetam, constroem e programam robôs para desafios como a OBR, a MRC Brasil e a Robosummit."
     },
     nexa: {
       name: "NEXA 404", color: "#86D011", ink: "#08090C",
       page: "equipes/nexa/index.html", logo: "assets/nexa/logo.png", effect: "circuit",
-      summary: "Robótica competitiva universitária, guiada por engenharia, inovação e inclusão."
+      summary: "Equipe universitária do IFMA dedicada à robótica competitiva, à engenharia e à criação de soluções inclusivas."
     }
   };
 

@@ -9,20 +9,20 @@
     title.textContent = 'Projeto não encontrado';
     document.getElementById('project-description').textContent =
       'Este projeto não está disponível. Volte à lista para conhecer os projetos do núcleo.';
-    document.title = 'Projeto não encontrado · Núcleo de Robótica IFMA';
+    document.title = 'Projeto não encontrado, Núcleo de Robótica IFMA';
     return;
   }
 
   title.textContent = project.title;
   if (project.id === 'tecnoarte') document.body.classList.add('project-tecnoarte');
-  document.title = `${project.title} · Núcleo de Robótica IFMA`;
+  document.title = `${project.title}, Núcleo de Robótica IFMA`;
   document.querySelector('meta[name="description"]').content =
     project.description || `Conheça ${project.title}, projeto do Núcleo de Robótica do IFMA.`;
 
   const teams = toArray(project.teams || project.team).filter(Boolean);
   document.getElementById('project-teams').textContent = teams
     .map((team) => data.teams[team]?.name || team)
-    .join(' · ');
+    .join(', ');
   document.getElementById('project-category').textContent = project.category || '';
   document.getElementById('project-status').textContent = project.status || '';
   if (project.id === 'robo-resgate') {
@@ -56,7 +56,7 @@
   const lightboxPhotos = galleryPhotos.map((item) => ({
     src: new URL(`${document.body.dataset.root || ''}${item.src}`, document.baseURI).href,
     caption: item.caption || '',
-    label: `${project.title} · ${project.category || 'Projeto'}`
+    label: `${project.title}, ${project.category || 'Projeto'}`
   }));
   if (project.image) {
     const image = el('img');
@@ -123,7 +123,7 @@
     const copy = el('div', 'project-team-copy');
     const heading = el('div', 'project-team-heading');
     const headingCopy = el('div');
-    headingCopy.append(el('p', 'eyebrow', 'OBR · Equipe em campo'), el('h2', '', 'Órion Saiph e Orion Turtle'));
+    headingCopy.append(el('p', 'eyebrow', 'OBR, Equipe em campo'), el('h2', '', 'Órion Saiph e Orion Turtle'));
     const obrLink = el('a', 'project-team-obr-link');
     obrLink.href = `${document.body.dataset.root || ''}${project.teamFeature.link || 'competicao.html?c=obr'}`;
     obrLink.setAttribute('aria-label', 'Ver a página da competição OBR 2026');

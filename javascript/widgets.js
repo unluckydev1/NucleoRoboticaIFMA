@@ -217,7 +217,7 @@ window.NUCLEO_WIDGETS = (function () {
       }
 
       cap.replaceChildren();
-      const line = [it.label, `${index + 1} / ${list.length}`].filter(Boolean).join(' · ');
+      const line = [it.label, `${index + 1} / ${list.length}`].filter(Boolean).join(', ');
       cap.appendChild(el('small', '', line));
       if (it.caption) cap.appendChild(document.createTextNode(it.caption));
 
@@ -347,7 +347,7 @@ window.NUCLEO_WIDGETS = (function () {
       name.id = 'member-profile-name';
       details.appendChild(name);
       const meta = [level].filter(Boolean);
-      if (meta.length) details.appendChild(el('p', 'member-profile-meta', meta.join(' · ')));
+      if (meta.length) details.appendChild(el('p', 'member-profile-meta', meta.join(', ')));
       hero.appendChild(details);
       main.appendChild(hero);
 

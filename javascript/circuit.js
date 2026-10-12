@@ -1,5 +1,5 @@
 /* =========================================================
-   NEXA 404 — TRILHAS DE CIRCUITO
+   NEXA 404: TRILHAS DE CIRCUITO
    Trilhas de placa (retas com "dobras" de 45°) em verde e roxo,
    com pulsos de dados que correm por elas. Efeito próprio da
    NEXA; o campo de estrelas é só do Robotic Órion.

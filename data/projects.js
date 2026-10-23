@@ -83,23 +83,100 @@ window.NUCLEO_DATA.projects = [
       ] },
 
 
-    /* ===== Robô Humanoide ===== */
-    { id: "robo-humanoide", teams: ["orion"], category: "Pesquisa", title: "Robô Humanoide", status: "Em andamento",
-      description: "Projeto de pesquisa da Órion, em desenvolvimento por estudantes do ensino superior do IFMA Campus Santa Inês.",
-      members: ["orion-pedro-hiago", "orion-marjorie", "orion-rynalde", "orion-emilly", "orion-geovanna"],
-      image: "", link: "",
+    /* ===== Humanoide ÓRION ===== */
+    { id: "robo-humanoide", teams: ["orion"], category: "Pesquisa", title: "Humanoide ÓRION", status: "Em desenvolvimento",
+      description: "Humanoide de baixo custo com peças impressas em 3D, controle próprio, gêmeo digital e comandos por voz com IA. Já realiza movimentos básicos na bancada; a caminhada ainda está em desenvolvimento.",
+      members: ["orion-marjorie", "orion-carol"],
+      image: "assets/projetos/orion-humanoide/orion-humanoide-prototipo-e-gemeo-digital.jpg",
+      imageAlt: "Protótipo físico do humanoide ÓRION ao lado do seu gêmeo digital",
+      imageCaption: "ÓRION físico e sua representação virtual no Blender",
+      imageWidth: 1800, imageHeight: 1200, link: "",
       text: [
-        "O projeto de pesquisa reúne Pedro Hiago, Marjorie, Rynalde, Emilly e Geovanna, estudantes do ensino superior da Órion.",
-        "A equipe está desenvolvendo o robô. Esta página será atualizada conforme novas etapas e informações do projeto forem documentadas."
+        "O projeto desenvolve um robô humanoide acessível para pesquisa e ensino, construído por estudantes do IFMA Campus Santa Inês com peças desenhadas no Fusion 360 e impressas em 3D. A pesquisa é de Marjorie Pereira de Castro, com orientação de Ana Caroline Meireles Soares e colaboração do Grupo de Robótica ORION. O trabalho recebeu bolsa PIBITI do IFMA, pelo Edital PRPGI nº 09/2025.",
+        "O protótipo tem oito servomotores nas pernas, sensor de movimento e controle por ESP32. A equipe criou o ServoTUI para ajustar motores e gravar movimentos, além de um gêmeo digital para testar ações antes de executá-las no robô."
       ],
       sections: [
-        { layout: "split", side: "right", eyebrow: "Pesquisa em andamento", title: "Desenvolvimento do robô humanoide",
-          text: "A equipe está trabalhando no projeto. Detalhes sobre estrutura, articulações e testes serão acrescentados quando estiverem documentados.",
-          images: [{ caption: "Registro do desenvolvimento do robô humanoide" }] },
+        { layout: "split", side: "right", eyebrow: "Controle do robô", title: "Movimentos ajustados pelo ServoTUI",
+          text: [
+            "O ServoTUI, escrito em Python, permite mover cada motor, acompanhar o sensor de movimento e salvar ou repetir sequências. O programa também respeita os limites de cada motor e teve suas funções verificadas em 56 testes automatizados.",
+            "Na eletrônica, a ESP32 envia os comandos a uma placa PCA9685, que controla os servomotores. Um sensor MPU-6050 acompanha a inclinação do tronco."
+          ],
+          images: [{ src: "assets/projetos/orion-humanoide/servotui-interface.png", caption: "Tela de controle dos motores e editor de movimentos do ServoTUI", width: 3016, height: 1084, fit: "natural" }] },
 
-        { layout: "trio", eyebrow: "Etapas do projeto", title: "Modelagem, montagem e testes",
-          text: "Os registros desta seção serão incluídos à medida que a equipe documentar as etapas do desenvolvimento.",
-          images: [{ caption: "Registro da modelagem" }, { caption: "Registro da montagem" }, { caption: "Registro dos testes" }] }
+        { layout: "stats", eyebrow: "Resultados na bancada", title: "O que o ÓRION já consegue fazer",
+          text: [
+            "Preso por um cabo de segurança, o protótipo move cada junta, fica em pé, agacha e retorna à posição inicial. Em um teste, permaneceu agachado por cerca de quatro minutos sem cair.",
+            "A caminhada e a transferência de peso para os lados ainda não funcionam no robô físico. Os números destacam as etapas que já foram demonstradas e verificadas."
+          ],
+          stats: [
+            { value: "8", label: "servomotores instalados nas pernas" },
+            { value: "4 min", label: "agachado em um dos testes na bancada" },
+            { value: "56", label: "testes automatizados das funções do ServoTUI" }
+          ] },
+
+        { layout: "split", side: "right", eyebrow: "Simulação segura", title: "Gêmeo digital para testar a caminhada",
+          text: [
+            "A equipe montou no Blender uma cópia virtual baseada nas peças e no robô físico, e simulou sua dinâmica no MuJoCo. O mesmo controlador que prepara os movimentos pode ser exercitado no ambiente virtual antes de chegar ao protótipo.",
+            "Na simulação, o humanoide inclinou o tronco, completou seis passos e permaneceu em pé após um pequeno empurrão. Esses resultados ainda não se repetem no robô físico, pois massa, folgas das peças e atrito da bancada afetam o equilíbrio real."
+          ],
+          images: [{ src: "assets/projetos/orion-humanoide/orion-humanoide-simulacao-mujoco.jpg", caption: "Inclinações e passos do gêmeo digital no MuJoCo", width: 1396, height: 476, fit: "natural" }] },
+
+        { layout: "steps", eyebrow: "Interação e próximos passos", title: "Da voz ao movimento do robô",
+          text: "O agente de voz envia o áudio ao Google Gemini e transforma o pedido em uma ação. Nos cinco comandos avaliados, reconheceu pedidos de movimento, respondeu a uma pergunta e desligou os motores ao ouvir “pare”. O teste foi feito sem o robô conectado; os comandos de movimento levaram mais de três segundos.",
+          chips: ["ESP32", "Python", "Blender", "MuJoCo", "Google Gemini"],
+          items: [
+            { title: "Comando por voz", text: "O Gemini interpreta pedidos em português e propõe uma ação para o robô.", status: "Testado sem conexão ao robô" },
+            { title: "Equilíbrio na ESP32", text: "Levar o controle de equilíbrio da simulação para a placa embarcada.", status: "Próxima etapa" },
+            { title: "Caminhada física", text: "Calibrar os motores, montar os braços e continuar os testes de caminhada.", status: "Em desenvolvimento" }
+          ],
+          links: [{ label: "Baixar resumo expandido", href: "assets/projetos/orion-humanoide/resumo-expandido.docx" }] }
+      ] },
+
+    /* ===== Veículo autônomo ===== */
+    { id: "carro-autonomo", teams: ["orion"], category: "Pesquisa", title: "Carro autônomo em miniatura", status: "Em desenvolvimento",
+      description: "Protótipo em escala 1:10 que combina Raspberry Pi 4, direção Ackermann e câmera com redes neurais compactas para seguir faixas e reconhecer placas. Os modelos foram avaliados em simulação e no gêmeo digital do veículo.",
+      members: ["orion-emilly", "orion-rynalde", "orion-pedro-hiago", "orion-carol"],
+        image: "assets/projetos/carro-autonomo/carro-prototipo-e-gemeo-capa.jpg",
+        imageAlt: "Protótipo físico e gêmeo digital do carro autônomo lado a lado",
+        imageCaption: "Protótipo físico e sua representação no Gazebo",
+        imageWidth: 700, imageHeight: 438, link: "",
+      text: [
+        "O projeto desenvolve percepção e controle para um carro autônomo em miniatura, com foco nas provas de pista e percurso urbano da FIRA. O protótipo físico usa chassi impresso em 3D, direção Ackermann, Raspberry Pi 4 e webcam Logitech C270.",
+        "A pesquisa é de Emilly da Silva Machado Souza, Rynalde Gabriel Silva Serejo e Pedro Hiago Ferreira da Silva, com orientação de Ana Caroline Meireles Soares. O trabalho recebeu bolsa PIBITI do IFMA, pelo Edital PRPGI nº 09/2025. O foco técnico é criar modelos leves e aproximar a simulação das condições da câmera real."
+      ],
+      sections: [
+        { layout: "steps", eyebrow: "Como foi desenvolvido", title: "Do cenário virtual à percepção do carro",
+          text: "A equipe reproduziu no Gazebo com ROS 2 pistas e cruzamentos previstos no regulamento da FIRA. A simulação gera imagens rotuladas automaticamente e permite variar as condições de teste.",
+          items: [
+            { title: "Gerar cenários", text: "Pistas e cidades virtuais variam cores, iluminação e geometria para ampliar os casos de treinamento." },
+            { title: "Treinar redes leves", text: "TangerinaLaneNet localiza as faixas; TangerinaSignNet reconhece placas. Os dois modelos usam quantização INT8." },
+            { title: "Reproduzir a câmera", text: "O gêmeo digital aproxima a posição e o campo de visão da webcam Logitech C270 usada no protótipo." }
+          ],
+          chips: ["Gazebo", "ROS 2", "Raspberry Pi 4", "Logitech C270", "Redes neurais INT8"] },
+
+        { layout: "stats", eyebrow: "Resultados em simulação", title: "Percepção compacta para pista e cidade",
+          text: "Os modelos foram avaliados em CPU de desenvolvimento. Os resultados abaixo vêm de simulações e não representam medições de desempenho no Raspberry Pi.",
+          stats: [
+            { value: "98,6%", label: "placas reconhecidas em 1.616 imagens de validação" },
+            { value: "5 contra 2", label: "percursos concluídos pela rede e pelo método clássico, em oito cenários adversos" },
+            { value: "< 1 ms", label: "inferência por quadro na CPU de desenvolvimento" }
+          ] },
+
+        { layout: "split", side: "left", eyebrow: "Validação do gêmeo digital", title: "A câmera real mudou o resultado",
+          text: [
+            "O gêmeo digital reproduz o chassi, a direção e a posição da C270. Com a câmera simulada ajustada ao campo de visão real, a percepção adaptada completou os circuitos e os percursos urbanos de referência em simulação. O classificador de placas atingiu 98,58% de acerto em 1.616 placas nos mundos de validação.",
+            "Nos oito cenários adversos, a rede de faixas teve menor erro lateral em sete e completou cinco percursos, contra dois com a abordagem clássica. O estudo mostra que a geometria da câmera precisa corresponder à do robô para transferir os modelos com mais fidelidade."
+          ],
+          images: [{ src: "assets/projetos/carro-autonomo/camera-c270-e-gemeo-digital.jpg", caption: "A câmera C270 real e a câmera correspondente no gêmeo digital", width: 897, height: 760, fit: "natural" }] },
+
+        { layout: "steps", eyebrow: "Próximas etapas", title: "Levar os modelos ao carro físico",
+          text: "O protótipo já participou da etapa regional da FIRA Brasil em Bacabal, em março de 2026, com navegação clássica. As redes neurais ainda não foram validadas no Raspberry Pi 4.",
+          items: [
+            { title: "Medir no Raspberry Pi", text: "Conferir o tempo de inferência e a estabilidade dos modelos no computador embarcado.", status: "Pendente" },
+            { title: "Ajustar a percepção", text: "Validar a posição da câmera no protótipo e retreinar o classificador de placas para a C270.", status: "Pendente" },
+            { title: "Desviar de obstáculos", text: "Implementar e avaliar essa capacidade antes de ampliar os testes físicos.", status: "Pendente" }
+          ],
+          links: [{ label: "Ler resumo expandido", href: "assets/projetos/carro-autonomo/resumo-expandido.pdf" }] }
       ] },
 
 

@@ -677,7 +677,9 @@
       if (p.status) meta.appendChild(el('span', 'proj-status', p.status));
       if (meta.children.length) body.appendChild(meta);
 
-      card.append(media('proj-media', p.image, 'Projeto'), body, el('span', 'card-more', 'Ver projeto'));
+      const cover = media('proj-media', p.image, 'Projeto');
+      if (projectId === 'carro-autonomo') cover.classList.add('proj-media-carro-autonomo');
+      card.append(cover, body, el('span', 'card-more', 'Ver projeto'));
       grid.appendChild(card);
     });
 

@@ -43,6 +43,9 @@ a.proj-card .card-more { display: block; margin-top: auto; padding: 10px 18px 16
   background: var(--bg-2);
 }
 
+/* Mantém a capa do carro alinhada às demais sem cortar câmera ou rodas. */
+.proj-media-carro-autonomo { background: var(--bg-2); }
+
 .news-media img,
 .proj-media img {
   width: 100%;
@@ -410,7 +413,8 @@ a.proj-card .card-more { display: block; margin-top: auto; padding: 10px 18px 16
 
 /* Página dedicada de projeto */
 .project-hero { position: relative; overflow: hidden; padding: clamp(64px, 10vw, 126px) 0 36px; color: #fff; background: radial-gradient(ellipse at 82% 18%, rgba(111, 197, 120, .27), transparent 38%), linear-gradient(130deg, #104923 0%, #17642d 55%, #0e3820 100%); }
-.project-hero::after { content: ''; position: absolute; width: 330px; height: 330px; right: max(4vw, calc((100vw - 1120px)/2)); top: 18%; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; box-shadow: 0 0 0 34px rgba(255,255,255,.035), 0 0 0 70px rgba(255,255,255,.025); pointer-events: none; }
+.project-hero::before { position: absolute; z-index: 0; inset: 0; background: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px) 0 0 / 40px 40px, linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px) 0 0 / 40px 40px; content: ''; opacity: .52; mask-image: linear-gradient(90deg, transparent 18%, #000 82%); pointer-events: none; }
+.project-hero::after { content: ''; position: absolute; width: 330px; height: 330px; right: max(4vw, calc((100vw - 1120px)/2)); top: 18%; border: 1px solid rgba(255,255,255,.1); border-radius: 50%; box-shadow: 0 0 0 42px rgba(255,255,255,.022); pointer-events: none; }
 .project-hero-inner { position: relative; z-index: 1; }
 .project-back { display: inline-block; margin-bottom: 38px; color: rgba(255,255,255,.85); font-size: .9rem; }
 .project-kicker { display: block; margin-bottom: 12px; color: #BDE8C3; font-size: .8rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
@@ -429,9 +433,9 @@ a.proj-card .card-more { display: block; margin-top: auto; padding: 10px 18px 16
 .project-detail-media { position: relative; display: grid; min-height: 220px; max-height: 560px; aspect-ratio: 4 / 3; place-items: center; overflow: hidden; margin: 28px 0; border: 1px solid var(--line); border-radius: var(--r); background: var(--bg-2); box-shadow: 0 24px 55px rgba(20,60,30,.12); color: var(--accent-2); font: 700 1.5rem 'Rajdhani', sans-serif; }
 .project-detail-media img { width: 100%; height: 100%; max-height: 560px; object-fit: cover; }
 .project-art-placeholder { isolation: isolate; background: radial-gradient(circle at 75% 20%, rgba(37,138,56,.15), transparent 30%), linear-gradient(145deg, #F2F7F2, #DDEBE0); }
-.project-art-mark { position: absolute; width: 190px; height: 190px; border: 1px solid rgba(31,122,51,.28); border-radius: 38px; transform: rotate(45deg); }
-.project-art-mark::before, .project-art-mark::after { content: ''; position: absolute; inset: 20px; border: 1px solid rgba(31,122,51,.26); border-radius: 28px; }
-.project-art-mark::after { inset: 48px; border-radius: 18px; }
+.project-art-mark { position: absolute; width: 190px; height: 150px; border: 1px solid rgba(31,122,51,.2); border-radius: 54% 46% 58% 42% / 46% 52% 48% 54%; transform: rotate(-12deg); }
+.project-art-mark::before, .project-art-mark::after { content: ''; position: absolute; inset: 12px -14px; border: 1px solid rgba(31,122,51,.13); border-radius: 50%; }
+.project-art-mark::after { inset: 24px 18px; border-color: rgba(31,122,51,.1); }
 .project-art-placeholder figcaption { position: absolute; z-index: 1; bottom: 24px; left: 24px; max-width: 80%; padding: 10px 16px; border: 1px solid rgba(255,255,255,.7); border-radius: 6px; background: rgba(255,255,255,.88); font: 700 1.15rem 'Rajdhani', sans-serif; }
 .project-detail-copy .eyebrow { margin-bottom: 18px; }
 .project-detail-copy p { font-size: 1.03rem; line-height: 1.85; }
@@ -446,7 +450,7 @@ a.proj-card .card-more { display: block; margin-top: auto; padding: 10px 18px 16
 .project-related-card strong { color: var(--ink); font: 700 1.25rem 'Rajdhani', sans-serif; }
 .project-related-card span { color: var(--muted); font-size: .9rem; }
 .project-related-card i { margin-top: auto; color: var(--accent-2); font-size: .85rem; font-style: normal; font-weight: 700; }
-@media (max-width: 760px) { .project-layout { grid-template-columns: 1fr; } .project-hero::after { width: 190px; height: 190px; right: -80px; top: 25%; } }
+@media (max-width: 760px) { .project-layout { grid-template-columns: 1fr; } .project-hero::before { opacity: .38; mask-image: linear-gradient(90deg, transparent, #000); } .project-hero::after { width: 190px; height: 190px; right: -90px; top: 24%; box-shadow: 0 0 0 26px rgba(255,255,255,.02); } }
 
 @media (max-width: 600px) {
   .news-grid, .proj-grid { --base: 1; --gap: 14px; }
@@ -464,7 +468,7 @@ a.proj-card .card-more { display: block; margin-top: auto; padding: 10px 18px 16
   .project-scroll { margin-top: 28px; }
   .project-story { padding-block: 42px; }
   .project-detail-media { min-height: 0; aspect-ratio: 4 / 3; border-radius: 10px; }
-  .project-art-mark { width: 140px; height: 140px; border-radius: 28px; }
+  .project-art-mark { width: 140px; height: 110px; }
   .project-art-placeholder figcaption { bottom: 14px; left: 14px; padding: 8px 12px; font-size: 1rem; }
   .project-detail-copy p { font-size: .96rem; line-height: 1.7; }
   .project-related { grid-template-columns: 1fr; gap: 12px; }

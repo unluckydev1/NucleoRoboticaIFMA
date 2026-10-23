@@ -40,7 +40,9 @@
       img.decoding = 'async';
       media.appendChild(img);
     } else {
-      media.appendChild(el('div', 'cp-ph', c.short || c.name));
+      const placeholder = el('div', 'cp-ph');
+      placeholder.appendChild(el('span', 'cp-ph-title', c.short || c.name));
+      media.appendChild(placeholder);
     }
 
     const info = el('div', 'cp-info');

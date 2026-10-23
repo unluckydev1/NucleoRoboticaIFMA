@@ -44,22 +44,20 @@ body:not([data-team]):not([data-context-team]) .hero .lede { color: var(--muted)
   overflow: hidden;
   padding: clamp(44px, 7vw, 76px) 0 38px;
   background:
-    radial-gradient(ellipse at 86% 18%, rgba(var(--accent-rgb), .13), transparent 32%),
+    radial-gradient(ellipse at 88% 22%, rgba(var(--accent-rgb), .09), transparent 34%),
     linear-gradient(130deg, var(--bg-2), var(--bg));
-  border-bottom: 3px solid var(--accent-soft);
+  border-bottom: 1px solid var(--line);
 }
 
 .page-head::after {
   position: absolute;
-  z-index: -1;
-  top: -95px;
-  right: max(5vw, calc((100vw - 1120px) / 2));
-  width: 220px;
-  height: 220px;
-  border: 1px solid rgba(var(--accent-rgb), .18);
-  border-radius: 50%;
-  box-shadow: 0 0 0 26px rgba(var(--accent-rgb), .035), 0 0 0 52px rgba(var(--accent-rgb), .025);
+  z-index: 0;
+  inset: 0 0 0 auto;
+  width: min(32vw, 360px);
+  background: radial-gradient(circle, rgba(var(--accent-rgb), .19) 1px, transparent 1.6px) 0 0 / 20px 20px;
   content: '';
+  opacity: .5;
+  mask-image: linear-gradient(90deg, transparent, #000 72%);
   pointer-events: none;
 }
 
@@ -71,6 +69,9 @@ body[data-context-team] .page-head { border-bottom-color: var(--context-accent);
 
 /* Seções: títulos mais definidos; o sublinhado segue a paleta ativa. */
 .section { padding-block: clamp(54px, 7vw, 78px); }
+.section#competicoes { position: relative; isolation: isolate; }
+.section#competicoes::before { position: absolute; z-index: 0; top: 18%; right: max(6vw, calc((100vw - 1120px) / 2)); width: 176px; height: 176px; border: 1px solid rgba(var(--accent-rgb), .11); border-radius: 46% 54% 58% 42% / 52% 43% 57% 48%; box-shadow: 0 0 0 14px rgba(var(--accent-rgb), .02), 0 0 0 30px rgba(var(--accent-rgb), .014); transform: rotate(16deg); content: ''; pointer-events: none; }
+.section#competicoes > .wrap { position: relative; z-index: 1; }
 .section h2 { position: relative; margin-bottom: 25px; padding-bottom: 12px; font-size: clamp(1.6rem, 3vw, 2rem); }
 .section h2::after {
   position: absolute;
@@ -167,7 +168,8 @@ body[data-team] .hero { border-bottom: 1px solid var(--line); }
 @media (max-width: 700px) {
   body:not([data-team]):not([data-context-team]) .hero::after { right: -100px; opacity: .65; }
   .page-head { padding: 40px 0 30px; }
-  .page-head::after { top: -130px; right: -145px; width: 190px; height: 190px; }
+  .page-head::after { right: 0; width: 30vw; opacity: .38; mask-image: linear-gradient(90deg, transparent 5%, #000); }
+  .section#competicoes::before { top: auto; right: 8px; bottom: 10px; width: 70px; height: 70px; opacity: .45; box-shadow: 0 0 0 8px rgba(var(--accent-rgb), .018); }
   .section { padding-block: 48px; }
   .section h2 { margin-bottom: 20px; }
 }

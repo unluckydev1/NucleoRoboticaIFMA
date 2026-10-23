@@ -222,15 +222,32 @@ body[data-context-team] .news-card[role="group"]:hover {
 /* ---------- cabeçalho das páginas internas ---------- */
 
 .page-head {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   padding: 40px 0 28px;
-  background: var(--bg-2);
+  background: linear-gradient(110deg, var(--bg-2), var(--bg));
   border-bottom: 1px solid var(--line);
+}
+
+.page-head::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 0 auto;
+  width: min(30vw, 360px);
+  background: radial-gradient(circle, rgba(var(--accent-rgb), .18) 1px, transparent 1.5px) 0 0 / 16px 16px;
+  content: '';
+  opacity: .55;
+  mask-image: linear-gradient(90deg, transparent, #000 75%);
+  pointer-events: none;
 }
 
 .page-head h1 {
   color: var(--ifma-green-dark);
   font-size: clamp(1.8rem, 4vw, 2.4rem);
 }
+
+.page-head > .wrap { position: relative; z-index: 1; }
 
 /* ---------- seções e títulos com filete vermelho ---------- */
 
@@ -265,7 +282,6 @@ body[data-context-team] .news-card[role="group"]:hover {
 }
 
 .comp-card:hover,
-.cp-card:hover,
 .mem-card:hover,
 .area-card:hover,
 .chips li:hover {
@@ -273,8 +289,6 @@ body[data-context-team] .news-card[role="group"]:hover {
   box-shadow: none;
   border-color: var(--ifma-green);
 }
-
-.cp-card:hover .cp-media img { transform: none; }
 
 .comp-card::before { height: 3px; background: var(--accent-soft); }
 

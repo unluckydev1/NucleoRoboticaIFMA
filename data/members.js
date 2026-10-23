@@ -16,7 +16,7 @@ window.NUCLEO_DATA.members = [
     { id: "orion-carol", team: "orion", level: "superior", name: "Carol Meireles", role: "Coordenação", photo: "assets/orion/members/carol.png", socials: { Instagram: "https://www.instagram.com/anacarolmeireles_/" } },
     { id: "orion-pedro-hiago", team: "orion", level: "superior", name: "Pedro Hiago", role: "Capitão" },
     { id: "orion-marjorie", team: "orion", level: "superior", name: "Marjorie", role: ["Programação", "Mídia"], photo: "assets/orion/members/marjorie.png", socials: { Instagram: "https://www.instagram.com/eng.marjoriecastro/" } },
-    { id: "orion-bruna", team: "orion", level: "superior", name: "Bruna", role: "Integrante" },
+    { id: "orion-bruna", team: "orion", level: "superior", name: "Bruna", role: ["Programação", "Eletrônica"], photo: "assets/orion/members/bruna-avatar.jpg" },
     { id: "orion-rynalde", team: "orion", level: "superior", name: "Rynalde", role: "Integrante" },
     { id: "orion-emilly", team: "orion", level: "superior", name: "Emilly", role: "Integrante" },
     { id: "orion-geovanna", team: "orion", level: "superior", name: "Geovanna", role: "Integrante" },

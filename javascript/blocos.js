@@ -10,6 +10,7 @@
              "mosaic"  texto + 1 imagem grande e 2 menores
              "duo"     texto + 2 imagens lado a lado
              "stats"   números em destaque (stats) + texto, imagem opcional
+             "steps"   sequência de etapas em cartões com marcadores geométricos
              "text"    só texto, coluna única
      eyebrow:  linha pequena acima do título ("2026, São Luís")
      title:    título do bloco
@@ -30,7 +31,7 @@ window.NUCLEO_BLOCKS = (function () {
   const asImage = (i) => (typeof i === 'string' ? { src: i, caption: '' } : (i || {}));
 
   /* quantas imagens cada layout pede (completa com espaços reservados) */
-  const SLOTS = { split: 1, banner: 1, trio: 3, mosaic: 3, duo: 2, stats: 1, text: 0 };
+  const SLOTS = { split: 1, banner: 1, trio: 3, mosaic: 3, duo: 2, stats: 0, steps: 0, text: 0 };
 
   function figure(image, index, all, label) {
     const fig = el('figure', 'blk-fig');
@@ -132,6 +133,19 @@ window.NUCLEO_BLOCKS = (function () {
     return row;
   }
 
+  function stepsList(items) {
+    const list = el('ol', 'blk-step-list');
+    toArray(items || []).filter(Boolean).forEach((item, index) => {
+      const card = el('li', 'blk-step');
+      card.appendChild(el('span', 'blk-step-index', item.index || String(index + 1).padStart(2, '0')));
+      if (item.title) card.appendChild(el('h3', 'blk-step-title', item.title));
+      if (item.text) card.appendChild(el('p', 'blk-step-text', item.text));
+      if (item.status) card.appendChild(el('span', 'blk-step-status', item.status));
+      list.appendChild(card);
+    });
+    return list;
+  }
+
   function videoFigure(media) {
     const fig = el('figure', 'blk-video');
     const video = el('video');
@@ -176,7 +190,11 @@ window.NUCLEO_BLOCKS = (function () {
       sec.append(copy(b), grid);
     } else if (layout === 'stats') {
       const stats = statsRow(toArray(b.stats || []).filter(Boolean));
-      sec.append(copy(b, stats), figs[0]);
+      if (!figs.length) sec.classList.add('is-text-only');
+      sec.appendChild(copy(b, stats));
+      if (figs[0]) sec.appendChild(figs[0]);
+    } else if (layout === 'steps') {
+      sec.append(copy(b), stepsList(b.items));
     } else {
       /* split: a ordem no DOM é sempre texto -> imagem; o CSS inverte com .is-left */
       sec.append(copy(b), figs[0]);
